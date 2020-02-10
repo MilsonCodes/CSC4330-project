@@ -6,7 +6,7 @@ In order to run the current implementation of the server, enter the command:
 ```
 npm start
 ```
-From the root of the frontend directory (). This will start the client (frontend). Next, run the command:
+From the root of the frontend directory. This will start the client (frontend). Next, run the command:
 ```
 python3 manage.py runserver
 ```
