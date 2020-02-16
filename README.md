@@ -1,132 +1,62 @@
-# CSC4330-project
-Project for LSU CSC 4330 Spring 2020
+# Deployment Instructions
+## Prerequisites
+You will need the following technologies installed on your system, or quickly look up a guide to install them on your system:
+### Terminal/Console
+This part is heavily dependent on your operating system, but IDEs such as [Visual Studio Code](https://code.visualstudio.com/download) allow you to access the terminal while you are working, and run commands on the fly.
+### GitHub
+You will need to have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed on your machine and create a GitHub account that you will be able to log into.
+### Python
+Ensure that you have [Python](https://www.python.org/downloads/) version 3.6.9 installed on your machine. Check the version with the following command:
+'''
+python --version
+'''
+### Node.js
+Ensure that you have [Node.js](https://nodejs.org/en/download/) version 12.10.0 installed on your machine. Check the version with the following command:
+'''
+npm -v
+'''
 
-## Running the server
-In order to run the current implementation of the server, first start the virtual environment, enter the command:
-```
-source backend/bin/activate
-```
-from the project root directory. Then, from the root of the frontend directory run:
-```
+## Installation
+### Clone the Repository
+The first step is to clone the repository from [GitHub](https://github.com/MilsonCodes/CSC4330-project). You can do this manually from the link by downloading the files or you can run the following command:
+'''
+git clone https://github.com/MilsonCodes/CSC4330-project
+'''
+### Install Client Dependencies
+Next you will need to install the libraries used on the frontend. To do this, navigate to the client folder using:
+'''
+cd CSC4330-project/client
+'''
+Then, install the required files by running the command:
+'''
 npm i
+'''
+
+## Running the Website
+### Client
+After the installations are complete, run the following command to launch the frontend:
+'''
 npm start
-```
-This will start the client (frontend). Next, from the root of the Django project (containing the manage.py file), run the command:
-```
-python3 manage.py runserver
-```
-in order to start the API.
-Navigate to http://localhost:3000/ to view the client and http://localhost:8000/ to view API endpoint.
+'''
+This will allow you to see the website at http://localhost:3000/, however this will not work properly until the backend is started in the following steps.
+#### Virtual Environment
+To start the virtual environment, you will need to create a new terminal in order to leave the client running. This is usually done through CTRL+SHIFT+t or some visual tool. Once you have a second terminal open, navigate to the project's root directory by typing the command:
+'''
+cd ../
+'''
+Then you will need to start the virtual environment using the following command (this command may vary across operating systems):
+'''
+source backend/bin/activate
+'''
+### API
+The final step is to start the backend. This will allow the client to access the database. Start the API with the following command:
+'''
+python manage.py runserver
+'''
 
-## Getting Started
+## Viewing the Site
+To view the site, navigate to http://localhost:3000/. You can create a new account or email me for an administrator account.
 
-These instructions will provide the necessary guidance on how to install the following software to work on your projects. 
-
-###### Note: The way both React and Node.js are installed might end up being different depending on the OS the programmer is using. 
-
-## Prerequisites 
-
-Before you can begin your projects, you will need to have Node.js and a package manager in your development environment.
-
-#### Installing Node.js
-
-To install Node.js, please do the following: 
-
-* Download and install [Node.js](https://nodejs.org/en/) 
-* Check the version you have installed by typing the following command in your terminal/console window.
-
-```
-node -v
-```
-or 
-
-```
-node --version
-```
-
-#### npm package manager
-
-The npm package manager is needed in order to download and install npm packages, which you can learn more about [here](https://docs.npmjs.com/about-npm/index.html). It should be included with the installation of node.  
-* To make sure that you have a npm client installed on your computer, type the following command in your terminal/console window.
-```
-npm -v 
-```
-#### Cloning/Downloading a Repository
-* Be sure to download and install git [here](https://git-scm.com/downloads).
-* To clone/download a repository, please type the following command in you terminal/console: 
-
-###### Note: Before you download this, you will need to make that you have git installed by typing *git --version* in your terminal/console.
-
-```
-git clone https://github.com/MilsonCodes/CSC3380_Project.git
-```
-###### Note: Mac uses / and Windows uses \ when accessing directories through the terminal/console
-
-After cloning the git repo, navigate to the project directory and run the node installation command.
-```
-cd folder-name
-```
-```
-npm i 
-```
-or
-```
-npm install
-```
-
-Next, you will want to see the site as you are working on it. To do this, navigate to the src folder and run the developement command
-```
-cd src/
-npm start
-```
-Now you can navigate to http://localhost:3000/ to see the website. This will update automatically when you save changes to a file.
-
-#### Installing Django 
-
-To install Django follow these steps: 
-Follow instructions here to donwload [Python3](https://www.python.org/downloads/)
-
-Then you will need to install pip, a python installation manager, in order to assist with package installation. [PIP Install] (https://pip.pypa.io/en/stable/installing/)
-
-The last step is to install Django using the following command:
-```
-python -m pip install Django
-```
-##### Note: All of these commands can be run a virtual environment to assist with version control.
-
-## Git commands
-#### IMPORTANT: Make sure to work from a seperate branch, NEVER commit directly to Master.
-To pull the most recent changes for a branch:
-```
-git pull origin branch-name
-```
-To create a new branch:
-```
-git checkout -b branch-name
-```
-To switch to a different branch:
-```
-git checkout branch-name
-```
-To push your changes you will need to use three seperate commands
-* (1) to add your changes to git's system
-```
-git add .
-```
-* (2) to commit your changes to the repo with a message
-```
-git commit -m "message about commit"
-```
-* (3) send changes to server (able to be pulled by others)
-```
-git push origin branch-name
-```
-
-###### Hint: Before pushing your code, it is best to pull the latest changes from Master. This will help reduce merge conflicts
-ex:
-```
-git pull origin master
-git add .
-git commit -m "commit message"
-git push origin branch-name
-```
+## Troubleshooting
+You can view some outdated installation docs [here](https://github.com/MilsonCodes/CSC4330-project/master/Installation.md) however the versions will be incorrect.
+Email mshepp8@lsu.edu
