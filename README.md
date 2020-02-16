@@ -8,13 +8,14 @@ source backend/bin/activate
 ```
 from the project root directory. Then, from the root of the frontend directory run:
 ```
+npm i
 npm start
 ```
-This will start the client (frontend). Next, run the command:
+This will start the client (frontend). Next, from the root of the Django project (containing the manage.py file), run the command:
 ```
 python3 manage.py runserver
 ```
-in order to start the API. This needs to be done from the root of the Django project (containing the manage.py file).
+in order to start the API.
 Navigate to http://localhost:3000/ to view the client and http://localhost:8000/ to view API endpoint.
 
 ## Getting Started
