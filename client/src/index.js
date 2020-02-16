@@ -2,8 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Routing } from "./constants/Routes";
+// import App from "./App";
 
-ReactDOM.render(<Routing></Routing>, document.getElementById("root"));
+// This is the entry point for the app.
+ReactDOM.render(
+  <Routing>{/* <App /> */}</Routing>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
