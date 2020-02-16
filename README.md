@@ -58,6 +58,6 @@ python manage.py runserver
 To view the site, navigate to http://localhost:3000/. You can create a new account or email me for an administrator account.
 
 ## Troubleshooting
-- You can view some outdated installation docs [here](https://github.com/MilsonCodes/CSC4330-project/master/Installation.md) however the versions will be incorrect.
-- Ensure versions are correct. Check with our current [stack](https://github.com/MilsonCodes/CSC4330-project/master/TechnologyStack.md)
+- You can view some outdated installation docs [here](https://github.com/MilsonCodes/CSC4330-project/blob/master/Installation.md) however the versions will be incorrect.
+- Ensure versions are correct. Check with our current [stack](https://github.com/MilsonCodes/CSC4330-project/blob/master/TechnologyStack.md)
 - Email mshepp8@lsu.edu
