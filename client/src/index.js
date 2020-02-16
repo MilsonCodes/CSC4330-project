@@ -2,11 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Routing } from "./constants/Routes";
-// import App from "./App";
+import theme from "./constants/theme";
+import ThemeProvider from "styled-components";
+import Layout from "./containers/Layout";
 
 // This is the entry point for the app.
 ReactDOM.render(
-  <Routing>{/* <App /> */}</Routing>,
+  <Layout>
+    <ThemeProvider theme={theme}>
+      <Routing>{/* <ThemeProvider theme={theme}></ThemeProvider> */}</Routing>
+    </ThemeProvider>
+  </Layout>,
   document.getElementById("root")
 );
 
