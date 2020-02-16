@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# This is where we define the routes for communicating with the client.
+# The frontend will use get, post, and put requests to communicate with the backend through these routes
 from django.contrib import admin
 from django.urls import path
 
+# All backend url patterns should start will 'api/'
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
