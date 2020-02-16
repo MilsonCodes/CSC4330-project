@@ -2,11 +2,15 @@
 Project for LSU CSC 4330 Spring 2020
 
 ## Running the server
-In order to run the current implementation of the server, enter the command:
+In order to run the current implementation of the server, first start the virtual environment, enter the command:
+```
+source backend/bin/activate
+```
+from the project root directory. Then, from the root of the frontend directory run:
 ```
 npm start
 ```
-From the root of the frontend directory. This will start the client (frontend). Next, run the command:
+This will start the client (frontend). Next, run the command:
 ```
 python3 manage.py runserver
 ```
