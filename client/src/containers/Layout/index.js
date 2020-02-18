@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
-import { GiDreamCatcher } from "react-icons/gi";
+import * as logo from "../../assets/CYDLogo.png";
 
 let Background = styled.div`
   position: fixed;
@@ -45,7 +45,7 @@ let Links = styled.span`
 let Header = () => {
   return (
     <Span>
-      <GiDreamCatcher size={64}></GiDreamCatcher>
+      <img style={{ width: "110px", height: "110px" }} src={logo}></img>
       <Links>
         <p>Navigation Stuff Here!</p>
         <p>Home</p>
