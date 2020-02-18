@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
-import * as logo from "../../assets/CYDLogo.png";
+import * as logo from "../../assets/ChaseYourDreams.png";
+
+const size = "200px";
 
 let Background = styled.div`
   position: fixed;
@@ -45,7 +47,10 @@ let Links = styled.span`
 let Header = () => {
   return (
     <Span>
-      <img style={{ width: "110px", height: "110px" }} src={logo}></img>
+      <a href='/home'>
+        <img style={{ width: size, height: size - 50 }} src={logo}></img>
+      </a>
+
       <Links>
         <p>Navigation Stuff Here!</p>
         <p>Home</p>
