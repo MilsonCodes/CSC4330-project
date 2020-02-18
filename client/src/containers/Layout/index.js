@@ -18,7 +18,7 @@ let Background = styled.div`
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background-color: ${theme.background};
+  background-color: ${theme.background.main};
   * {
     font-family: ${theme.font};
   }
@@ -43,17 +43,16 @@ let Links = styled.span`
   }
 `;
 
-// This will contain our logo (which will navigate to the home page) and navigation to other pages
+// This will contain our logo and navigation to other pages
+// The logo links to the home page, other links do NOT work yet
 let Header = () => {
   return (
     <Span>
       <a href='/home'>
         <img style={{ width: size, height: size - 50 }} src={logo}></img>
       </a>
-
       <Links>
         <p>Navigation Stuff Here!</p>
-        <p>Home</p>
         <p>About</p>
         <p>Apply</p>
         <p>Login</p>

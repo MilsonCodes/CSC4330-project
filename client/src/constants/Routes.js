@@ -33,6 +33,8 @@ export const routes = [
   }
 ];
 
+// Used as part of React Router to initialize correct routes in the site.
+// This function uses the routes above to map out the correct component based on route.
 export const Routing = () => {
   return (
     <Router>
