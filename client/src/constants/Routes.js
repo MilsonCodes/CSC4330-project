@@ -5,11 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // You will need to import the page and create an object in the following format
 export const routes = [
   {
-    name: "Index",
-    path: "/",
-    component: null // Leave this null for now, will be updated to contain background and layout components
-  },
-  {
     name: "Home",
     path: "/home",
     component: (
@@ -42,13 +37,11 @@ export const Routing = () => {
   return (
     <Router>
       <Switch>
-        <div>
-          {routes.map(route => (
-            <Route key={route.name} path={route.path}>
-              {route.component}
-            </Route>
-          ))}
-        </div>
+        {routes.map(route => (
+          <Route key={route.name} path={route.path}>
+            {route.component}
+          </Route>
+        ))}
       </Switch>
     </Router>
   );
