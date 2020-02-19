@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
+import Image from "../../components/Image/index.js"
 import * as logo from "../../assets/ChaseYourDreams.png";
 
 const size = "200px";
@@ -38,8 +39,10 @@ let Links = styled.span`
   margin: auto;
   padding: 0.5%;
   p {
-    margin-left: 10%;
+    margin-right: 10%;
     cursor: pointer;
+    color: #C6C8C8;
+    font-size: 1.65em;
   }
 `;
 
@@ -49,12 +52,12 @@ let Header = () => {
   return (
     <Span>
       <a href='/home'>
-        <img style={{ width: size, height: size - 50 }} src={logo}></img>
+        <Image style={{ width: size, height: size - 50, filter: "invert(100%)", "margin-left": "10%" }} src={logo} />
       </a>
       <Links>
-        <p>Navigation Stuff Here!</p>
-        <p>About</p>
-        <p>Apply</p>
+        <p>Applicants</p>
+        <p>Employers</p>
+        <p>Stakeholders</p>
         <p>Login</p>
       </Links>
     </Span>

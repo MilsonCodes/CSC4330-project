@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "../containers/Home/index.js";
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
@@ -7,11 +8,7 @@ export const routes = [
   {
     name: "Home",
     path: "/home",
-    component: (
-      <div style={{ backgroundColor: "blue" }}>
-        <h1>Home</h1>
-      </div>
-    )
+    component: Home
   },
   {
     name: "About",
