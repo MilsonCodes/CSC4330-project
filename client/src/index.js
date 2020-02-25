@@ -6,10 +6,9 @@ import Layout from "./containers/Layout";
 
 // This is the entry point for the app.
 ReactDOM.render(
-  <Layout>
-    <Routing></Routing>
-  </Layout>,
-  document.getElementById("root")
+	<Layout>
+	</Layout>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

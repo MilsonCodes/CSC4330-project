@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import * as logo from "../../assets/ChaseYourDreams.png";
+import LinkButtons from "../../components/Buttons/LinkButton";
 
 const size = "200px";
 
@@ -65,7 +66,8 @@ let Header = () => {
 const Layout = props => {
   return (
     <Background>
-      <Header></Header>
+		  <Header></Header>
+		  <LinkButtons height={200} width={200} Link= "https://www.youtube.com/watch?v=dQw4w9WgXcQ" variant="danger" size="lg">test</LinkButtons>
       {props.children}
     </Background>
   );
