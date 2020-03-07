@@ -3,7 +3,7 @@ import styled from "styled-components";
 import theme from "../../constants/theme";
 import * as logo from "../../assets/ChaseYourDreams.png";
 import LinkButtons  from "../../components/Buttons/LinkButton";
-
+import StyledButtons from "../../components/Buttons/StyledButton";
 const size = "200px";
 
 let Background = styled.div`
@@ -67,7 +67,30 @@ const Layout = props => {
   return (
     <Background>
 		  <Header></Header>
-		  <LinkButtons height={200} width={200} Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ" variant="danger" size="lg">test</LinkButtons>
+		  <LinkButtons
+			  height={200}
+			  width={200}
+			  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+			  variant="danger"
+			  size="lg"
+			  text="Link Button">
+		  </LinkButtons>
+
+		  <br />
+		  <br />
+
+		  <StyledButtons
+			  display='inline-block'						//Changes block display setting
+			  border='3px'									//Works
+			  padding='1rem '								//works
+			  margin='0rem'									//Works
+			  background = 'cornflowerblue'					//Works
+		      color = 'red'									//Does not work for some reason
+			  borderSizeAndColor='2px solid red'			//Works
+			  Link="https://www.youtube.com/watch?v=IEGo41443iI"
+			  text = "Style Button"
+		  >
+		  </StyledButtons>
 		  <br/>
       {props.children}
     </Background>
