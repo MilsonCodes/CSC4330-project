@@ -53,7 +53,7 @@
     * “/company/:companyId” - User is logged in but does not have permissions or listing view period is closed.
 
 ### Job Listing Applications List
-* *Route:* “/listing/:id:/applications”
+* *Route:* “/listing/:id/applications”
 * *General Information:* Page to show all applications associated with a job listing. Only accessible to users with certain permissions. Will be automatically organized based on hardcoded filters.
 * *Redirect Route:*
     * “/login” - User needs to login to apply to a job listing.
