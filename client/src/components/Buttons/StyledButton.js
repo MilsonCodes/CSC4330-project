@@ -3,15 +3,15 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import { Button, ButtonToolbar } from "react-bootstrap";
 import styled, { css } from 'styled-components';
 
-// https://www.muicss.com/docs/v1/react/buttons
-// List of button colors:  https://react-bootstrap.github.io/components/buttons/
-// https://www.robinwieruch.de/react-hooks-fetch-data
-
 export default function StyledButtons(props) {
+
+	//Unused variables
 	const [isLoading, setIsLoading] = React.useState(false);
 
+
 	const Button = styled.a`
-  /* This renders the buttons above... Edit me! */
+  /* These settings will determine how the button with the class of "primary" will be rendered.
+		What these buttons do are labelled further below.*/
   ${props => props.primary && css`
   display: ${props => props.display};
   border-radius: ${props => props.border};
@@ -25,12 +25,18 @@ export default function StyledButtons(props) {
   `}
 `
 
-
 	return (
 		<div className="Button">
 
 			<Button
-				primary
+
+				/*
+				 * The variables below are called upon by the an external webpage calling upon StyledButtons.
+				 * The external webpage will input the following variables which will be redirected to the settings of the const Button's CSS style above.
+				 * These settings will determine how the button using Styled-Components will be rendered
+				 */
+
+				primary											//Marks this button with the classname of "primary" which will target this button specifically for changes
 				display={props.display}							//Changes block display settings
 				border-radius={props.border}					//Changes border radius (Adds curves to the borders)
 				padding={props.padding}							//Changes the block padding (The overall size of the block relative to the text
@@ -40,12 +46,17 @@ export default function StyledButtons(props) {
 				color={props.color}								//Changes block text color (Doesn't work)
 				borderSizeAndColor={props.borderSizeAndColor}	//Changes block border size and color
 
+				/* Upon clicking this button, the user will be redirected
+				 * to the link given by the external webpage through the use of a prop variable
+				 * */
 				onClick={(e): void => {
 					e.preventDefault();
-					//To trigger a website load
 					window.location.href = props.Link;
 				}}
 			>
+				{/*
+				 * Will render any text, if given, by an external prop variable.  This text will be seen inside the button itself.
+				 * */}
 				{props.text}
 				</Button>
 		</div>

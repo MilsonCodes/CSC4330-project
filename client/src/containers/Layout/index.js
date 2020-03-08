@@ -68,8 +68,8 @@ const Layout = props => {
     <Background>
 		  <Header></Header>
 		  <LinkButtons
-			  height={200}
-			  width={200}
+			  height={100}
+			  width={100}
 			  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 			  variant="danger"
 			  size="lg"
@@ -78,6 +78,32 @@ const Layout = props => {
 
 		  <br />
 		  <br />
+		  
+			  <LinkButtons
+				  height={200}
+				  width={400}
+				  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+				  variant="primary"
+				  size="lg"
+				  text="Big Button">
+			  </LinkButtons>
+
+			  <br />
+			  <br />
+		  
+				  <LinkButtons
+					  height={50}
+					  width={50}
+					  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+					  variant="success"
+					  size="sm"
+					  text="Small Button">
+				  </LinkButtons>
+
+				  <br />
+				  <br />
+
+
 
 		  <StyledButtons
 			  display='inline-block'						//Changes block display setting
