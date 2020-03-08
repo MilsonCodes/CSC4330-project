@@ -7,6 +7,7 @@ import Layout from "./containers/Layout";
 // This is the entry point for the app.
 ReactDOM.render(
 	<Layout>
+		<Routing />
 	</Layout>,
 	document.getElementById("root")
 );

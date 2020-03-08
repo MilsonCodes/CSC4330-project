@@ -17,7 +17,7 @@ export default function Checkbox(props) {
 			<label>
 				<Checkbox
 					checked={this.state.checked}
-					onChange]{this.handleCheckboxChange}
+					onChange={this.handleCheckboxChange}
 				/>
 				<span>Example</span>
 			</label>

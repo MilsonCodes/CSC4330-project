@@ -1,32 +1,29 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Home from "../containers/Home/index.js";
+import Login from "../containers/Login/index.js";
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
+// If a route needs to be exactly defined, use exact: true in the object
 export const routes = [
   {
     name: "Home",
-    path: "/home",
+    path: "/",
+    exact: true,
     component: Home
   },
   {
-    name: "About",
-    path: "/about",
+    name: "Home",
+    path: "/home",
     component: (
-      <div>
-        <h1>About</h1>
-      </div>
+      <Redirect to="/" />
     )
   },
   {
-    name: "Apply",
-    path: "/apply",
-    component: (
-      <div>
-        <h1>Apply Today!</h1>
-      </div>
-    )
+    name: "Login",
+    path: "/login",
+    component: Login
   }
 ];
 
@@ -37,7 +34,7 @@ export const Routing = () => {
     <Router>
       <Switch>
         {routes.map(route => (
-          <Route key={route.name} path={route.path}>
+          <Route key={route.name} exact={route.exact} path={route.path}>
             {route.component}
           </Route>
         ))}
