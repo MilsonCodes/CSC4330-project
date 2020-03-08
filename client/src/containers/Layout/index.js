@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import * as logo from "../../assets/ChaseYourDreams.png";
-import LinkButtons  from "../../components/Buttons/LinkButton";
-import StyledButtons from "../../components/Buttons/StyledButton";
 const size = "200px";
 
 let Background = styled.div`
@@ -63,61 +61,11 @@ let Header = () => {
 };
 
 // This wraps the entire app and keeps the background and header constant
+// Don't edit this component
 const Layout = props => {
   return (
     <Background>
-		  <Header></Header>
-		  <LinkButtons
-			  height={100}
-			  width={100}
-			  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-			  variant="danger"
-			  size="lg"
-			  text="Link Button">
-		  </LinkButtons>
-
-		  <br />
-		  <br />
-		  
-			  <LinkButtons
-				  height={200}
-				  width={400}
-				  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-				  variant="primary"
-				  size="lg"
-				  text="Big Button">
-			  </LinkButtons>
-
-			  <br />
-			  <br />
-		  
-				  <LinkButtons
-					  height={50}
-					  width={50}
-					  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-					  variant="success"
-					  size="sm"
-					  text="Small Button">
-				  </LinkButtons>
-
-				  <br />
-				  <br />
-
-
-
-		  <StyledButtons
-			  display='inline-block'						//Changes block display setting
-			  border='3px'									//Works
-			  padding='1rem '								//works
-			  margin='0rem'									//Works
-			  background = 'cornflowerblue'					//Works
-		      color = 'red'									//Does not work for some reason
-			  borderSizeAndColor='2px solid red'			//Works
-			  Link="https://www.youtube.com/watch?v=IEGo41443iI"
-			  text = "Style Button"
-		  >
-		  </StyledButtons>
-		  <br/>
+      <Header></Header>
       {props.children}
     </Background>
   );
