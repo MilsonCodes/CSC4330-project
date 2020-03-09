@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import datetime
+import logging
 
 
 # Create your models here.
@@ -10,6 +11,9 @@ import datetime
 # AFTER EDITING THIS FILE YOU MUST RUN THE FOLLOWING COMMANDS:
 # python manage.py makemigrations todos
 # python manage.py migrate todos
+
+STATUS = [('Pending', 'Pending'), ('Rejected',
+                                   'Rejected'), ('Accepted', 'Accepted')]
 
 
 class Address(models.Model):  # Model for addresses of employees and companies
@@ -46,23 +50,20 @@ class Association(models.Model):  # Group of companies
         return self.name
 
 
-STATUS = [('Pending', 'Pending'), ('Rejected',
-                                   'Rejected'), ('Accepted', 'Accepted')]
-
-
 class Applicant(models.Model):  # Abstract model for all managers, employees, and applicants
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE)  # Link to Django model
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE,)  # Link to Django model
     name = models.CharField(max_length=64,)  # First name
     last_name = models.CharField(max_length=64,)  # Last name
     email = models.CharField(max_length=64,)  # Contact email
-    address = models.ForeignKey(Address, models.CASCADE,)  # Place of residence
+    address = models.ForeignKey(
+        Address, models.CASCADE, null=True)  # Place of residence
     # Applicants can upload a resume
     resume = models.FileField(blank=True, null=True)
     # Only for managers/search committee members
     manager = models.BooleanField(default=False, )
     # If Applicant.company is not null, applicant is employee
-    company = models.ForeignKey(Company, models.CASCADE, blank=True)
+    company = models.ForeignKey(Company, models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name + " " + self.last_name + ": " + str(self.company)
@@ -111,11 +112,11 @@ class Listing(models.Model):  # Job posting model
 
 
 class Application(models.Model):  # Link between Listing and Applicant
-    applicant = models.ForeignKey(
-        Applicant, models.CASCADE)  # Person applying for job
+    applicants = models.ManyToManyField(
+        Applicant, )  # Person applying for job
     listing = models.ForeignKey(Listing, models.CASCADE)  # Listing applied for
     # Either pending, accepted, or rejected
-    status = models.CharField(max_length=8, choices=STATUS, default=1,)
+    status = models.CharField(max_length=8, choices=STATUS, default='Pending',)
     # resume of associated applicant
 
     def __str__(self):

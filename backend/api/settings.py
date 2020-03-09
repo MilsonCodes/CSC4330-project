@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Installed apps
     'rest_framework',
     'corsheaders',
+    'django_extensions',
     # Start our custom apps
     'rest_api',
 ]
