@@ -4,7 +4,12 @@ import * as serviceWorker from "./serviceWorker";
 import Layout from "./containers/Layout";
 
 // This is the entry point for the app.
-ReactDOM.render(<Layout></Layout>, document.getElementById("root"));
+ReactDOM.render(
+	<Layout>
+		<Routing />
+	</Layout>,
+	document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
