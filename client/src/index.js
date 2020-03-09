@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import Layout from "./containers/Layout";
+import { Routing } from "./constants/Routes";
 
 // This is the entry point for the app.
 ReactDOM.render(
