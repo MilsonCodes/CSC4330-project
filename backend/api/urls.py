@@ -16,9 +16,10 @@ Including another URLconf
 # This is where we define the routes for communicating with the client.
 # The frontend will use get, post, and put requests to communicate with the backend through these routes
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 # All backend url patterns should start will 'api/'
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('rest_api.urls'))
 ]

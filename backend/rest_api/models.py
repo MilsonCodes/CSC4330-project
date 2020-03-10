@@ -9,11 +9,13 @@ import logging
 # Create your models here.
 # This will be used to create the database schemas
 # AFTER EDITING THIS FILE YOU MUST RUN THE FOLLOWING COMMANDS:
-# python manage.py makemigrations todos
-# python manage.py migrate todos
+# python manage.py makemigrations
+# python manage.py migrate
 
 STATUS = [('Pending', 'Pending'), ('Rejected',
                                    'Rejected'), ('Accepted', 'Accepted')]
+TYPES = [('Applicant', 'Applicant'), ('Employee',
+                                      'Employee'), ('Manager', 'Manager'), ('Stakeholder', 'Stakeholder'), ('Administrator', 'Administrator')]
 
 
 class Address(models.Model):  # Model for addresses of employees and companies
@@ -51,9 +53,9 @@ class Association(models.Model):  # Group of companies
 
 
 class Applicant(models.Model):  # Abstract model for all managers, employees, and applicants
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE,)  # Link to Django model
-    name = models.CharField(max_length=64,)  # First name
+    username = models.CharField(max_length=64, unique=True)
+    password = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=64,)  # First name
     last_name = models.CharField(max_length=64,)  # Last name
     email = models.CharField(max_length=64,)  # Contact email
     address = models.ForeignKey(
@@ -63,10 +65,24 @@ class Applicant(models.Model):  # Abstract model for all managers, employees, an
     # Only for managers/search committee members
     manager = models.BooleanField(default=False, )
     # If Applicant.company is not null, applicant is employee
-    company = models.ForeignKey(Company, models.CASCADE, blank=True, null=True)
+    company = models.ForeignKey(Company, models.CASCADE, null=True)
+    admin = models.BooleanField(default=False)
+    stakeholder = models.BooleanField(default=False)
+    type = models.CharField(max_length=16, choices=TYPES, default='Applicant',)
+
+    def save(self, *args, **kwargs):
+        if self.company:
+            self.type = 'Employee'
+        if self.manager:
+            self.type = 'Manager'
+        if self.stakeholder:
+            self.type = 'Stakeholder'
+        if self.admin:
+            self.type = 'Administrator'
+        super(Applicant, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + " " + self.last_name + ": " + str(self.company)
+        return self.first_name + " " + self.last_name + ": " + str(self.company)
 
 
 # Method for linking user and applicant creation
