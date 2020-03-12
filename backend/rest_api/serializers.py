@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 
+# This file defines the data included in the response for the associated models
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,6 +2,8 @@ from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
 
+# The default router will include all CRUD routes for associated view sets
+# The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
 router = DefaultRouter()
 router.register('users', views.UserViewSet)
 router.register('address', views.LocationViewSet)

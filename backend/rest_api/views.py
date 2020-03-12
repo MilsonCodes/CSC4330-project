@@ -9,6 +9,9 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.response import Response
 
 # Create your views here.
+# All these viewsets contain basic CRUD methods
+# The queryset is the data to be used from the database
+# The serializer class identifies which data format to use
 
 
 class UserViewSet(viewsets.ModelViewSet):
