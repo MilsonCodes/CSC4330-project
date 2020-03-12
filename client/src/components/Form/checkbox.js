@@ -1,26 +1,42 @@
 import React, { useEffect } from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
-import { Button, ButtonToolbar } from "react-bootstrap";
+import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-// https://www.muicss.com/docs/v1/react/buttons
-// List of button colors:  https://react-bootstrap.github.io/components/buttons/
-// https://www.robinwieruch.de/react-hooks-fetch-data
+const GreenCheckbox = withStyles({
+	root: {
+		color: green[400],
+		'&$checked': {
+			color: green[600],
+		},
+	},
+	checked: {},
+})(props => <Checkbox color="default" {...props} />);
 
-export default function Checkbox(props) {
+export default function CheckboxApp(props) {
 
-	const [CheckState, CheckboxChange] = React.useState(false);
+	const [state, setState] = React.useState({
+		checkedA: true,
+	});
 
-	handleCheckboxChange = event => React.setState({ CheckState: event.target.CheckState })
+	const handleChange = name => event => {
+		setState({ ...state, [name]: event.target.checked });
+	};
 
 	return (
-		<div className="CheckBox">
-			<label>
-				<Checkbox
-					checked={this.state.checked}
-					onChange]{this.handleCheckboxChange}
-				/>
-				<span>Example</span>
-			</label>
-		</div>
+		<FormGroup row>
+			<FormLabel component = "legend"> Responsibility </FormLabel>
+			<FormControlLabel
+				component = "legend"
+				control={
+					<Checkbox checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" />
+				}
+				label={props.label}
+			/>
+		</FormGroup>
 	);
 }

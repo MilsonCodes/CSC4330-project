@@ -4,6 +4,8 @@ import theme from "../../constants/theme";
 import * as logo from "../../assets/ChaseYourDreams.png";
 import LinkButtons  from "../../components/Buttons/LinkButton";
 import StyledButtons from "../../components/Buttons/StyledButton";
+import CheckboxApp from "../../components/Form/checkbox";
+
 const size = "200px";
 
 let Background = styled.div`
@@ -79,29 +81,27 @@ const Layout = props => {
 		  <br />
 		  <br />
 		  
-			  <LinkButtons
-				  height={200}
-				  width={400}
-				  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-				  variant="primary"
-				  size="lg"
-				  text="Big Button">
-			  </LinkButtons>
-
-			  <br />
-			  <br />
+		  <CheckboxApp
+			  label="Primary"
+			  row="row"
+		  >
+		  </CheckboxApp>
 		  
-				  <LinkButtons
-					  height={50}
-					  width={50}
-					  Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-					  variant="success"
-					  size="sm"
-					  text="Small Button">
-				  </LinkButtons>
 
-				  <br />
-				  <br />
+		  <br />
+		  <br />
+		  
+		  <LinkButtons
+			height={50}
+			width={50}
+			Link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+			variant="success"
+			size="sm"
+			text="Small Button">
+			</LinkButtons>
+
+			<br />
+			<br />
 
 
 
