@@ -3,12 +3,16 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import Layout from "./containers/Layout";
 import { Routing } from "./constants/Routes";
+import theme from "./constants/theme"
+import { ThemeProvider } from "@material-ui/core/styles";
 
 // This is the entry point for the app.
 ReactDOM.render(
-	<Layout>
-		<Routing />
-	</Layout>,
+	<ThemeProvider theme={theme}>	
+		<Layout>
+			<Routing />
+		</Layout>
+	</ThemeProvider>,
 	document.getElementById("root")
 );
 

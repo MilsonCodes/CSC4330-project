@@ -1,76 +1,53 @@
 import React from "react";
 import styled from "styled-components";
-import theme from "../../constants/theme";
-import Image from "../../components/Image/index.js"
-import * as logo from "../../assets/ChaseYourDreams.png";
-const size = "200px";
+import logo from "../../assets/ChaseYourDreams.png";
+import { AppBar, Toolbar, Button, makeStyles, Hidden } from "@material-ui/core";
 
-let Background = styled.div`
-  position: fixed;
-  ${"" /* may need to change to absolute */}
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-size: cover;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  background-color: ${theme.background.main};
-  * {
-    font-family: ${theme.font};
+const useStyles = makeStyles(theme => ({
+  background: {
+    position: "fixed",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundSize: "cover",
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
+    margin: 0,
+    padding: 0,
+    backgroundColor: theme.palette.primary.main
   }
-`;
-
-let Span = styled.span`
-  display: flex;
-  padding: 5px;
-  margin: auto;
-  align-items: center;
-`;
-
-let Links = styled.span`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin: auto;
-  padding: 0.5%;
-  p {
-    margin-right: 10%;
-    cursor: pointer;
-    color: #C6C8C8;
-    font-size: 1.65em;
-  }
-`;
+}));
 
 // This will contain our logo and navigation to other pages
 // The logo links to the home page, other links do NOT work yet
 let Header = () => {
   return (
-    <Span>
-      <a href='/home'>
-        <Image style={{ width: size, height: size - 50, filter: "invert(100%)", "margin-left": "10%" }} src={logo} />
-      </a>
-      <Links>
-        <p>Applicants</p>
-        <p>Employers</p>
-        <p>Stakeholders</p>
-        <p>Login</p>
-      </Links>
-    </Span>
+
+    <AppBar
+      position="static"  
+    >
+      <Toolbar>
+        <a href="/home">
+          <img src={logo} style={{ width: "80%", filter: "invert(100%)" }} />
+        </a>
+        <Button color="inherit">Login</Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
 // This wraps the entire app and keeps the background and header constant
 // Don't edit this component
 const Layout = props => {
+  const classes = useStyles()
+
   return (
-    <Background>
+    <div className={classes.background}>
       <Header></Header>
       {props.children}
-    </Background>
+    </div>
   );
 };
 
