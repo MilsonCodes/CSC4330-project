@@ -7,6 +7,12 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+//To Do:  Look into creating dynamic checkboxes to dynamically create checkboxes through props.
+//http://react.tips/checkboxes-in-react/
+//https://menubar.io/reactjs-checkboxes
+//https://material-ui.com/components/checkboxes/
+
+
 const GreenCheckbox = withStyles({
 	root: {
 		color: green[400],

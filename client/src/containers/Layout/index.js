@@ -5,6 +5,7 @@ import * as logo from "../../assets/ChaseYourDreams.png";
 import LinkButtons  from "../../components/Buttons/LinkButton";
 import StyledButtons from "../../components/Buttons/StyledButton";
 import CheckboxApp from "../../components/Form/checkbox";
+import Textbox from "../../components/Form/textbox";
 
 const size = "200px";
 
@@ -99,6 +100,12 @@ const Layout = props => {
 			size="sm"
 			text="Small Button">
 			</LinkButtons>
+
+			<br />
+			<br />
+
+		  <Textbox>
+		  </Textbox>
 
 			<br />
 			<br />
