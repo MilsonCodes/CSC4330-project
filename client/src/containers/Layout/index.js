@@ -6,6 +6,7 @@ import LinkButtons  from "../../components/Buttons/LinkButton";
 import StyledButtons from "../../components/Buttons/StyledButton";
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
+import DropDown from "../../components/Form/dropdown";
 
 const size = "200px";
 
@@ -99,10 +100,18 @@ const Layout = props => {
 			variant="success"
 			size="sm"
 			text="Small Button">
-			</LinkButtons>
+		   </LinkButtons>
 
 			<br />
 			<br />
+
+		  <DropDown>
+		  </DropDown>
+
+
+		  <br />
+		  <br />
+
 
 		  <Textbox>
 		  </Textbox>
@@ -126,7 +135,8 @@ const Layout = props => {
 		  </StyledButtons>
 		  <br/>
       {props.children}
-    </Background>
+	  </Background>
+
   );
 };
 
