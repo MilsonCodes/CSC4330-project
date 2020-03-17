@@ -4,6 +4,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+
+//To DO:  Finish passing down states to the menu.  Create an exposed drop down menu.
+
 export default function DropDown() {
 
 	const useStyles = makeStyles(theme => ({
@@ -16,9 +19,12 @@ export default function DropDown() {
 		},
 	}));
 
-	const ITEM_HEIGHT = 48;
+
+	var [select, setSelect] = React.useState("Menu");
+
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
+
 	const options = [
 		'Never gonna give you up',
 		'Never gonna let you down',
@@ -26,23 +32,29 @@ export default function DropDown() {
 		'And Hurt you',
 	];
 
+	const handleChange = event => {
+		setSelect("test");
+	};
 
 	const handleClick = event => {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = () => {
+	const handleClose = (key) => {
+		alert(key);
 		setAnchorEl(null);
+		handleChange();
 	};
 
 	return (
-		<div>
+		<div className = "classes">
 			<Button
+				contentEditable = "false"
 				aria-label="more"
 				aria-controls="long-menu"
 				aria-haspopup="true"
 				onClick={handleClick}>
-				Open Menu
+				{select}
       </Button>
 			<Menu
 				id="simple-menu"
@@ -53,8 +65,15 @@ export default function DropDown() {
 
 			>
 				{options.map(options => (
-					<MenuItem key={options} onClick={handleClose}>
+					<MenuItem
+						type = "text"
+						
+						onClick={
+							() => handleClose(options)
+						}
+					>
 						{options}
+
 					</MenuItem>
 				))}
 			</Menu>
