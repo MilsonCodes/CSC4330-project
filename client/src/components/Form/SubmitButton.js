@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function SubmitButton(props) {
 
+	/* Determines the CSS used to help design the button */
 	const useStyles = makeStyles(theme => ({
 		root: {
 			'& .MuiTextField-root': {
