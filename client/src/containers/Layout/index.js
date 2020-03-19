@@ -105,7 +105,15 @@ const Layout = props => {
 			<br />
 			<br />
 
-		  <DropDown>
+		  <DropDown
+			  defaultValue="Menu"
+			  options={[
+				  'Never gonna give you up',
+				  'Never gonna let you down',
+				  'Never gonna take a stand',
+				  'And Hurt you',
+			  ]}
+		  >
 		  </DropDown>
 
 

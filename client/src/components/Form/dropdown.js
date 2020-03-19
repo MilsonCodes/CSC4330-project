@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 
-export default function DropDown() {
+export default function DropDown(props) {
 
 	/* Used to determine the CSS of the menu */
 	const useStyles = makeStyles(theme => ({
@@ -18,8 +18,7 @@ export default function DropDown() {
 	}));
 
 	//Sets the default text of the menu button
-	const defaultValue = "Menu";
-	var [select, setSelect] = React.useState(defaultValue);
+	var [select, setSelect] = React.useState(props.defaultValue);
 
 	//Used for CSS styling
 	const classes = useStyles();
@@ -27,24 +26,20 @@ export default function DropDown() {
 	//Used to anchor the menu to the drop down menu button
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
-	const options = [
-		'Never gonna give you up',
-		'Never gonna let you down',
-		'Never gonna take a stand',
-		'And Hurt you',
-	];
+	//Copies the prop array list into a variable.  This is to allow the prop array to be mapped out into a menu.
+	const list = props.options
 
 	/* Change the text of the manu button when this function is called */
 	const handleChange = key => {
 
 		/* Changes the text of the drop down menu button back to the default value */
-		setSelect(defaultValue);
+		setSelect(props.defaultValue);
 
 		/* If received parameter does not match one of the options (User clicked outside the button),
 		 * reset the button text back to the default value */
-		for (var i = 0; i < options.length ; i++)
+		for (var i = 0; i < list.length ; i++)
 		{
-			if (options[i] != key);
+			if (list[i] != key);
 
 			else {
 				setSelect(key);
@@ -98,14 +93,14 @@ export default function DropDown() {
 			>
 				{/* Creates a loop that maps out the contents of an array and adds each array value as its own menu type.
 				 * This allows for a menu button to dynamically create a series of menu options based on the available options*/}
-				{options.map(options => (
+				{list.map(list => (
 					<MenuItem
 						type="text"
 						onClick={
-							() => handleClose(options)
+							() => handleClose(list)
 						}
 					>
-						{options}
+						{list}
 
 					</MenuItem>
 				))}

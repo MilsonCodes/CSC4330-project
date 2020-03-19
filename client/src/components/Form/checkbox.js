@@ -12,7 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 //https://menubar.io/reactjs-checkboxes
 //https://material-ui.com/components/checkboxes/
 
-
+/* CSS Styling */
 const GreenCheckbox = withStyles({
 	root: {
 		color: green[400],
@@ -29,20 +29,33 @@ export default function CheckboxApp(props) {
 		checkedA: true,
 	});
 
+	const options = ["test1", "test2", "test3"];
+
+	var mapping = [];
+
 	const handleChange = name => event => {
+		alert(mapping);
 		setState({ ...state, [name]: event.target.checked });
 	};
 
+	var i = 0;
+
 	return (
-		<FormGroup row>
-			<FormLabel component = "legend"> Responsibility </FormLabel>
-			<FormControlLabel
+		options.map(options => (
+			mapping.push(false),
+			<FormGroup row>
+				{/* Header */}
+				<FormLabel component="legend"> Responsibility </FormLabel>
+
+				<FormControlLabel
+				id={i}
 				component = "legend"
 				control={
 					<Checkbox checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" />
 				}
-				label={props.label}
+				label={options}
 			/>
-		</FormGroup>
+			</FormGroup>
+			))
 	);
 }
