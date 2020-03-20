@@ -33,16 +33,20 @@ export default function CheckboxApp(props) {
 
 	var mapping = [];
 
-	const handleChange = name => event => {
-		alert(mapping);
+	const handleChange = (name, id) => event => {
+		var k;
+		//To do:  Try to use eval to generate dynamic checkbox states
+		eval('k = 1');
+		alert(k);
 		setState({ ...state, [name]: event.target.checked });
 	};
 
-	var i = 0;
-
+	var i = -1;
+	var checkedState = {};
 	return (
 		options.map(options => (
 			mapping.push(false),
+			i++ ,
 			<FormGroup row>
 				{/* Header */}
 				<FormLabel component="legend"> Responsibility </FormLabel>
@@ -51,7 +55,7 @@ export default function CheckboxApp(props) {
 				id={i}
 				component = "legend"
 				control={
-					<Checkbox checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" />
+					<Checkbox checked={state.checkedA} onChange={handleChange(checkedState, i)} value="checkedA" />
 				}
 				label={options}
 			/>
