@@ -7,7 +7,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-//To Do:  Look into creating dynamic checkboxes to dynamically create checkboxes through props.
 //http://react.tips/checkboxes-in-react/
 //https://menubar.io/reactjs-checkboxes
 //https://material-ui.com/components/checkboxes/
@@ -23,43 +22,47 @@ const GreenCheckbox = withStyles({
 	checked: {},
 })(props => <Checkbox color="default" {...props} />);
 
+
 export default function CheckboxApp(props) {
 
+	/* True/False states used to indicate if the checkbox is checked or not */
 	const [state, setState] = React.useState({
-		checkedA: true,
+		checked: true,
 	});
 
 	const options = ["test1", "test2", "test3"];
 
-	var mapping = [];
-
-	const handleChange = (name, id) => event => {
-		var k;
-		//To do:  Try to use eval to generate dynamic checkbox states
-		eval('k = 1');
-		alert(k);
+	/* Will switch state of a targeted value.
+	 * In this scenario, will swithc between a checked state and an
+	 * unchecked state */
+	const handleChange = (name) => event => {
 		setState({ ...state, [name]: event.target.checked });
 	};
 
+	//Variables used to create a dynamic array of checkboxes based on how many were given.
 	var i = -1;
 	var checkedState = {};
+
 	return (
+		/* Will constantly iterate itself in a loop for each value in an array found.
+		 * For each array value, will create a checkbox and a unique checkbox state for that
+		 * particular value*/
 		options.map(options => (
-			mapping.push(false),
 			i++ ,
-			<FormGroup row>
-				{/* Header */}
-				<FormLabel component="legend"> Responsibility </FormLabel>
+			eval('checkedState[' + i + '] = false;'),
 
 				<FormControlLabel
 				id={i}
 				component = "legend"
 				control={
-					<Checkbox checked={state.checkedA} onChange={handleChange(checkedState, i)} value="checkedA" />
+					<Checkbox
+						checked={state.checkedA}
+						onChange={handleChange(checkedState[i], i)}
+						value="checkedA"
+					/>
 				}
 				label={options}
 			/>
-			</FormGroup>
 			))
 	);
 }
