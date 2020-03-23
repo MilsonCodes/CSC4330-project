@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 // https://www.muicss.com/docs/v1/react/buttons
 // List of button colors:  https://react-bootstrap.github.io/components/buttons/
@@ -12,6 +13,7 @@ export default function SubmitButton(props) {
 	/* Determines the CSS used to help design the button */
 	const useStyles = makeStyles(theme => ({
 		root: {
+			display: 'flex',
 			'& .MuiTextField-root': {
 				margin: theme.spacing(1),
 				width: 200,
@@ -27,7 +29,7 @@ export default function SubmitButton(props) {
 
 
 	return (
-		<div className="Button">
+		<div className={classes.root}>
 
 			<Button
 				/*Will render the following CSS script, utilizing props as an external variable 

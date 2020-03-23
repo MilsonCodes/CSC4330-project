@@ -3,9 +3,8 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import styled, { css } from 'styled-components';
 
 //http://react.tips/checkboxes-in-react/
 //https://menubar.io/reactjs-checkboxes
@@ -14,6 +13,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 /* CSS Styling */
 const GreenCheckbox = withStyles({
 	root: {
+		display: 'flex',
+		width: 200,
 		color: green[400],
 		'&$checked': {
 			color: green[600],
@@ -30,7 +31,9 @@ export default function CheckboxApp(props) {
 		checked: true,
 	});
 
-	const options = ["test1", "test2", "test3"];
+	//Copies the prop array into an array variable.
+	//This is to make mapping out the checkboxes easier
+	const options = props.options;
 
 	/* Will switch state of a targeted value.
 	 * In this scenario, will swithc between a checked state and an
@@ -51,16 +54,20 @@ export default function CheckboxApp(props) {
 			i++ ,
 			eval('checkedState[' + i + '] = false;'),
 
-				<FormControlLabel
+			//HTML work for the checkbox creation.
+			<FormControlLabel
+				//ID for identification
 				id={i}
+				//Identification for fieldset type
 				component = "legend"
 				control={
 					<Checkbox
-						checked={state.checkedA}
-						onChange={handleChange(checkedState[i], i)}
+						//On click, changes the checkbox state
+						onChange={handleChange(checkedState[i])}
 						value="checkedA"
 					/>
 				}
+				//Checkbox text value
 				label={options}
 			/>
 			))

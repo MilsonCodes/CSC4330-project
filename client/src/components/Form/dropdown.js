@@ -11,6 +11,7 @@ export default function DropDown(props) {
 		root: {
 			display: 'flex',
 			flexWrap: 'wrap',
+			width: "130px",
 		},
 		margin: {
 			margin: theme.spacing(1),
@@ -62,7 +63,7 @@ export default function DropDown(props) {
 
 	return (
 		//Div classname is used for the CSS styling variable.
-		<div className = "classes">
+		<div className={classes.root}>
 			<Button
 				//Determines the color of the button
 				color="primary"

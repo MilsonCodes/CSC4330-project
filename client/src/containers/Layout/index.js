@@ -7,6 +7,7 @@ import StyledButtons from "../../components/Buttons/StyledButton";
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
 import DropDown from "../../components/Form/dropdown";
+import SubmitForm from "../../components/Form/index";
 
 const size = "200px";
 
@@ -83,16 +84,6 @@ const Layout = props => {
 		  <br />
 		  <br />
 		  
-		  <CheckboxApp
-			  label="Primary"
-			  row="row"
-		  >
-		  </CheckboxApp>
-		  
-
-		  <br />
-		  <br />
-		  
 		  <LinkButtons
 			height={50}
 			width={50}
@@ -116,17 +107,11 @@ const Layout = props => {
 		  >
 		  </DropDown>
 
+		  
+		  Submit Form:
 
-		  <br />
-		  <br />
-
-
-		  <Textbox>
-		  </Textbox>
-
-			<br />
-			<br />
-
+		  <SubmitForm>
+		  </SubmitForm>
 
 
 		  <StyledButtons
