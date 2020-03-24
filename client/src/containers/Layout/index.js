@@ -21,7 +21,8 @@ let Background = styled.div`
   background-size: cover;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   margin: 0;
   padding: 0;
   background-color: ${theme.background.main};

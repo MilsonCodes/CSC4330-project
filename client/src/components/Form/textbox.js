@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import SubmitButton from "./SubmitButton";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -20,7 +19,7 @@ export default function Textbox(props) {
 			marginTop: theme.spacing(3),
 		},
 		textField: {
-			width: 200,
+			width: 225,
 		},
 	}));
 	//Use CSS Styling
@@ -82,12 +81,6 @@ export default function Textbox(props) {
 				</FormControl>
 
 			</form>
-			
-			<SubmitButton
-				variant="outlined"
-				color="primary"
-			>
-			</SubmitButton>
 		</div>
 	);
 }

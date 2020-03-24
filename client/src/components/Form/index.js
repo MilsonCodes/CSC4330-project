@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
+import Box from "@material-ui/core/Box";
 import styled from "styled-components";
 import CheckboxApp from "./checkbox";
 import Textbox from "./textbox";
 import DropDown from "./dropdown";
+import SubmitButton from "./SubmitButton";
 import { makeStyles } from '@material-ui/core/styles';
 
 export default function SubmitForm(){
@@ -19,6 +21,12 @@ export default function SubmitForm(){
 		margin: {
 			margin: theme.spacing(1),
 		},
+		center: {
+			textAlign: 'center',
+			display: "flex",
+			justifyContent: "center",
+
+		},
 	}));
 
 	//Used for CSS styling
@@ -27,22 +35,49 @@ export default function SubmitForm(){
 	return (
 
 		<div className={classes.root}>
+			<Box
+				display="flex"
+				flexDirection="column"
+				p={1}
+				flexWrap = "warp"
+				bgclor="background.paper">
+				<Box
+					p={1}
+					bgcolor="grey.300"
+					justifyContent="center">
 
-			<Textbox
-				variant="filled"
-				size="small"
-			>
-			</Textbox>
+					<h2
+						className={classes.center}
+					>
+						Header
+					</h2>
 
-			<CheckboxApp
-				label="Primary"
-				row="row"
-				options={[
-					'Remember Me',
-				]}
-			>
+					<Textbox
+						className={classes.center}
+						variant="filled"
+						size="small"
+					>
+					</Textbox>
 
-			</CheckboxApp>
+					<CheckboxApp
+						className={classes.center}
+						label="Primary"
+						row="row"
+						options={[
+							'Remember Me',
+						]}
+					>
+
+					</CheckboxApp>
+
+					<SubmitButton
+						variant="outlined"
+						color="primary"
+					>
+					</SubmitButton>
+				</Box>
+
+			</Box>
 
 		</div>
 

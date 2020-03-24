@@ -14,10 +14,7 @@ export default function SubmitButton(props) {
 	const useStyles = makeStyles(theme => ({
 		root: {
 			display: 'flex',
-			'& .MuiTextField-root': {
-				margin: theme.spacing(1),
-				width: 200,
-			},
+			padding: 10,
 		},
 	}));
 
