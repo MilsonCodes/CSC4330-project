@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # Installed apps
     'rest_framework',
     'corsheaders',
+    'django_extensions',
+    'rest_framework.authtoken',
     # Start our custom apps
     'rest_api',
 ]
@@ -47,7 +49,10 @@ INSTALLED_APPS = [
 # Give permission to django rest framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.AllowAny', ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
 

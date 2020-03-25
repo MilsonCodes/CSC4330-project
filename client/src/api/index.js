@@ -1,47 +1,42 @@
-// Example API call
-export const fetchData = async () => {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/");
-    const data = await res.json();
-    console.log(data);
-  } catch (e) {
-    console.log(e);
+import API_HOST from './config'
+import axios from 'axios'
+
+/* API Calling
+ * ----------
+ * There will be a main request function. Use it.
+ * 
+ * Each endpoint will have a function on here for us to call in containers and components. Less code to worry about
+ * for each container. The requests should provide all the data needed in a JSON format. If it doesn't, we will change
+ * that.
+ */
+
+async function request(endpoint, body, type, authenticated, contentType="application/json") {
+  var headers = {
+    'Content-Type': contentType
   }
-};
 
-// Example class will API call and use of data
-// import React from "react";
+  if (authenticated) {
+    //Setup authentication checks here and add header with token
+  }
+  
+  var response = await axios({
+    method: type,
+    url: API_HOST + endpoint,
+    headers: headers,
+    data: body
+  })
 
-// const Todo = () => {
-//   const [todos, setTodos] = React.useState([]);
+  return response
+}
 
-//   React.useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const res = await fetch("http://127.0.0.1:8000/todos/");
-//         const todos = await res.json();
-//         setTodos(todos);
-//       } catch (e) {
-//         console.log(e);
-//       }
-//     };
-//     fetchData();
-//   }, []);
+export default class ChaseYourDreamsAPI {
+  constructor() {
 
-//   let Todos = () => {
-//     return (
-//       <div>
-//         {todos.map(item => (
-//           <div key={item.id}>
-//             <h1>{item.title}</h1>
-//             <span>{item.description}</span>
-//           </div>
-//         ))}
-//       </div>
-//     );
-//   };
+  }
 
-//   return <Todos></Todos>;
-// };
+  async testCall() {
+    var response = await request("/", null, "GET", false)
 
-// export default Todo;
+    return response
+  }
+}
