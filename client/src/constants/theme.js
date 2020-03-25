@@ -1,12 +1,19 @@
+import { createMuiTheme } from "@material-ui/core";
+
 // import React from "react";
 
-const theme = {
-  background: {
-    main: "#302F2F",
-    dark: "#9499b7",
-    light: "#f8fdff"
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "Noto Sans JP, sans-serif"   //Removed Yanone Kaffeesatz font is too tight. Name is still here incase
   },
-  font: "Yanone Kaffeesatz, Noto Sans JP, sans-serif" // Must set the font-family CSS property equal to this in order to use
-};
+  palette:{
+    primary: {
+      main: "#302F2F"
+    },
+    secondary: {
+      main: "#302F2F"
+    }
+  }
+})
 
 export default theme;
