@@ -45,6 +45,8 @@ export default function Textbox(props) {
 		event.preventDefault();
 	};
 
+
+
 	return (
 		<div>
 			<form className={clsx(classes.margin, classes.textField)}
@@ -60,10 +62,11 @@ export default function Textbox(props) {
 					className={clsx(classes.margin, classes.textField)}
 					defaultValue=""				//Adds text to fill if the textbox was not clicked on
 					id="filled-size-normal"
-					label={props.label}
+					label={props.label}			//Adds text in the textbox.
 					size={props.size}			//Determines the size of the text field
-					type={props.type}
+					type={props.type}			//If type = "password", will hide the text inside.
 					variant={props.variant}		//Adds the shading to the text field box.
+					onChange={prop.handleChange} //Custom onChange prop.
 				/>
 
 			</form>
