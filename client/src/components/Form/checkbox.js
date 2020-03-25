@@ -39,6 +39,7 @@ export default function CheckboxApp(props) {
 	 * In this scenario, will swithc between a checked state and an
 	 * unchecked state */
 	const handleChange = (name) => event => {
+		if(props.onChange) props.onChange(event)
 		setState({ ...state, [name]: event.target.checked });
 	};
 
