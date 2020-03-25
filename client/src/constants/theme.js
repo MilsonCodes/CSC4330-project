@@ -2,11 +2,11 @@
 
 const theme = {
   background: {
-    main: "#c5cae9",
+    main: "#302F2F",
     dark: "#9499b7",
     light: "#f8fdff"
   },
-  font: "'Noto Sans JP', sans-serif" // Must set the font-family CSS property equal to this in order to use
+  font: "Yanone Kaffeesatz, Noto Sans JP, sans-serif" // Must set the font-family CSS property equal to this in order to use
 };
 
 export default theme;
