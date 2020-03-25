@@ -1,7 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-import logo from "../../assets/ChaseYourDreams.png";
-import { AppBar, Toolbar, Button, makeStyles, Hidden } from "@material-ui/core";
+import logo from "../../assets/img/ChaseYourDreams.png";
+import PropTypes from 'prop-types';
+import { AppBar, Toolbar, Button, makeStyles, useScrollTrigger, Slide } from "@material-ui/core";
+import { Container, Row, Col, Navbar, NavbarBrand, NavLink, Nav } from "reactstrap";
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -22,21 +23,46 @@ const useStyles = makeStyles(theme => ({
 
 // This will contain our logo and navigation to other pages
 // The logo links to the home page, other links do NOT work yet
-let Header = () => {
+// TODO: Make mobile friendly (this will need to be made mobile friendly)
+// TODO: Make reactive with auth
+let Header = props => {
   return (
-
-    <AppBar
-      position="static"  
-    >
-      <Toolbar>
-        <a href="/home">
-          <img src={logo} style={{ width: "80%", filter: "invert(100%)" }} />
-        </a>
-        <Button color="inherit">Login</Button>
-      </Toolbar>
-    </AppBar>
+    <Navbar color="bg-transparent" expand="lg">
+      <Container>
+        <Row style={{ width: "100%" }}>
+          <Col md="4" xs="6">
+            <NavbarBrand>
+              <a href="/home">
+                <img src={logo} style={{ width: 150, filter: "invert(100%)" }} />
+              </a>
+            </NavbarBrand>
+          </Col>
+          <Col md="4" xs="6" className="ml-md-auto d-flex justify-content-end">
+            <Nav className="mt-auto mb-auto">
+              <NavLink href="/login">Login</NavLink>
+            </Nav>
+          </Col>
+        </Row>
+      </Container>
+    </Navbar>
   );
 };
+
+//TODO: Craft the damn footer
+let Footer = props => {
+  return (
+    <Container>
+      <Row>
+        <Col md="4" xs="12">
+          <h1>FOOTER LOL</h1>
+        </Col>
+        <Col md="4" xs="12">
+
+        </Col>
+      </Row>
+    </Container>
+  )
+}
 
 // This wraps the entire app and keeps the background and header constant
 // Don't edit this component
@@ -45,8 +71,11 @@ const Layout = props => {
 
   return (
     <div className={classes.background}>
-      <Header></Header>
-      {props.children}
+      <Header />
+      <div id="content" className="">
+        {props.children}
+      </div>
+      <Footer />
     </div>
   );
 };
