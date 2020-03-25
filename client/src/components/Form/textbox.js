@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
+import FormGroup from 'reactstrap'
 
 export default function Textbox(props) {
 
@@ -48,8 +48,8 @@ export default function Textbox(props) {
 
 
 	return (
-		<div>
-			<form className={clsx(classes.margin, classes.textField)}
+		<>
+			<form className={props.className ? props.className : clsx(classes.margin, classes.textField)}
 				noValidate //Form data will not be validates when submitted
 				autoComplete="off">
 				
@@ -57,9 +57,9 @@ export default function Textbox(props) {
 					<TextField
 					autoFocus				/* If true, the input element will be focused during the first mount */
 					fullWidth				/* If true, the input will take up teh full width of its container */
-					required				//Makes this textfield mandatory to fill out before submitting
+					required={props.required}				//Makes this textfield mandatory to fill out before submitting
 
-					className={clsx(classes.margin, classes.textField)}
+					className={!props.className ? clsx(classes.margin, classes.textField) : ""}
 					defaultValue=""				//Adds text to fill if the textbox was not clicked on
 					id="filled-size-normal"
 					label={props.label}			//Adds text in the textbox.
@@ -68,8 +68,7 @@ export default function Textbox(props) {
 					variant={props.variant}		//Adds the shading to the text field box.
 					onChange={props.handleChange} //Custom onChange prop.
 				/>
-
 			</form>
-		</div>
+		</>
 	);
 }

@@ -65,6 +65,7 @@ export default function SubmitForm(){
 						variant="filled"					//Adds shading to the textbox
 						size="small"
 						label="Username"
+						required
 					>
 					</Textbox>
 					<Textbox
@@ -73,6 +74,7 @@ export default function SubmitForm(){
 						size="small"
 						label="Password"
 						type="Password"
+						required
 					>
 					</Textbox>
 

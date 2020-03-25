@@ -1,27 +1,35 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles'
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { Card, CardHeader } from "@material-ui/core";
+import { Container, Row, Col, Form } from "reactstrap";
+import { Card } from "@material-ui/core";
+import Textbox from "../../components/Form/textbox"
+import Checkbox from "../../components/Form/checkbox"
+import Button from "../../components/Form/SubmitButton"
 
 const Register = props => {
     //TODO: Determine fields for register page
 
     var [state, setState] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: ""
+        form: {
+            first_name: "",
+            last_name: "",
+            username: "",
+            email: "",
+            password: ""
+        }
     });
 
     const handleChange = (event, field) => {
         var newState = {...state}
-        newState[field] = event.target.value
+        newState.form[field] = event.target.value
         setState(newState)
     }
 
     const onSubmit = event => {
         event.preventDefault()
         console.log(state)
+
+        //TODO: IT'S TIME TO REGISTER SOMEONE :D
     }
 
     return (
@@ -36,52 +44,55 @@ const Register = props => {
                                 <Form className="form">
                                     <Row>
                                         <Col>
-                                            <FormGroup>
-                                                <Label>First Name</Label>
-                                                <Input
-                                                    type="name"
-                                                    name="first_name"
-                                                    placeholder="First"
-                                                    onChange={e => handleChange(e, "first_name")}
-                                                />
-                                            </FormGroup>
+                                            <Textbox
+                                                type="text"
+                                                label="First"
+                                                className="m-0"
+                                                handleChange={e => handleChange(e, "first_name")}
+                                            />
                                         </Col>
                                         <Col>
-                                            <FormGroup>
-                                                <Label>Last Name</Label>
-                                                <Input
-                                                    type="name"
-                                                    name="last_name"
-                                                    placeholder="Last"
-                                                    onChange={e => handleChange(e, "last_name")}
-                                                />
-                                            </FormGroup>
+                                            <Textbox
+                                                type="text"
+                                                label="Last"
+                                                className="m-0"
+                                                handleChange={e => handleChange(e, "last_name")}
+                                            />
                                         </Col>
                                     </Row>
-                                    <FormGroup>
-                                        <Label>Email</Label>
-                                        <Input
-                                            type="email"
-                                            name="email"
-                                            placeholder="myemail@email.com"
-                                            onChange={e => handleChange(e, "email")}
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label>Password</Label>
-                                        <Input
-                                            type="password"
-                                            name="password"
-                                            placeholder="********"
-                                            onChange={e => handleChange(e, "password")}
-                                        />
-                                    </FormGroup>
+                                    <br/>
+                                    <Textbox
+                                                type="text"
+                                                label="Username"
+                                                className="m-0"
+                                                handleChange={e => handleChange(e, "username")}
+                                            />
+                                    <br/>
+                                    <Textbox
+                                        type="text"
+                                        label="Email"
+                                        className="m-0"
+                                        handleChange={e => handleChange(e, "email")}
+                                    />
+                                    <br/>
+                                    <Textbox
+                                        type="password"
+                                        label="Password"
+                                        className="m-0"
+                                        handleChange={e => handleChange(e, "password")}
+                                    />
                                     <br/>
                                     <p>
                                         Already have an account? <a href="/login">Login here.</a>
                                     </p>
-                                    <br/>
-                                    <Button onClick={onSubmit}>Submit</Button>
+                                    <Button
+                                        handleClick={onSubmit}
+                                        size="small"
+                                        variant="outlined"
+                                        color="primary"
+                                    >
+                                        Submit
+                                    </Button>
                                 </Form>
                             </Container>
                         </Card>
