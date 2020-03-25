@@ -108,9 +108,6 @@ const Layout = props => {
 		  >
 		  </DropDown>
 
-		  
-		  Submit Form:
-
 		  <SubmitForm>
 		  </SubmitForm>
 

@@ -12,16 +12,18 @@ export default function SubmitForm(){
 	/* Used to determine the CSS of the menu */
 	const useStyles = makeStyles(theme => ({
 		root: {
+			//CSS Styling for the box containing the login
 			padding: '50px',
 			margin: theme.spacing(2),
-			border: "2px solid black",
 			flexWrap: 'wrap',
 			width: "400px",
 		},
 		margin: {
+			//Adds spacing to the component if added
 			margin: theme.spacing(1),
 		},
 		center: {
+			//Aligns the header to the center of the box
 			textAlign: 'center',
 			display: "flex",
 			justifyContent: "center",
@@ -35,32 +37,44 @@ export default function SubmitForm(){
 	return (
 
 		<div className={classes.root}>
+			{/* Creates a box containing the login form. */}
 			<Box
-				display="flex"
-				flexDirection="column"
-				p={1}
-				flexWrap = "warp"
-				bgclor="background.paper">
+				display="flex"					//Allows for flexible alignment
+				flexDirection="column"			//Aligns the components into a column
+				p={1}							//Determines spacing
+				flexWrap = "warp"				//If there is an overflow, the next element will be placed in the next row
+				bgclor="background.paper"		//Background color
+			>		
+
 				<Box
-					p={1}
-					bgcolor="grey.300"
-					justifyContent="center">
+					p={1}						//Spacing
+					bgcolor="grey.300"			//Background color
+					justifyContent="center"		//Aligns to the center
+				>
+					
 
 					<h2
 						className={classes.center}
+						//Use the CSS styling to align to the center
 					>
 						Header
 					</h2>
 
 					<Textbox
 						className={classes.center}
+						//Use the CSS styling to align to the center
+
 						variant="filled"
+						//Adds shading to the textbox
+
 						size="small"
 					>
 					</Textbox>
 
 					<CheckboxApp
 						className={classes.center}
+						//Use the CSS styling to align to the center
+
 						label="Primary"
 						row="row"
 						options={[
@@ -71,8 +85,8 @@ export default function SubmitForm(){
 					</CheckboxApp>
 
 					<SubmitButton
-						variant="outlined"
-						color="primary"
+						variant="outlined"		//Determines what type of button to use
+						color="primary"			//What color of the button to use
 					>
 					</SubmitButton>
 				</Box>
