@@ -5,14 +5,18 @@ import Layout from "./containers/Layout";
 import { Routing } from "./constants/Routes";
 import theme from "./constants/theme"
 import { ThemeProvider } from "@material-ui/core/styles";
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 // This is the entry point for the app.
 ReactDOM.render(
-	<ThemeProvider theme={theme}>	
-		<Layout>
-			<Routing />
-		</Layout>
-	</ThemeProvider>,
+	<Provider store={store}>
+		<ThemeProvider theme={theme}>	
+			<Layout>
+				<Routing />
+			</Layout>
+		</ThemeProvider>
+	</Provider>,
 	document.getElementById("root")
 );
 

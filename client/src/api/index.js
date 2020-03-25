@@ -29,12 +29,14 @@ async function request(endpoint, body, type, authenticated, contentType="applica
   return response
 }
 
-const API = {
-  testCall: async () => {
+export default class ChaseYourDreamsAPI {
+  constructor() {
+
+  }
+
+  async testCall() {
     var response = await request("/", null, "GET", false)
 
     return response
   }
 }
-
-export default API
