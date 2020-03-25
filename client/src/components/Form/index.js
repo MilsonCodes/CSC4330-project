@@ -61,13 +61,18 @@ export default function SubmitForm(){
 					</h2>
 
 					<Textbox
-						className={classes.center}
-						//Use the CSS styling to align to the center
-
-						variant="filled"
-						//Adds shading to the textbox
-
+						className={classes.center}			//Use the CSS styling to align to the center
+						variant="filled"					//Adds shading to the textbox
 						size="small"
+						label="Username"
+					>
+					</Textbox>
+					<Textbox
+						className={classes.center}		//Use the CSS styling to align to the center
+						variant="filled"				//Adds shading to the textbox
+						size="small"
+						label="Password"
+						type="Password"
 					>
 					</Textbox>
 

@@ -60,25 +60,11 @@ export default function Textbox(props) {
 					className={clsx(classes.margin, classes.textField)}
 					defaultValue=""				//Adds text to fill if the textbox was not clicked on
 					id="filled-size-normal"
-					label="Username"			//Used only as a label.
-					name="Username"				//Used only for identification
+					label={props.label}
 					size={props.size}			//Determines the size of the text field
+					type={props.type}
 					variant={props.variant}		//Adds the shading to the text field box.
 				/>
-
-				{/* Password settings */}
-				<FormControl className={clsx(classes.margin, classes.textField)}>
-					<TextField
-						autoComplete="current-password" //Allows for an autocomplete function
-						id="filled-size-normal"
-						label="Password"				//Used only for identification
-						name="Password"					//Only for identification
-						required						//Makes this field mandatory to fill out
-						size={props.size}				//Determines the size of the text field
-						type= "password"				//Changes this text field type to a password, hiding the text written here
-						variant={props.variant}			//Adds the shading to the text field box.
-					/>
-				</FormControl>
 
 			</form>
 		</div>
