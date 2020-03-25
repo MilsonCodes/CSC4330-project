@@ -48,16 +48,10 @@ export default function SubmitButton(props) {
 					minHeight: props.height
 				}}
 
-				input type = "submit"
+				input type="submit"
 
-				/*Overides the button click functionality so that when the button is clicked on, 
-				 * the user will be redirected to another web page*/
-				onClick={(e): void => {
-					e.preventDefault();
 
-					//Redirects to a website link specified by an external link given
-					window.location.href = props.Link;
-				}}
+				onClick={props.handleClick}
 			>
 				{/*
 				 * Will render any text, if given, by an external prop variable.  This text will be seen inside the button itself.

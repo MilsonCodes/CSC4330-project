@@ -66,7 +66,7 @@ export default function Textbox(props) {
 					size={props.size}			//Determines the size of the text field
 					type={props.type}			//If type = "password", will hide the text inside.
 					variant={props.variant}		//Adds the shading to the text field box.
-					onChange={prop.handleChange} //Custom onChange prop.
+					onChange={props.handleChange} //Custom onChange prop.
 				/>
 
 			</form>
