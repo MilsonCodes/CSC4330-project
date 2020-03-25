@@ -13,6 +13,7 @@ import Search from "../containers/Search/index.js";
 import Stakeholders from "../containers/Stakeholders/index.js";
 import Settings from "../containers/Settings/index.js";
 import Admin from "../containers/Admin/index.js";
+import Test from "../containers/Test/index.js";
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
@@ -110,6 +111,12 @@ const routes = [
     path: "/admin",
     auth: true,
     component: Admin
+  },
+  {
+    name: "Test",
+    path: "/test",
+    auth: false,
+    component: Test
   },
   {
     name: "404",
