@@ -1,16 +1,22 @@
 import React from 'react'
 import styled from "styled-components";
 import theme from "../../constants/theme";
-import LinkButtons  from "../../components/Buttons/LinkButton";
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import LinkButtons from "../../components/Buttons/LinkButton";
 import StyledButtons from "../../components/Buttons/StyledButton";
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
 import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
 
+
+
 const Test = props => {
-  return (
-    <>
+	return (
+		<div
+			style={{ overflow: "auto" }}
+		>
       <LinkButtons
 			  height={100}
 			  width={100}
@@ -62,7 +68,7 @@ const Test = props => {
 			  text = "Style Button"
 		  >
 		  </StyledButtons>
-    </>
+    </div>
   )
 }
 

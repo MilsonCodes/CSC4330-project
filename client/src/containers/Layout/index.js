@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     height: "100%",
     width: "100%",
-    overflow: "hidden",
+    overflow: "auto",
     margin: 0,
     padding: 0,
     backgroundColor: theme.palette.primary.main
