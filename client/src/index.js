@@ -7,6 +7,8 @@ import theme from "./constants/theme"
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Provider } from 'react-redux'
 import store from './redux/store'
+import './assets/css/bootstrap.min.css'
+import './assets/css/chaseyourdreams.css'
 
 // This is the entry point for the app.
 ReactDOM.render(
