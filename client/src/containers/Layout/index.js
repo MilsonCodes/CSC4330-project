@@ -1,76 +1,80 @@
 import React from "react";
-import styled from "styled-components";
-import theme from "../../constants/theme";
-import Image from "../../components/Image/index.js"
-import * as logo from "../../assets/ChaseYourDreams.png";
-const size = "200px";
+import logo from "../../assets/img/ChaseYourDreams.png";
+import { makeStyles } from "@material-ui/core";
+import { Container, Row, Col, Navbar, NavbarBrand, NavLink, Nav } from "reactstrap";
 
-let Background = styled.div`
-  position: fixed;
-  ${"" /* may need to change to absolute */}
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-size: cover;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  background-color: ${theme.background.main};
-  * {
-    font-family: ${theme.font};
+const useStyles = makeStyles(theme => ({
+  background: {
+    position: "fixed",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundSize: "cover",
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
+    margin: 0,
+    padding: 0,
+    backgroundColor: theme.palette.primary.main
   }
-`;
-
-let Span = styled.span`
-  display: flex;
-  padding: 5px;
-  margin: auto;
-  align-items: center;
-`;
-
-let Links = styled.span`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin: auto;
-  padding: 0.5%;
-  p {
-    margin-right: 10%;
-    cursor: pointer;
-    color: #C6C8C8;
-    font-size: 1.65em;
-  }
-`;
+}));
 
 // This will contain our logo and navigation to other pages
 // The logo links to the home page, other links do NOT work yet
-let Header = () => {
+// TODO: Make mobile friendly (this will need to be made mobile friendly)
+// TODO: Make reactive with auth
+let Header = props => {
   return (
-    <Span>
-      <a href='/home'>
-        <Image style={{ width: size, height: size - 50, filter: "invert(100%)", "margin-left": "10%" }} src={logo} />
-      </a>
-      <Links>
-        <p>Applicants</p>
-        <p>Employers</p>
-        <p>Stakeholders</p>
-        <p>Login</p>
-      </Links>
-    </Span>
+    <Navbar color="bg-transparent" expand="lg">
+      <Container>
+        <Row style={{ width: "100%" }}>
+          <Col md="4" xs="6">
+            <NavbarBrand>
+              <a href="/home">
+                <img src={logo} style={{ width: 150, filter: "invert(100%)" }} />
+              </a>
+            </NavbarBrand>
+          </Col>
+          <Col md="4" xs="6" className="ml-md-auto d-flex justify-content-end">
+            <Nav className="mt-auto mb-auto">
+              <NavLink href="/login">Login</NavLink>
+            </Nav>
+          </Col>
+        </Row>
+      </Container>
+    </Navbar>
   );
 };
 
-// This wraps the entire app and keeps the background and header constant
-// Don't edit this component
-const Layout = props => {
+//TODO: Craft the damn footer
+let Footer = props => {
   return (
-    <Background>
-      <Header></Header>
-      {props.children}
-    </Background>
+    <Container>
+      <Row>
+        <Col md="4" xs="12">
+          <h1>FOOTER LOL</h1>
+        </Col>
+        <Col md="4" xs="12">
+
+        </Col>
+      </Row>
+    </Container>
+  )
+}
+
+// This wraps the entire app and keeps the background and header constant
+const Layout = props => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.background}>
+      <Header />
+      <div id="content" className="">
+        {props.children}
+      </div>
+      <Footer />
+    </div>
   );
 };
 
