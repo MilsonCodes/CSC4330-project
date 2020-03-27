@@ -3,12 +3,15 @@ from .serializers import *
 from .models import *
 from django.contrib.auth.models import User
 from rest_framework import generics
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+import logging
 
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 # All these viewsets contain basic CRUD methods
@@ -22,7 +25,12 @@ class AuthViewSet(viewsets.ModelViewSet):
     # Registration method
     def create(self, request, *args, **kwargs):
         # token = Token.objects.create()
-        print(token)
+        logger.info(request)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.

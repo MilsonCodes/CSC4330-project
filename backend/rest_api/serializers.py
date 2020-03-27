@@ -24,7 +24,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'username',
             'password',
-            'email'
+            'email',
+            'profile',
         )
 
 class LocationSerializer(serializers.ModelSerializer):
