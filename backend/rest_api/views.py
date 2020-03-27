@@ -7,17 +7,27 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+
 
 # Create your views here.
 # All these viewsets contain basic CRUD methods
 # The queryset is the data to be used from the database
 # The serializer class identifies which data format to use
 
+class AuthViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # Registration method
+    def create(self, request, *args, **kwargs):
+        # token = Token.objects.create()
+        print(token)
 
 class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.
-    queryset = Applicant.objects.all().order_by('type')
-    serializer_class = UserSerializer
+    queryset = Profile.objects.all().order_by('type')
+    serializer_class = ProfileSerializer
 
 
 class LocationViewSet(viewsets.ModelViewSet):

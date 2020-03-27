@@ -12,6 +12,7 @@ router.register('association', views.AssociationViewSet)
 router.register('committee', views.CommitteeViewSet)
 router.register('listings', views.ListingViewSet)
 router.register('applications', views.ApplicationViewSet)
+router.register('auth', views.AuthViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
