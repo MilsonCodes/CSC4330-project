@@ -32,6 +32,13 @@ class AuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
+    def sign_out(request):
+        token = RefreshToken(request.headers['Authentication'][7:])
+        token.blacklist()
+        data = {'count': queryset.count()}
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
     # Registration method
     def create(self, request, *args, **kwargs):
         profile = request.data['profile']
