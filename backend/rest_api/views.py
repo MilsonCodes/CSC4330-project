@@ -32,7 +32,9 @@ class AuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
+    # Blacklist user's refresh token
     def sign_out(request):
+        # Get token from header and splice name
         token = RefreshToken(request.headers['Authentication'][7:])
         token.blacklist()
         data = {'count': queryset.count()}
