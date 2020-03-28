@@ -74,28 +74,34 @@ class UserViewSet(viewsets.ModelViewSet):
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all().order_by('country')
     serializer_class = LocationSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all().order_by('name')
     serializer_class = CompanySerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class AssociationViewSet(viewsets.ModelViewSet):
     queryset = Association.objects.all().order_by('name')
     serializer_class = AssociationSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CommitteeViewSet(viewsets.ModelViewSet):
     queryset = Committee.objects.all().order_by('name')
     serializer_class = CommitteeSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('status')
     serializer_class = ApplicationSerializer
+    permission_classes = (IsAuthenticated,)

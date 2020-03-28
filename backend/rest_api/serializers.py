@@ -30,10 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
             # 'profile',
         )
 
-class UserSigninSerializer(serializers.Serializer):
-    username = serializers.CharField(required = True)
-    password = serializers.CharField(required = True)
-
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
