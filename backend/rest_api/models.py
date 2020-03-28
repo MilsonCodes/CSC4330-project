@@ -5,9 +5,6 @@ from django.dispatch import receiver
 import datetime
 import logging
 from django.conf import settings
-from rest_framework.authtoken.models import Token
-
-
 
 # Create your models here.
 # This will be used to create the database schemas
@@ -91,24 +88,12 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     def __str__(self):
         return self.user.username
 
-
-# @receiver(post_save, sender=User)
-# def create_user_Profile(sender, instance, created, **kwargs):
-#     if created:
-#         print(sender)
-#         Profile.objects.create(user=instance)
-
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     try:
         instance.profile.save()
     except:
         print('No User associated with Profile')
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
 
 class Committee(models.Model):  # Search committee in charge of applications
     name = models.CharField(max_length=1056, null=True)

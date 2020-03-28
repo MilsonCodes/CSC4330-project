@@ -9,7 +9,17 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 import logging
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK,
+)
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+
 
 logger = logging.getLogger(__name__)
 
@@ -41,17 +51,24 @@ class AuthViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         usr = User.objects.get(username=request.data['username'])
+        token = RefreshToken.for_user(usr)
         headers = self.get_success_headers(serializer.data)
+        header = {
+            'refresh': str(token),
+            'access': str(token.access_token),
+        }
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
         pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
         pro.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=header)
 
 class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.
     queryset = Profile.objects.all().order_by('type')
     serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticated,)
+
 
 
 class LocationViewSet(viewsets.ModelViewSet):
