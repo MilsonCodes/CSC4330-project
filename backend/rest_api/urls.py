@@ -2,6 +2,9 @@ from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
 
+# Method used for registering users
+register = views.AuthViewSet.as_view({'post': 'create'})
+
 # The default router will include all CRUD routes for associated view sets
 # The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
 router = DefaultRouter()
@@ -16,4 +19,5 @@ router.register('auth', views.AuthViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('register', register)
 ]

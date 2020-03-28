@@ -19,17 +19,33 @@ logger = logging.getLogger(__name__)
 # The serializer class identifies which data format to use
 
 class AuthViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
     # Registration method
     def create(self, request, *args, **kwargs):
-        # token = Token.objects.create()
-        logger.info(request)
+        profile = request.data['profile']
+        address = profile['address']
+        first = profile['first_name']
+        last = profile['last_name']
+        company = Company.objects.get(id=profile['company'])
+        admin = profile['admin']
+        holder = profile['stakeholder']
+        man = profile['manager']
+        line1 = address['line1']
+        line2 = address['line2']
+        zip_c = address['zip']
+        city = address['city']
+        country = address['country']
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        usr = User.objects.get(username=request.data['username'])
         headers = self.get_success_headers(serializer.data)
+        address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
+        address_obj.save()
+        pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
+        pro.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class UserViewSet(viewsets.ModelViewSet):

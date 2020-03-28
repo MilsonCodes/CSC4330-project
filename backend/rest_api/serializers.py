@@ -8,6 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            'id',
             'user',
             'type',
             'company',
@@ -22,10 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            'id',
             'username',
             'password',
             'email',
-            'profile',
+            # 'profile',
         )
 
 class LocationSerializer(serializers.ModelSerializer):

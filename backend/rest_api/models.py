@@ -4,6 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import datetime
 import logging
+from django.conf import settings
+from rest_framework.authtoken.models import Token
+
 
 
 # Create your models here.
@@ -14,7 +17,7 @@ import logging
 
 STATUS = [('Pending', 'Pending'), ('Rejected',
                                    'Rejected'), ('Accepted', 'Accepted')]
-TYPES = [('Profile', 'Profile'), ('Employee',
+TYPES = [('Applicant', 'Applicant'), ('Employee',
                                       'Employee'), ('Manager', 'Manager'), ('Stakeholder', 'Stakeholder'), ('Administrator', 'Administrator')]
 
 
@@ -58,7 +61,7 @@ class Association(models.Model):  # Group of companies
         return self.name
 
 
-class Profile(models.Model):  # Abstract model for all managers, employees, and Profiles
+class Profile(models.Model):  # Abstract model for all managers, employees, and applicants
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField('first', max_length=64,)  # First name
     last_name = models.CharField('last', max_length=64,)  # Last name
@@ -72,7 +75,7 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     company = models.ForeignKey(Company, models.CASCADE, null=True, )
     admin = models.BooleanField(default=False)
     stakeholder = models.BooleanField(default=False)
-    type = models.CharField(max_length=16, choices=TYPES, default='Profile',)
+    type = models.CharField(max_length=16, choices=TYPES, default='Applicants',)
 
     def save(self, *args, **kwargs):
         if self.company:
@@ -89,17 +92,23 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
         return self.user.username
 
 
-@receiver(post_save, sender=User)
-def create_user_Profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def create_user_Profile(sender, instance, created, **kwargs):
+#     if created:
+#         print(sender)
+#         Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
-def save_user_Profile(sender, instance, **kwargs):
+def save_user_profile(sender, instance, **kwargs):
     try:
         instance.profile.save()
     except:
         print('No User associated with Profile')
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 class Committee(models.Model):  # Search committee in charge of applications
     name = models.CharField(max_length=1056, null=True)
