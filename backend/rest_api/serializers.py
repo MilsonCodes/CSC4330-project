@@ -1,14 +1,15 @@
 from rest_framework import serializers
 from .models import *
 
+# This file defines the data included in the response for the associated models
 
-class UserSerializer(serializers.ModelSerializer):
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Applicant
+        model = Profile
         fields = (
-            'username',
-            'email',
-            'password',
+            'id',
+            'user',
             'type',
             'company',
             'first_name',
@@ -18,6 +19,16 @@ class UserSerializer(serializers.ModelSerializer):
             'manager'
         )
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'password',
+            'email',
+            # 'profile',
+        )
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,7 +90,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = (
-            'applicant',
+            'Profile',
             'listing',
             'status',
         )

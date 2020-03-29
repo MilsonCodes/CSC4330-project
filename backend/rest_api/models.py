@@ -1,10 +1,10 @@
 from django.db import models
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import datetime
 import logging
-
+from django.conf import settings
 
 # Create your models here.
 # This will be used to create the database schemas
@@ -58,23 +58,21 @@ class Association(models.Model):  # Group of companies
         return self.name
 
 
-class Applicant(models.Model):  # Abstract model for all managers, employees, and applicants
-    username = models.CharField(max_length=64, unique=True, primary_key=True)
-    password = models.CharField(max_length=128)
+class Profile(models.Model):  # Abstract model for all managers, employees, and applicants
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField('first', max_length=64,)  # First name
     last_name = models.CharField('last', max_length=64,)  # Last name
-    email = models.EmailField()  # Contact email
     address = models.ForeignKey(
         Address, models.CASCADE, null=True)  # Place of residence
-    # Applicants can upload a resume
+    # Profiles can upload a resume
     resume = models.FileField(blank=True, null=True)
     # Only for managers/search committee members
     manager = models.BooleanField(default=False, )
-    # If Applicant.company is not null, applicant is employee
+    # If Profile.company is not null, Profile is employee
     company = models.ForeignKey(Company, models.CASCADE, null=True, )
     admin = models.BooleanField(default=False)
     stakeholder = models.BooleanField(default=False)
-    type = models.CharField(max_length=16, choices=TYPES, default='Applicant',)
+    type = models.CharField(max_length=16, choices=TYPES, default='Applicants',)
 
     def save(self, *args, **kwargs):
         if self.company:
@@ -85,31 +83,22 @@ class Applicant(models.Model):  # Abstract model for all managers, employees, an
             self.type = 'Stakeholder'
         if self.admin:
             self.type = 'Administrator'
-        super(Applicant, self).save(*args, **kwargs)
+        super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
-
-# # Method for linking user and applicant creation
-# @receiver(post_save, sender=User)
-# def create_user_applicant(sender, instance, created, **kwargs):
-#     if created:
-#         Applicant.objects.create(user=instance)
-
-
-# @receiver(post_save, sender=User)  # Method for updating user model changes
-# def save_user_profile(sender, instance, **kwargs):
-#     try:
-#         instance.applicant.save()
-#     except:
-#         logging.warning("No applicant associatied with user: " + str(instance))
-
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    try:
+        instance.profile.save()
+    except:
+        print('No User associated with Profile')
 
 class Committee(models.Model):  # Search committee in charge of applications
     name = models.CharField(max_length=1056, null=True)
     # Managers that are part of committee
-    members = models.ManyToManyField(Applicant)
+    members = models.ManyToManyField(Profile)
 
     def __str__(self):
         return self.name
@@ -125,7 +114,7 @@ class Listing(models.Model):  # Job posting model
     company = models.ForeignKey(Company, models.CASCADE, )
     # Committee/Manager that controls the listing
     committee = models.ForeignKey(Committee, models.CASCADE, )
-    # True when applicant must already work for the company
+    # True when Profile must already work for the company
     internal_only = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
@@ -136,13 +125,13 @@ class Listing(models.Model):  # Job posting model
         return self.title + ", " + self.company.address.city
 
 
-class Application(models.Model):  # Link between Listing and Applicant
-    applicant = models.OneToOneField(
-        Applicant, models.CASCADE)  # Person applying for job
+class Application(models.Model):  # Link between Listing and Profile
+    Profile = models.OneToOneField(
+        Profile, models.CASCADE)  # Person applying for job
     listing = models.ForeignKey(Listing, models.CASCADE)  # Listing applied for
     # Either pending, accepted, or rejected
     status = models.CharField(max_length=8, choices=STATUS, default='Pending',)
-    # resume of associated applicant
+    # resume of associated Profile
 
     def __str__(self):
-        return str(self.listing) + "- " + self.applicant.last_name + ": " + self.status
+        return str(self.listing) + "- " + self.Profile.last_name + ": " + self.status
