@@ -35,7 +35,7 @@ class AuthViewSet(viewsets.ModelViewSet):
     # Blacklist user's refresh token
     def sign_out(request):
         # Get token from header and splice name
-        token = RefreshToken(request.headers['Authentication'][7:])
+        token = RefreshToken(request.headers['Authorization'][7:])
         token.blacklist()
         data = {'count': queryset.count()}
         return Response(data, status=status.HTTP_201_CREATED)
