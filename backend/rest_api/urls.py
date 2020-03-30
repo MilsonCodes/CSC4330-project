@@ -10,7 +10,7 @@ from rest_framework_simplejwt.views import (
 # Method used for registering users
 register = views.AuthViewSet.as_view({'post': 'create'})
 # Logout
-# Refresh Token
+logout = views.AuthViewSet.sign_out
 
 # The default router will include all CRUD routes for associated view sets
 # The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register', register),
     path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('logout', logout),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
