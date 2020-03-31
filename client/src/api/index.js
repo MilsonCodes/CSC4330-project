@@ -10,7 +10,7 @@ import cookies from 'js-cookie'
  * for each container. The requests should provide all the data needed in a JSON format. If it doesn't, we will change
  * that.
  */
-const request = async (endpoint, body, type, authenticated, contentType="application/json") => {
+export const request = async (endpoint, body, type, authenticated, contentType="application/json") => {
   var headers = {
     'Content-Type': contentType
   }
@@ -21,14 +21,12 @@ const request = async (endpoint, body, type, authenticated, contentType="applica
     headers['Authorization'] = `Bearer ${getAccessToken()}`
   }
   
-  var response = await axios({
+  return axios({
     method: type,
     url: API_HOST + endpoint,
     headers: headers,
     data: body
   })
-
-  return response
 }
 
 async function refreshAccessToken() {
@@ -48,32 +46,17 @@ async function refreshAccessToken() {
   updateTokens(response.data)
 }
 
-/**
- * Cookie Handling
- * ----------------------
- * For the tokens only, we will store these in a HTTP only cookie (security)
- * Everything else will be stored in the redux state store
- */
-const accessCookieName = "access_token"          //We'll make this more secure later
-const refreshCookieName = "refresh_token"        //We'll make this more secure later as well
+export const logout = () => {
+  const refresh = getRefreshToken()
 
-function getAccessToken() {
-  return cookies.get(accessCookieName)
+  if(!refresh) throw new Error("No valid refresh token exists!")
+
+  return axios({
+    method: "GET",
+    url: API_HOST + "/logout",
+    headers: {
+      'Content-Type': "application/json",
+      'Authentication': `Bearer ${refresh}`
+    }
+  })
 }
-
-function getRefreshToken() {
-  return cookies.get(refreshCookieName)
-}
-
-function updateTokens(tokens) {
-  cookies.set(accessCookieName, accessToken, { expires: 1/24 })
-  if(tokens.refresh_token) cookies.set(refreshCookieName, refreshToken, { expires: 365 })
-}
-
-function removeTokens() {
-  cookies.remove(accessCookieName)
-  cookies.remove(refreshCookieName)
-}
-
-/* Exports */
-export { request, updateTokens, removeTokens }
