@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Home = props => {
+export const Home = props => {
     //TODO: Do stuff and revamp home page
 
     return (
@@ -10,5 +10,3 @@ const Home = props => {
         </div>
     );
 }
-
-export default Home

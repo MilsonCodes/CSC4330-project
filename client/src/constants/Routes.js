@@ -1,19 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import Error from "../containers/Error/index.js";
-import Home from "../containers/Home/index.js";
-import Login from "../containers/Login/index.js";
-import Register from "../containers/Register/index.js";
-import Profile from "../containers/Profile/index.js";
-import CompanyProfile from "../containers/Company/index.js";
-import Listing from "../containers/Listing/index.js";
-import ListingApps from "../containers/ListingApps/index.js";
-import UserApplications from "../containers/Applications/index.js";
-import Search from "../containers/Search/index.js";
-import Stakeholders from "../containers/Stakeholders/index.js";
-import Settings from "../containers/Settings/index.js";
-import Admin from "../containers/Admin/index.js";
-import Test from "../containers/Test/index.js";
+import { Error, Home, Login, Register, Profile, CompanyProfile, Listing, ListingApps, UserApplications, Search, Stakeholders, Settings, Admin, Test } from '../containers/index'
+import { connect } from "react-redux";
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
@@ -137,14 +125,33 @@ export const testAuth = {
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    testAuth.isAuthenticated ?
-      <Component {...props} />
-    :
-      <Redirect to='/login' />
-  )} />
-)
+function mapStateToProps(state) {
+  const { loggedIn } = state.auth
+  return { loggedIn }
+}
+
+class AuthRoute extends React.Component {
+  constructor(props) {
+    super(props)
+
+    console.log(this.props)
+  }
+
+  render() {
+    const { component: Component, loggedIn, ...rest } = this.props;
+
+    return(
+      <Route {...rest} render={props => (
+        loggedIn ?
+          <Component {...props} />
+        :
+          <Redirect to='/login' />
+      )} />
+    )
+  }
+}
+
+const PrivateRoute = connect(mapStateToProps)(AuthRoute);
 
 // Used as part of React Router to initialize correct routes in the site.
 // This function uses the routes above to map out the correct component based on route.

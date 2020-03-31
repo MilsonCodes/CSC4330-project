@@ -5,6 +5,8 @@ import { Card } from "@material-ui/core";
 import Textbox from "../../components/Form/textbox"
 import Checkbox from "../../components/Form/checkbox"
 import Button from "../../components/Form/SubmitButton"
+import { connect } from "react-redux";
+import { loginUser } from '../../redux/auth/actions'
 
 const useStyles = makeStyles(theme => ({
 
@@ -35,9 +37,14 @@ const Login = props => {
 
     const onSubmit = event => {
         event.preventDefault()
+
+        const { dispatch } = props
+        const { form } = state
         console.log(state.form)
 
         //TODO: LOG THAT SHIT IN BAY BAY
+        if(form.username && form.password)
+            dispatch(loginUser(form))
     }
 
     return (
@@ -94,4 +101,10 @@ const Login = props => {
     );
 }
 
-export default Login
+function matchStateToProps(state) {
+    const { loading, loaded } = state.auth
+    return { loading, loaded }
+}
+
+const connectedLoginPage = connect(matchStateToProps)(Login)
+export { connectedLoginPage as Login }

@@ -1,6 +1,6 @@
 import API_HOST from './config'
 import axios from 'axios'
-import cookies from 'js-cookie'
+import { getAccessToken, getRefreshToken, updateTokens } from './cookies'
 
 /* API Calling
  * ----------

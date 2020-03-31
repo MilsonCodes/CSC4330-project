@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 import { Container, Row, Col } from "reactstrap";
 import Header from "../../components/Header/index"
 import Footer from "../../components/Footer/index"
+import { fetchUsers, fetchData } from '../../redux/user/actions'
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -36,4 +38,5 @@ const Layout = props => {
   );
 };
 
-export default Layout;
+const connectedLayout = connect(state => { })(Layout)
+export { connectedLayout as Layout }

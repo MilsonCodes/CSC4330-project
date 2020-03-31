@@ -1,13 +1,31 @@
 import constants from './constants'
 import { request, logout } from '../../api/index'
+import { fetchUsers } from '../user/actions'
+import { updateTokens, removeTokens } from '../../api/cookies'
+import { history } from '../../helpers/history'
 
-export function login(data) {
-  return dispatch => {
+function findElem(arr, key, value) {
+  for(let i = 0; i < arr.length; i++)
+    if (arr[i][key] == value) return arr[i]
+}
+
+export function loginUser(data) {
+  return async (dispatch, getState) => {
+    dispatch(fetchUsers())
+
     dispatch({ type: constants.LOGIN_REQUEST })
 
     request("/login", data, "POST", false)
       .then(res => {
-        dispatch({ type: constants.LOGIN_SUCCESS, payload: res.data })
+        updateTokens(res.data)
+
+        var user = findElem(getState().user.users, "username", data.username)
+
+        dispatch({ type: constants.LOGIN_SUCCESS, payload: user })
+
+        localStorage.setItem('user', user)
+
+        history.push('/profile')
       })
       .catch(err => {
         dispatch({ type: constants.LOGIN_ERROR, payload: err })
@@ -15,14 +33,15 @@ export function login(data) {
   }
 }
 
-export function logout() {
+export function logoutUser() {
   return dispatch => {
     dispatch({ type: constants.LOGOUT_REQUEST })
 
     try {
       logout()
       .then(res => {
-        //TODO: Figure out what to do with res
+        removeTokens()
+        localStorage.setItem('userId', -1)
         dispatch({ type: constants.LOGOUT_SUCCESS })
       })
       .catch(err => {
@@ -34,14 +53,24 @@ export function logout() {
   }
 }
 
-export function register(data) {
+export function registerUser(data) {
   return dispatch => {
     dispatch({ type: constants.REGISTER_REQUEST })
 
     request("/register", data, "POST", false)
     .then(res => {
-      //Figure out how to properly
-      dispatch({ type: constants.REGISTER_SUCCESS, payload: res })
+      var tokens = {
+        access: res.headers.Access,
+        refresh: res.headers.Refresh
+      }
+
+      updateTokens(tokens)
+
+      dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data })
+
+      localStorage.setItem('user', res.data)
+
+      history.push('/profile')
     })
     .catch(err => {
       dispatch({ type: constants.REGISTER_ERROR, payload: err })

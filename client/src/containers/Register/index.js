@@ -6,7 +6,7 @@ import Textbox from "../../components/Form/textbox"
 import Checkbox from "../../components/Form/checkbox"
 import Button from "../../components/Form/SubmitButton"
 
-const Register = props => {
+export const Register = props => {
     //TODO: Determine fields for register page
 
     var [state, setState] = useState({
@@ -102,5 +102,3 @@ const Register = props => {
         </>
     );
 }
-
-export default Register
