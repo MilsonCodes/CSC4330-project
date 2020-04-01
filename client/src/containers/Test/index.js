@@ -9,7 +9,7 @@ import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
 import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
-
+import OutlinedCard from "../../components/Card/container";
 
 
 const Test = props => {
@@ -58,8 +58,8 @@ const Test = props => {
 		  >
 		  </DropDown>
 
-		  <SubmitForm>
-		  </SubmitForm>
+		<OutlinedCard>
+		</OutlinedCard>
 
 
 		  <StyledButtons
