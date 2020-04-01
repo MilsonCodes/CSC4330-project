@@ -2,19 +2,29 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { grey, green, purple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 
 export default function DropDown(props) {
 
 	/* Used to determine the CSS of the menu */
+	//https://material-ui.com/customization/color/
 	const useStyles = makeStyles(theme => ({
 		root: {
 			display: 'flex',
 			flexWrap: 'wrap',
 			width: "130px",
+			color: "black",
 		},
 		margin: {
 			margin: theme.spacing(1),
+		},
+		color: {
+			color: theme.palette.getContrastText(purple[500]),
+			backgroundColor: '#e53935',
+			'&:hover': {
+				backgroundColor: purple[700],
+			},
 		},
 	}));
 
@@ -64,19 +74,19 @@ export default function DropDown(props) {
 	return (
 		//Div classname is used for the CSS styling variable.
 		<div className={classes.root}>
-			<Button
+			<Button className={ classes.color }
 				//Determines the color of the button
-				color="primary"
+				color={props.color}
 				//Determines appearance of the button
-				variant="outlined"
+				variant={props.variant}
 				//Determines if the content of the button can be editable
 				contentEditable="false"
 				//A setting for screen readers to help readers with disabilities
-				aria-label="more"
+				aria-label={props.label}
 				//Determines menu type
-				aria-controls="long-menu"
+				aria-controls={props.controls}
 				//Indicates that there is an interactive popup sub-menui
-				aria-haspopup="true"
+				aria-haspopup={props.haspopup}
 				onClick={handleClick}
 				>
 				{select} ▼

@@ -42,7 +42,13 @@ const Test = props => {
 			<br />
 
 		  <DropDown
-			  defaultValue="Menu"
+				color=""				//Might changes this to affect styling later
+				contentEditable="false"
+				controls="long-menu"
+				defaultValue="Menu"
+				haspopup="true"
+				label="more"
+				variant="contained"
 			  options={[
 				  'Never gonna give you up',
 				  'Never gonna let you down',
