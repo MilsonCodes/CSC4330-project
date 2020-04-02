@@ -61,13 +61,13 @@ export function registerUser(data) {
     request("/register", data, "POST", false)
     .then(res => {
       var tokens = {
-        access: res.headers.Access,
-        refresh: res.headers.Refresh
+        access: res.data.access,
+        refresh: res.data.refresh
       }
 
       updateTokens(tokens)
 
-      dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data })
+      dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data.user })
 
       localStorage.setItem('user', JSON.stringify(res.data))
 

@@ -3,7 +3,7 @@ import logo from "../../assets/img/ChaseYourDreams.png";
 import { makeStyles, Avatar } from "@material-ui/core";
 import { Container, Row, Col, Navbar, NavbarBrand, NavLink, Nav, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { connect } from 'react-redux';
-import { fetchData } from '../../redux/user/actions'
+import { fetchProfiles } from '../../redux/user/actions'
 import { logoutUser } from '../../redux/auth/actions'
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +24,7 @@ const HeaderComp = props => {
   const { loggedIn, loading, loaded, profile, user } = props
 
   useEffect(() => {
-    if(loggedIn && !profile) props.dispatch(fetchData())
+    if(loggedIn && !profile) props.dispatch(fetchProfiles())
   })
 
   console.log(props)

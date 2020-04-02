@@ -23,7 +23,7 @@ export default (state=initialState, action) => {
       return { ...state, loading: true, loaded: false }
     }
     case constants.FETCH_DATA_SUCCESS: {
-      return { ...state, loading: false, loaded: true, entities: action.payload }
+      return { ...state, loading: false, loaded: true, entities: { ...state.entities, ...action.payload } }
     }
     case constants.FETCH_DATA_ERROR: {
       return { ...state, loading: false, error: action.payload }

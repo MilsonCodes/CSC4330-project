@@ -66,7 +66,7 @@ class AuthViewSet(viewsets.ModelViewSet):
         data = {
             'refresh': str(token),
             'access': str(token.access_token),
-            user: serializer.data
+            'user': serializer.data
         }
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
@@ -91,7 +91,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all().order_by('name')
     serializer_class = CompanySerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class AssociationViewSet(viewsets.ModelViewSet):
