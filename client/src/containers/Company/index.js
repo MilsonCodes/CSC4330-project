@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const CompanyProfile = props => {
+export const CompanyProfile = props => {
     //TODO: Create company profile page
 
     return (
@@ -10,5 +10,3 @@ const CompanyProfile = props => {
         </div>
     );
 }
-
-export default CompanyProfile

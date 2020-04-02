@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Profile = props => {
+export const Profile = props => {
     //TODO: Create profile page
 
     return (
@@ -10,5 +10,3 @@ const Profile = props => {
         </div>
     );
 }
-
-export default Profile

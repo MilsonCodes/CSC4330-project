@@ -8,7 +8,7 @@ import Textbox from "../../components/Form/textbox";
 import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
 
-const Test = props => {
+export const Test = props => {
   return (
     <>
       <LinkButtons
@@ -65,5 +65,3 @@ const Test = props => {
     </>
   )
 }
-
-export default Test
