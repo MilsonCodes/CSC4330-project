@@ -15,6 +15,9 @@ export default function SubmitButton(props) {
 	const useStyles = makeStyles(theme => ({
 		root: {
 			color: theme.palette.getContrastText(purple[500]),
+			width: props.width,
+			'text-align': 'center',
+
 			backgroundColor: '#e53935',
 			'&:hover': {
 				backgroundColor: purple[700],
