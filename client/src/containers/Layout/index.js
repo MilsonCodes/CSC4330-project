@@ -38,5 +38,9 @@ const Layout = props => {
   );
 };
 
-const connectedLayout = connect(state => { })(Layout)
+function mapStateToProps(state) {
+  return { }
+}
+
+const connectedLayout = connect(mapStateToProps)(Layout)
 export { connectedLayout as Layout }

@@ -2,7 +2,7 @@ import constants from './constants'
 
 const initialState = {
   loading: false,
-  loaded: true,
+  loaded: false,
   error: null,
   users: [],
   entities: {}

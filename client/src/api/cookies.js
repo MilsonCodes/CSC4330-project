@@ -19,7 +19,7 @@ export function getRefreshToken() {
 
 export function updateTokens(tokens) {
   cookies.set(accessCookieName, tokens.access, { expires: 1/24 })
-  if(tokens.refresh_token) cookies.set(refreshCookieName, tokens.refresh, { expires: 365 })
+  if(tokens.refresh) cookies.set(refreshCookieName, tokens.refresh, { expires: 365 })
 }
 
 export function removeTokens() {

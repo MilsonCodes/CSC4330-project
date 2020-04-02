@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { Error, Home, Login, Register, Profile, CompanyProfile, Listing, ListingApps, UserApplications, Search, Stakeholders, Settings, Admin, Test } from '../containers/index'
 import { connect } from "react-redux";
+import { history } from '../helpers/history'
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
@@ -157,7 +158,7 @@ const PrivateRoute = connect(mapStateToProps)(AuthRoute);
 // This function uses the routes above to map out the correct component based on route.
 export const Routing = () => {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         {routes.map(route => (
           !route.auth ?

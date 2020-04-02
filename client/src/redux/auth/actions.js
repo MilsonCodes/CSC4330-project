@@ -23,7 +23,7 @@ export function loginUser(data) {
 
         dispatch({ type: constants.LOGIN_SUCCESS, payload: user })
 
-        localStorage.setItem('user', user)
+        localStorage.setItem('user', JSON.stringify(user))
 
         history.push('/profile')
       })
@@ -41,7 +41,8 @@ export function logoutUser() {
       logout()
       .then(res => {
         removeTokens()
-        localStorage.setItem('userId', -1)
+        localStorage.removeItem('user')
+        history.push('/')
         dispatch({ type: constants.LOGOUT_SUCCESS })
       })
       .catch(err => {
@@ -68,7 +69,7 @@ export function registerUser(data) {
 
       dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data })
 
-      localStorage.setItem('user', res.data)
+      localStorage.setItem('user', JSON.stringify(res.data))
 
       history.push('/profile')
     })

@@ -7,6 +7,7 @@ import Checkbox from "../../components/Form/checkbox"
 import Button from "../../components/Form/SubmitButton"
 import { connect } from "react-redux";
 import { loginUser } from '../../redux/auth/actions'
+import { history } from '../../helpers/history'
 
 const useStyles = makeStyles(theme => ({
 
@@ -14,6 +15,13 @@ const useStyles = makeStyles(theme => ({
 
 const Login = props => {
     const classes = useStyles()
+
+    console.log(props)
+
+    const { loading, loaded, loggedIn } = props
+
+    if(loggedIn)
+        history.push('/profile')
 
     var [state, setState] = useState({
         form: {
@@ -102,8 +110,8 @@ const Login = props => {
 }
 
 function matchStateToProps(state) {
-    const { loading, loaded } = state.auth
-    return { loading, loaded }
+    const { loading, loaded, error, loggedIn } = state.auth
+    return { loading, loaded, error, loggedIn }
 }
 
 const connectedLoginPage = connect(matchStateToProps)(Login)

@@ -39,7 +39,7 @@ async function refreshAccessToken() {
     url: API_HOST + "/token/refresh/",
     headers: {
       'Content-Type': "application/json",
-      'Authentication': `Bearer ${refresh}`
+      'Authorization': `Bearer ${refresh}`
     }
   })
 
@@ -52,11 +52,14 @@ export const logout = () => {
   if(!refresh) throw new Error("No valid refresh token exists!")
 
   return axios({
-    method: "GET",
+    method: "POST",
     url: API_HOST + "/logout",
     headers: {
       'Content-Type': "application/json",
-      'Authentication': `Bearer ${refresh}`
+      'Authorization': `Bearer ${getAccessToken()}`
+    },
+    data: {
+      refresh: refresh
     }
   })
 }

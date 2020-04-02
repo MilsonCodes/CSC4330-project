@@ -14,7 +14,7 @@ export default (state=initialState, action) => {
       return { ...state, loading: true, loaded: false }
     }
     case constants.LOGIN_SUCCESS: {
-      return { ...state, loading: false, loaded: true, loggedIn: true, userId: action.payload }
+      return { ...state, loading: false, loaded: true, loggedIn: true, user: action.payload }
     }
     case constants.LOGIN_ERROR: {
       return { ...state, loading: false, error: action.payload }
@@ -23,7 +23,7 @@ export default (state=initialState, action) => {
       return { ...state, loading: true, loaded: false }
     }
     case constants.LOGOUT_SUCCESS: {
-      return { ...state, loading: false, loaded: true }
+      return { ...state, loading: false, loaded: true, loggedIn: false, user: null }
     }
     case constants.LOGOUT_ERROR: {
       return { ...state, loading: false, error: action.payload }
@@ -32,7 +32,7 @@ export default (state=initialState, action) => {
       return { ...state, loading: true, loaded: false }
     }
     case constants.REGISTER_SUCCESS: {
-      return { ...state, loading: false, loaded: true, loggedIn: true, userId: action.payload }
+      return { ...state, loading: false, loaded: true, loggedIn: true, user: action.payload }
     }
   }
 
