@@ -54,7 +54,7 @@ export default function LinkButtons(props) {
 					maxWidth: props.width,
 					maxHeight: props.height,
 					minWidth: props.width,
-					minHeight: props.height
+					minHeight: props.height,
 				}}
 				/*Overides the button click functionality so that when the button is clicked on, 
 				 * the user will be redirected to another web page*/

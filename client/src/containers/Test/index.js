@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 		margin: 'auto',
 
 		/* Add the blur effect */
-		//filter: 'blur(8px)',
+		filter: 'blur(2px)',
 
 	},
 
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
 		height: '5%',
 
 		//Slightly dark background
-		background: 'rgba(0,0,0,0.5)',
+		background: 'rgba(189, 189, 189, 0.69)',
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
 	},
@@ -98,7 +98,14 @@ const useStyles = makeStyles({
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 	},
-	
+
+	box: {
+
+		border: '2px solid green',
+		padding: 3,
+		width: 5,
+	},
+
 
 });
 
@@ -114,23 +121,79 @@ const Test = props => {
 		>
 			<div >
 				<img src={BusinessLeader} className={classes.imagewrapper} />
-				<h2 className={classes.imagetext} style={{top: '300px'}} ><span>Employer Page</span></h2>
-				<br />
-				<br />
-				<h2 className={classes.imagetext} style={{top: '400px' }} ><span>SubText</span></h2>
+				<h2 className={classes.imagetext} style={{ top: '300px'}} ><span>Chase Your Dreams</span></h2>
+				<h2 className={classes.imagetext} style={{top: '400px', height: '160px'}} ><span>You are one step closer to finding someone to help you build your dream</span></h2>
 			</div>
 
-			<h1 className={classes.center}
-			>
-				Employer Page
-			</h1>
+			<br />
+			<br />
+
+			<div className={clsx(classes.box, classes.center)} style={{width:500, position: "center", margin:'auto'}}>
+
+				<p style={{ color: 'white' }}>
+				Description:
+				<br />
+				<br />
+
+				Chase Your Dreams is an upstarting project designed to help employers match with potential employees.
+				</p>
+			</div>
 
 			<br />
 			<br />
 
-			<h2 className={classes.center}>
-				You are one step closer to finding someone to help build your dream
-			</h2>
+			<FormControl className={classes.row}>
+
+				<div className={classes.box} style={{ width: 500 }}>
+					<p style={{ color: 'white' }}>
+						<h2>If you're an employer: </h2>
+						<br />	
+						You can provide us a list of criteria defining what skills and personality types you want from your employee.
+						We'll then consult our database containing over [X] employees and find the one that best matches your ideal employee.
+						We'll provide you the best possible results with little effort required on your part.
+					</p>
+					
+
+					<div className={classes.center}>
+					<LinkButtons
+
+						size="sm"
+						label='stuff'
+						variant='outline-secondary'
+						width='100px'
+						height='50px'
+						text='Click here to begin now'
+						//link = 
+					>
+					</LinkButtons>
+					</div>
+				</div>
+
+				<div className={classes.box} style={{ width: 500 }}>
+					<p style={{ color: 'white' }}>
+						<h2>If you're an employee:</h2>
+						<br />
+						All you need to do is input details regarding your life, such as your identity, your skill sets, your talents, your education/experience in a particular job field,
+						and we'll match you with any potential recruiters that would love to meet you.
+					</p>
+
+					<div className={classes.center}>
+						<LinkButtons
+
+							size="sm"
+							label='stuff'
+							variant='outline-secondary'
+							width='100px'
+							height='50px'
+							text='Click here to begin now'
+						//link = 
+						>
+						</LinkButtons>
+					</div>
+				</div>
+
+			</FormControl>
+			{/*
 			
 			<FormControl className={classes.row}>
 
@@ -199,7 +262,7 @@ const Test = props => {
 				size="sm"
 			>
 			</SubmitButton>
-
+			*/}
 
 		</div>
   )
