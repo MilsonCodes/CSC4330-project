@@ -114,28 +114,9 @@ const routes = [
   }
 ];
 
-export const testAuth = {
-  isAuthenticated: false,
-  authenticate(callback) {
-    this.isAuthenticated = true
-    setTimeout(callback, 100)
-  },
-  signout(callback) {
-    this.isAuthenticated = false
-    setTimeout(callback, 100)
-  }
-}
-
-function mapStateToProps(state) {
-  const { loggedIn } = state.auth
-  return { loggedIn }
-}
-
 class AuthRoute extends React.Component {
   constructor(props) {
     super(props)
-
-    console.log(this.props)
   }
 
   render() {
@@ -150,6 +131,11 @@ class AuthRoute extends React.Component {
       )} />
     )
   }
+}
+
+function mapStateToProps(state) {
+  const { loggedIn } = state.auth
+  return { loggedIn }
 }
 
 const PrivateRoute = connect(mapStateToProps)(AuthRoute);

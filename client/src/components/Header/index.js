@@ -3,7 +3,7 @@ import logo from "../../assets/img/ChaseYourDreams.png";
 import { makeStyles, Avatar } from "@material-ui/core";
 import { Container, Row, Col, Navbar, NavbarBrand, NavLink, Nav, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { connect } from 'react-redux';
-import { fetchProfiles } from '../../redux/user/actions'
+import { fetchUserProfile } from '../../redux/user/actions'
 import { logoutUser } from '../../redux/auth/actions'
 
 const useStyles = makeStyles(theme => ({
@@ -21,10 +21,11 @@ const HeaderComp = props => {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const { loggedIn, loading, loaded, profile, user } = props
+  const { loggedIn, loading, loaded, userProfile, user } = props
+  const profile = userProfile
 
   useEffect(() => {
-    if(loggedIn && !profile) props.dispatch(fetchProfiles())
+    if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
   })
 
   console.log(props)
@@ -75,16 +76,8 @@ const HeaderComp = props => {
 
 function mapStateToProps(state) {
   const { loggedIn, user } = state.auth
-  const { entities, loading, loaded, error } = state.user
-  var profile = null
-  if(loggedIn && loaded && entities.profiles) {
-    entities.profiles.forEach(elem => {
-      if(user.id == elem.user) profile = elem
-    })
-
-    return { loggedIn, loading, loaded, user, profile }
-  } else
-    return { loggedIn, loading, loaded, error }
+  const { userProfile, loading, loaded, error } = state.user
+  return { loggedIn, loading, loaded, error, user, userProfile }
 }
 
 const Header = connect(mapStateToProps)(HeaderComp)

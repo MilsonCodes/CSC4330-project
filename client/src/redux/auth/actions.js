@@ -11,8 +11,6 @@ function findElem(arr, key, value) {
 
 export function loginUser(data) {
   return async (dispatch, getState) => {
-    dispatch(fetchUsers())
-
     dispatch({ type: constants.LOGIN_REQUEST })
 
     request("/login", data, "POST", false)
@@ -69,7 +67,7 @@ export function registerUser(data) {
 
       dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data.user })
 
-      localStorage.setItem('user', JSON.stringify(res.data))
+      localStorage.setItem('user', JSON.stringify(res.data.user))
 
       history.push('/profile')
     })

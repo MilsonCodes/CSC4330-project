@@ -8,6 +8,7 @@ import Button from "../../components/Form/SubmitButton"
 import { connect } from "react-redux";
 import { loginUser } from '../../redux/auth/actions'
 import { history } from '../../helpers/history'
+import { fetchUsers } from "../../redux/user/actions";
 
 const useStyles = makeStyles(theme => ({
 
@@ -16,9 +17,10 @@ const useStyles = makeStyles(theme => ({
 const Login = props => {
   const classes = useStyles()
 
-  console.log(props)
+  const { loading, loaded, loggedIn, usersLoaded } = props
 
-  const { loading, loaded, loggedIn } = props
+  if(!usersLoaded)
+    props.dispatch(fetchUsers())
 
   if (loggedIn)
     history.push('/profile')
@@ -48,7 +50,6 @@ const Login = props => {
 
     const { dispatch } = props
     const { form } = state
-    console.log(state.form)
 
     //TODO: LOG THAT SHIT IN BAY BAY
     if (form.username && form.password)
@@ -111,7 +112,8 @@ const Login = props => {
 
 function matchStateToProps(state) {
   const { loading, loaded, error, loggedIn } = state.auth
-  return { loading, loaded, error, loggedIn }
+  const { users } = state.user
+  return { loading, loaded, error, loggedIn, usersLoaded: (users.length > 0 ? true : false) }
 }
 
 const connectedLoginPage = connect(matchStateToProps)(Login)

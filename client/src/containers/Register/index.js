@@ -83,8 +83,6 @@ const RegisterPage = props => {
       }
     }
 
-    console.log(data)
-
     //TODO: IT'S TIME TO REGISTER SOMEONE :D
     props.dispatch(registerUser(data))
   }
