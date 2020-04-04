@@ -3,3 +3,11 @@
 h1, h2, h3, h4, h5, h6, p, a {
   font-family: "Noto Sans JP", "sans-serif";
 }
+
+a:link, a:visited {
+  color: #ffffff !important
+}
+
+a:hover {
+  color: #a8a8a8 !important
+}

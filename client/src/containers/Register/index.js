@@ -89,7 +89,7 @@ const RegisterPage = props => {
 
   return (
     <>
-      <Container className="mt-4 mb-4">
+      <Container className="mt-5 mb-5">
         <Row>
           <Col md="8" className="ml-auto mr-auto">
             <Card>

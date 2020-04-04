@@ -4,10 +4,12 @@ import { makeStyles, Avatar } from "@material-ui/core";
 import { Container, Row, Col, Navbar, NavbarBrand, NavLink, Nav, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { connect } from 'react-redux';
 import { fetchUserProfile } from '../../redux/user/actions'
-import { logoutUser } from '../../redux/auth/actions'
+import { history } from "../../helpers/history"
 
 const useStyles = makeStyles(theme => ({
-
+  header: {
+    borderBottom: "2px solid white"
+  }
 }));
 
 // This will contain our logo and navigation to other pages
@@ -21,18 +23,20 @@ const HeaderComp = props => {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const { loggedIn, loading, loaded, userProfile, user } = props
+  const { loggedIn, loading, loaded, userProfile, user, error } = props
   const profile = userProfile
 
   useEffect(() => {
     if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
   })
 
+  if(error) return history.push({ pathname: `/${error.response.status}`, state: { error }})
+
   console.log(props)
 
   return (
     <>
-      <Navbar color="bg-transparent" expand="lg">
+      <Navbar color="bg-transparent" expand="lg" className={classes.header}>
         <Container>
           <Row style={{ width: "100%" }}>
             <Col md="4" xs="6">
@@ -53,7 +57,7 @@ const HeaderComp = props => {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem header>{user.username}</DropdownItem>
-                        <DropdownItem onClick={e => props.dispatch(logoutUser())}>Logout</DropdownItem>
+                        <DropdownItem onClick={() => history.push("/logout")}>Logout</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   :

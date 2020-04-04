@@ -3,6 +3,28 @@ import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { Error, Home, Login, Register, Profile, CompanyProfile, Listing, ListingApps, UserApplications, Search, Stakeholders, Settings, Admin, Test } from '../containers/index'
 import { connect } from "react-redux";
 import { history } from '../helpers/history'
+import { logoutUser } from "../redux/auth/actions";
+
+/* Logout Component */
+const LogoutComp = props => {
+  const { loggedIn, dispatch } = props
+
+  if(!loggedIn)
+    history.push("/login")
+  else
+    dispatch(logoutUser())
+
+  return (
+    <>
+      <h1 className="ml-auto mr-auto"> Logging out...</h1>
+    </>
+  )
+}
+
+const Logout = connect(state => {
+  const { loggedIn } = state.auth
+  return { loggedIn } 
+})(LogoutComp)
 
 // This is where you will add the containers aka the web pages.
 // You will need to import the page and create an object in the following format
@@ -32,6 +54,12 @@ const routes = [
     name: "Register",
     path: "/register",
     component: Register
+  },
+  {
+    name: "Logout",
+    path:"/logout",
+    auth: true,
+    component: Logout
   },
   {
     name: "Profile",
@@ -108,7 +136,7 @@ const routes = [
     component: Test
   },
   {
-    name: "404",
+    name: "Error",
     path: "**",
     component: Error
   }
