@@ -47,6 +47,11 @@ const useStyles = makeStyles({
 		'text-align': 'center',
 		left: 0,
 
+		padding: '4px',
+
+		height: '100px',
+		'font-family': 'sans-serif',
+
 		//Dimensions of the textbox
 		width: '20%',
 		height: '5%',
@@ -55,6 +60,7 @@ const useStyles = makeStyles({
 		background: 'rgba(189, 189, 189, 0.69)',
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
+		'border-width': 'medium',
 	},
 
 	imagebox: {
@@ -79,12 +85,6 @@ const useStyles = makeStyles({
 		color: 'white',
 	},
 
-	checkbox: {
-
-		left: 5,
-
-	},
-
 	button: {
 		color: theme.palette.getContrastText(purple[500]),
 		backgroundColor: '#e53935',
@@ -101,9 +101,12 @@ const useStyles = makeStyles({
 
 	box: {
 
-		border: '2px solid green',
+		border: '2px solid grey',
+		'border-width': 'medium',
+		'border-radius': '10px',
 		padding: 3,
 		width: 5,
+		background: 'rgba(88, 88, 88, 0.4)',
 	},
 
 
@@ -121,21 +124,36 @@ const Test = props => {
 		>
 			<div >
 				<img src={BusinessLeader} className={classes.imagewrapper} />
-				<h2 className={classes.imagetext} style={{ top: '300px'}} ><span>Chase Your Dreams</span></h2>
-				<h2 className={classes.imagetext} style={{top: '400px', height: '160px'}} ><span>You are one step closer to finding someone to help you build your dream</span></h2>
+				<h2 className={classes.imagetext} style={{ top: '300px', 'font-family': 'sans-serif'}} ><span>Chase Your Dreams</span></h2>
+
+				<h2 className={classes.imagetext}
+					style={{ top: '400px', height: '50px' }} >
+					<span>Find your talents</span>
+				</h2>
+
+				<h2 className={classes.imagetext}
+					style={{ top: '500px', height: '50px'}} >
+					<span>Find your partners</span>
+				</h2>
+
+				<h2 className={classes.imagetext}
+					style={{ top: '600px', height: '80px' }} >
+					<span>Build your futures together</span>
+				</h2>
 			</div>
 
 			<br />
 			<br />
 
-			<div className={clsx(classes.box, classes.center)} style={{width:500, position: "center", margin:'auto'}}>
+			<div className={clsx(classes.box)} style={{width:500, position: "center", margin:'auto', 'text-align': 'center'}}>
 
 				<p style={{ color: 'white' }}>
-				Description:
-				<br />
-				<br />
+					Description:
+					<br />
+					<br />
 
-				Chase Your Dreams is an upstarting project designed to help employers match with potential employees.
+					Chase Your Dreams is an upstarting project designed to help employers match with potential employees.
+					We hope to assist everyone and anyone from employees looking for a fresh change of pace from their daily routine to managers recruiting the best 
 				</p>
 			</div>
 
@@ -146,7 +164,7 @@ const Test = props => {
 
 				<div className={classes.box} style={{ width: 500 }}>
 					<p style={{ color: 'white' }}>
-						<h2>If you're an employer: </h2>
+						<h2 style={{ 'text-align': 'center' }}>If you're an employer: </h2>
 						<br />	
 						You can provide us a list of criteria defining what skills and personality types you want from your employee.
 						We'll then consult our database containing over [X] employees and find the one that best matches your ideal employee.
@@ -159,11 +177,11 @@ const Test = props => {
 
 						size="sm"
 						label='stuff'
-						variant='outline-secondary'
+						variant='outline-light'
 						width='100px'
 						height='50px'
 						text='Click here to begin now'
-						//link = 
+						link= "http://localhost:3000/login"
 					>
 					</LinkButtons>
 					</div>
@@ -171,7 +189,7 @@ const Test = props => {
 
 				<div className={classes.box} style={{ width: 500 }}>
 					<p style={{ color: 'white' }}>
-						<h2>If you're an employee:</h2>
+						<h2 style={{ 'text-align': 'center' }}>If you're an employee:</h2>
 						<br />
 						All you need to do is input details regarding your life, such as your identity, your skill sets, your talents, your education/experience in a particular job field,
 						and we'll match you with any potential recruiters that would love to meet you.
@@ -182,11 +200,11 @@ const Test = props => {
 
 							size="sm"
 							label='stuff'
-							variant='outline-secondary'
+							variant='outline-light'
 							width='100px'
 							height='50px'
 							text='Click here to begin now'
-						//link = 
+							link='http://localhost:3000/login'
 						>
 						</LinkButtons>
 					</div>
