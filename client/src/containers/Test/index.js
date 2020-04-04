@@ -19,20 +19,44 @@ import BusinessLeader from "../../assets/stockimages/SkyScapeCrop.png";
 //https://css-tricks.com/almanac/properties/b/backdrop-filter/
 
 const useStyles = makeStyles({
-	root: {
-		minWidth: 275,
-		maxWidth: 300,
+
+	box: {
+
+		border: '2px solid grey',
+		'border-width': 'medium',
+		'border-radius': '10px',
+		padding: 3,
+		width: 5,
+		background: 'rgba(88, 88, 88, 0.4)',
 	},
 
-	imagewrapper: {
-		display: 'block',
-		width: '100%',
-		height: 'auto',
-		//position: "absolute",
-		margin: 'auto',
+	button: {
+		color: theme.palette.getContrastText(purple[500]),
+		backgroundColor: '#e53935',
+		'&:hover': {
+			backgroundColor: purple[700],
+		},
+	},
 
-		/* Add the blur effect */
-		filter: 'blur(2px)',
+	center: {
+
+		textAlign: 'center', // <-- the magic
+		fontWeight: 'bold',
+		fontSize: 18,
+		marginTop: 0,
+		color: 'white',
+	},
+
+	imagebox: {
+
+		position: 'absolute',
+		display: 'inline-block',
+		'font-size': '20px', /*or whatever you want*/
+		color: '#FFF',
+
+		//color: 'white',
+		//background: rgb(0, 0, 0), /* fallback color */
+		//background: rgba(0, 0, 0, 0.4),
 
 	},
 
@@ -63,34 +87,20 @@ const useStyles = makeStyles({
 		'border-width': 'medium',
 	},
 
-	imagebox: {
+	imagewrapper: {
+		display: 'block',
+		width: '100%',
+		height: 'auto',
+		//position: "absolute",
+		margin: 'auto',
 
-		position: 'absolute',
-		display: 'inline-block',
-		'font-size': '20px', /*or whatever you want*/
-		color: '#FFF',
-
-		//color: 'white',
-		//background: rgb(0, 0, 0), /* fallback color */
-		//background: rgba(0, 0, 0, 0.4),
-
+		/* Add the blur effect */
+		filter: 'blur(2px)',
 	},
 
-	center: {
-
-		textAlign: 'center', // <-- the magic
-		fontWeight: 'bold',
-		fontSize: 18,
-		marginTop: 0,
-		color: 'white',
-	},
-
-	button: {
-		color: theme.palette.getContrastText(purple[500]),
-		backgroundColor: '#e53935',
-		'&:hover': {
-			backgroundColor: purple[700],
-		},
+	root: {
+		minWidth: 275,
+		maxWidth: 300,
 	},
 
 	row: {
@@ -98,17 +108,6 @@ const useStyles = makeStyles({
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 	},
-
-	box: {
-
-		border: '2px solid grey',
-		'border-width': 'medium',
-		'border-radius': '10px',
-		padding: 3,
-		width: 5,
-		background: 'rgba(88, 88, 88, 0.4)',
-	},
-
 
 });
 
@@ -119,11 +118,11 @@ const Test = props => {
 	const classes = useStyles();
 
 	return (
-		<div
-			style={{ overflow: "auto" }}
-		>
+		<div style={{ overflow: "auto" }} >
+
 			<div >
 				<img src={BusinessLeader} className={classes.imagewrapper} />
+
 				<h2 className={classes.imagetext} style={{ top: '300px', 'font-family': 'sans-serif'}} ><span>Chase Your Dreams</span></h2>
 
 				<h2 className={classes.imagetext}
@@ -148,12 +147,14 @@ const Test = props => {
 			<div className={clsx(classes.box)} style={{width:500, position: "center", margin:'auto', 'text-align': 'center'}}>
 
 				<p style={{ color: 'white' }}>
+				
 					Description:
 					<br />
 					<br />
 
 					Chase Your Dreams is an upstarting project designed to help employers match with potential employees.
 					We hope to assist everyone and anyone from employees looking for a fresh change of pace from their daily routine to managers recruiting the best 
+
 				</p>
 			</div>
 
@@ -164,8 +165,10 @@ const Test = props => {
 
 				<div className={classes.box} style={{ width: 500 }}>
 					<p style={{ color: 'white' }}>
+
 						<h2 style={{ 'text-align': 'center' }}>If you're an employer: </h2>
-						<br />	
+						<br />
+
 						You can provide us a list of criteria defining what skills and personality types you want from your employee.
 						We'll then consult our database containing over [X] employees and find the one that best matches your ideal employee.
 						We'll provide you the best possible results with little effort required on your part.
@@ -184,6 +187,7 @@ const Test = props => {
 						link= "http://localhost:3000/login"
 					>
 					</LinkButtons>
+
 					</div>
 				</div>
 
@@ -209,81 +213,9 @@ const Test = props => {
 						</LinkButtons>
 					</div>
 				</div>
-
 			</FormControl>
-			{/*
-			
-			<FormControl className={classes.row}>
-
-			{options.map(options => (
-			<Button
-					variant="outlined"
-					color="primary"
-					className={clsx(classes.button, classes.row)}
-			>
-						{options}
-			</Button>
-
-				))
-				}
-
-			</FormControl>
-
-			<br />
-
-			<h1 className={classes.center}>
-			Preferences
-			</h1>
-			<CheckboxApp
-				label="Primary"
-				row="row"
-				className={classes.row}
-				style={{
-					'vertical-align': 'middle',
-					width: '300px',
-					float: 'right',
-					'align': 'center',
-				}}
-				options={[
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-					'Qualifications',
-				]}
-			>
-				</CheckboxApp>
-
-			<SubmitButton
-				className={classes.center}
-				width="75px"
-				variant= "outlined"
-				size="sm"
-			>
-			</SubmitButton>
-			*/}
-
 		</div>
   )
 }
 
-export default Test
+export default Home
