@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Settings = props => {
+export const Settings = props => {
     //TODO: Create stakeholders page
 
     return (
@@ -10,5 +10,3 @@ const Settings = props => {
         </div>
     );
 }
-
-export default Settings

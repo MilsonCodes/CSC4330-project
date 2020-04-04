@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const UserApplications = props => {
+export const UserApplications = props => {
     //TODO: Create user applications page
 
     return (
@@ -10,5 +10,3 @@ const UserApplications = props => {
         </div>
     );
 }
-
-export default UserApplications
