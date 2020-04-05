@@ -79,13 +79,13 @@ const FooterProp = props => {
           </Col>
           <Col md="3" xs="6" className="d-flex align-items-center">
             <Nav className="ml-auto mr-auto">
-              <IconButton color="secondary" href="">
+              <IconButton style={{ color: "#ffffff" }} href="">
                 <Twitter />
               </IconButton>
-              <IconButton color="secondary" href="">
+              <IconButton style={{ color: "#ffffff" }} href="">
                 <Facebook />
               </IconButton>
-              <IconButton color="secondary" href="">
+              <IconButton style={{ color: "#ffffff" }} href="">
                 <Instagram />
               </IconButton>
             </Nav>

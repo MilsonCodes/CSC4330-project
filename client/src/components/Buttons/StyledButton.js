@@ -49,10 +49,7 @@ export default function StyledButtons(props) {
 				/* Upon clicking this button, the user will be redirected
 				 * to the link given by the external webpage through the use of a prop variable
 				 * */
-				onClick={(e): void => {
-					e.preventDefault();
-					window.location.href = props.Link;
-				}}
+        href={props.href}
 			>
 				{/*
 				 * Will render any text, if given, by an external prop variable.  This text will be seen inside the button itself.

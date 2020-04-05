@@ -15,6 +15,7 @@ import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
 import OutlinedCard from "../../components/Card/container";
 import BusinessLeader from "../../assets/stockimages/SkyScapeCrop.png";
+import logo from "../../assets/img/ChaseYourDreams.png";
 
 //https://css-tricks.com/almanac/properties/b/backdrop-filter/
 
@@ -78,13 +79,15 @@ const useStyles = makeStyles({
 
 		//Dimensions of the textbox
 		width: '20%',
-		height: '5%',
+		height: 'auto',
 
 		//Slightly dark background
 		background: 'rgba(189, 189, 189, 0.69)',
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
-		'border-width': 'medium',
+    'border-width': 'medium',
+    borderRadius: '10px',
+    border: "2px solid rgba(0, 0, 0, 0.69)"
 	},
 
 	imagewrapper: {
@@ -113,102 +116,86 @@ const useStyles = makeStyles({
 
 const options = ["Job Titles", "Salary Range", "Location", "Search"];
 
-const Test = props => {
+export const Home = props => {
 
 	const classes = useStyles();
 
 	return (
-		<div style={{ overflow: "auto" }} >
-
+		<div style={{ overflow: "auto" }} className="mb-5">
 			<div >
 				<img src={BusinessLeader} className={classes.imagewrapper} />
-
-				<h2 className={classes.imagetext} style={{ top: '300px', 'font-family': 'sans-serif' }} ><span>Chase Your Dreams</span></h2>
-
-				<h2 className={classes.imagetext}
-					style={{ top: '400px', height: '50px' }} >
-					<span>Find your talents</span>
+        <img src={logo} className={classes.imagetext} style={{ top: '200px' }}/>
+        <h2 
+          className={classes.imagetext}
+					style={{ top: '400px' }}
+        >
+					<span>Find your Talents</span>
 				</h2>
-
-				<h2 className={classes.imagetext}
-					style={{ top: '500px', height: '50px' }} >
-					<span>Find your partners</span>
+        <h2 
+          className={classes.imagetext}
+					style={{ top: '500px' }}
+        >
+					<span>Find your Partners</span>
 				</h2>
-
 				<h2 className={classes.imagetext}
-					style={{ top: '600px', height: '80px' }} >
-					<span>Build your futures together</span>
+					style={{ top: '600px' }} >
+					<span>Build your Futures Together</span>
 				</h2>
 			</div>
-
 			<br />
 			<br />
-
 			<div className={clsx(classes.box)} style={{ width: 500, position: "center", margin: 'auto', 'text-align': 'center' }}>
-
-				<p style={{ color: 'white' }}>
-
-					Description:
-					<br />
-					<br />
-
+				<p style={{ color: 'white' }} className="m-4">
+          <h2 style={{ 'text-align': 'center' }}>About Chase Your Dreams</h2>
+          <br/>
 					Chase Your Dreams is an upstarting project designed to help employers match with potential employees.
-					We hope to assist everyone and anyone from employees looking for a fresh change of pace from their daily routine to managers recruiting the best
-
+					We hope to assist everyone and anyone from employees looking for a fresh change of pace from their daily routine to managers recruiting the best.
 				</p>
 			</div>
-
 			<br />
 			<br />
-
 			<FormControl className={classes.row}>
-
 				<div className={classes.box} style={{ width: 500 }}>
-					<p style={{ color: 'white' }}>
-
-						<h2 style={{ 'text-align': 'center' }}>If you're an employer: </h2>
+					<p style={{ color: 'white' }} className="m-4">
+						<h2 style={{ 'text-align': 'center' }}>For Employers</h2>
 						<br />
-
 						You can provide us a list of criteria defining what skills and personality types you want from your employee.
 						We'll then consult our database containing over [X] employees and find the one that best matches your ideal employee.
 						We'll provide you the best possible results with little effort required on your part.
 					</p>
-
-
-					<div className={classes.center}>
-						<LinkButtons
-
+					<div className={classes.center + " mb-4"}>
+            <LinkButtons
 							size="sm"
 							label='stuff'
 							variant='outline-light'
-							width='100px'
-							height='50px'
-							text='Click here to begin now'
-							link="http://localhost:3000/login"
+							width='auto'
+							height='auto'
+							text='Click here to begin now!'
+              href='/login'
+              className="ml-auto mr-auto"
 						>
 						</LinkButtons>
-
 					</div>
+          <br/>
 				</div>
-
 				<div className={classes.box} style={{ width: 500 }}>
-					<p style={{ color: 'white' }}>
-						<h2 style={{ 'text-align': 'center' }}>If you're an employee:</h2>
+					<p style={{ color: 'white' }} className="m-4">
+						<h2 style={{ 'text-align': 'center' }}>For Employees</h2>
 						<br />
 						All you need to do is input details regarding your life, such as your identity, your skill sets, your talents, your education/experience in a particular job field,
 						and we'll match you with any potential recruiters that would love to meet you.
 					</p>
-
-					<div className={classes.center}>
+          <br/>
+					<div className={classes.center + " mb-4"}>
 						<LinkButtons
-
 							size="sm"
 							label='stuff'
 							variant='outline-light'
-							width='100px'
-							height='50px'
-							text='Click here to begin now'
-							link='http://localhost:3000/login'
+							width='auto'
+							height='auto'
+							text='Click here to begin now!'
+              href='/login'
+              className="ml-auto mr-auto"
 						>
 						</LinkButtons>
 					</div>
@@ -217,5 +204,3 @@ const Test = props => {
 		</div>
 	)
 }
-
-export default Home
