@@ -11,6 +11,10 @@ from rest_framework_simplejwt.views import (
 register = views.AuthViewSet.as_view({'post': 'create'})
 # Logout
 logout = views.AuthViewSet.as_view({'post': 'sign_out'})
+# Company Read only
+companyList = views.CompanyList().as_view()
+# Listings by company
+companyListings = views.CompanyViewSet.as_view({'get': 'listings'})
 
 # The default router will include all CRUD routes for associated view sets
 # The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
@@ -31,4 +35,6 @@ urlpatterns = [
     path('logout', logout),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('companies', companyList),
+    path('listings/company/<int:company_id>', companyListings, name='company_listings')
 ]
