@@ -63,7 +63,7 @@ class AuthViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         usr = User.objects.get(username=request.data['username'])
         token = RefreshToken.for_user(usr)
-        headers = self.get_success_headers(serializer.data)
+        # headers = self.get_success_headers(serializer.data)
         data = {
             'refresh': str(token),
             'access': str(token.access_token),
@@ -79,7 +79,7 @@ class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.
     queryset = Profile.objects.all().order_by('type')
     serializer_class = ProfileSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         """
@@ -94,7 +94,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Address.objects.all().order_by('country')
+    queryset = Address.objects.all().order_by('id')
     serializer_class = LocationSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -102,12 +102,12 @@ class LocationViewSet(viewsets.ModelViewSet):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all().order_by('name')
     serializer_class = CompanySerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def listings(self, request, **kwargs):
         queryset = [Company.objects.get(id=kwargs['company_id'])]
         serializer = CompanySerializer(queryset, many=True)
-        listset = Listing.objects.filter(company=kwargs['company_id'])
+        listset = Listing.objects.filter(company=kwargs['company_id'], active=True)
         listdata = ShortListingSerializer(listset, many=True)
         data = {
             'company': serializer.data,
@@ -134,7 +134,7 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):

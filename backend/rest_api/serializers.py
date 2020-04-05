@@ -57,7 +57,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class AssociationSerializer(serializers.ModelSerializer):
     address = LocationSerializer(required=True)
-    companies = CompanySerializer(required=True)
+    companies = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Association
         fields = (
@@ -70,7 +70,7 @@ class AssociationSerializer(serializers.ModelSerializer):
 
 
 class CommitteeSerializer(serializers.ModelSerializer):
-    members = ProfileSerializer(required=True)
+    members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Committee
         fields = (
@@ -107,13 +107,13 @@ class ShortListingSerializer(serializers.ModelSerializer):
         )
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(required=True)
+    Profile = ProfileSerializer(required=True)
     listing = ListingSerializer(required=True)
     class Meta:
         model = Application
         fields = (
             'id',
-            'profile',
+            'Profile',
             'listing',
             'status',
         )
