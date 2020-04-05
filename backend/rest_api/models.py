@@ -38,11 +38,7 @@ class Company(models.Model):  # Table for storing companies
     address = models.ForeignKey(Address, models.CASCADE, )
     description = models.CharField(
         max_length=256, null=True)  # Info about the company
-    key = models.CharField(max_length=1024, blank=True)
 
-    def save(self, *args, **kwargs):
-        key = self.name + ": " + self.address.city
-        super(Company, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name + ", " + self.address.city

@@ -20,6 +20,7 @@ from rest_framework.status import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 
 
 logger = logging.getLogger(__name__)
@@ -78,8 +79,18 @@ class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.
     queryset = Profile.objects.all().order_by('type')
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        user = self.request.query_params.get('user', None)
+        queryset = self.queryset
+        if user is not None:
+            queryset = Profile.objects.filter(user=user)
+        return queryset
 
 
 class LocationViewSet(viewsets.ModelViewSet):
@@ -93,6 +104,20 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
     # permission_classes = (IsAuthenticated,)
 
+    def listings(self, request, **kwargs):
+        queryset = [Company.objects.get(id=kwargs['company_id'])]
+        serializer = CompanySerializer(queryset, many=True)
+        listset = Listing.objects.filter(company=kwargs['company_id'])
+        listdata = ShortListingSerializer(listset, many=True)
+        data = {
+            'company': serializer.data,
+            'listings': listdata.data
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+class CompanyList(generics.ListAPIView):
+    queryset = Company.objects.all().order_by('name')
+    serializer_class = CompanySerializer
 
 class AssociationViewSet(viewsets.ModelViewSet):
     queryset = Association.objects.all().order_by('name')
@@ -109,7 +134,7 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
