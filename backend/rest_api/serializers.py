@@ -2,43 +2,52 @@ from rest_framework import serializers
 from .models import *
 
 # This file defines the data included in the response for the associated models
+
+# Define data organization for user model
 class UserSerializer(serializers.ModelSerializer):
+    # Organize profile data
     profile = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     class Meta:
+        #Register to user model
         model = User
         fields = (
-            'id',
-            'username',
-            'email',
-            'profile',
+            'id', # User id
+            'username', # Username (for logging in, password ommitted)
+            'email', # email address used for registration
+            'profile', # profile associated with user
         )
 
+# Define data organization for Address model
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = (
-            'id',
-            'address1',
-            'address2',
-            'city',
-            'zip_code',
-            'country'
+            'id', 
+            'address1', # Line 1 of address
+            'address2', # Line 2 of address
+            'city', # City
+            'zip_code', # Postal code
+            'country', # Country
         )
 
-
+# Class for organizing company data
 class CompanySerializer(serializers.ModelSerializer):
+    # Format Address based on serializer
     address = LocationSerializer(required=True)
     class Meta:
         model = Company
         fields = (
             'id',
-            'name',
-            'description',
-            'address',
+            'name', # Company name
+            'description', # Company mission
+            'address', # Company Location
         )
 
+# Class for organizing profile data
 class ProfileSerializer(serializers.ModelSerializer):
+    # Format User based on serializer
     user = UserSerializer(required=True)
+    # Format Company based on serializer
     company = CompanySerializer(required=True)
     address = LocationSerializer(required=True)
     class Meta:
@@ -46,7 +55,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'user',
-            'type',
+            'type', # Manager, Applicant, Stakeholder, Applicant
             'company',
             'first_name',
             'last_name',
@@ -55,6 +64,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'manager'
         )
 
+# Class for organizing Association data
 class AssociationSerializer(serializers.ModelSerializer):
     address = LocationSerializer(required=True)
     companies = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -68,7 +78,7 @@ class AssociationSerializer(serializers.ModelSerializer):
             'companies',
         )
 
-
+# Class for organizing Committee data
 class CommitteeSerializer(serializers.ModelSerializer):
     members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
@@ -78,7 +88,7 @@ class CommitteeSerializer(serializers.ModelSerializer):
             'members',
         )
 
-
+# class for organizing Listing data
 class ListingSerializer(serializers.ModelSerializer):
     company = CompanySerializer(required=True)
     class Meta:
@@ -94,6 +104,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'internal_only',
         )
 
+# Class for organizing Listing data for company pages
 class ShortListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
@@ -106,6 +117,7 @@ class ShortListingSerializer(serializers.ModelSerializer):
             'internal_only',
         )
 
+# Class for organizing Application data
 class ApplicationSerializer(serializers.ModelSerializer):
     Profile = ProfileSerializer(required=True)
     listing = ListingSerializer(required=True)
