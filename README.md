@@ -51,7 +51,7 @@ source env/bin/activate
 ```
 ```
 Windows
-.\env\Scripts\activate
+.\env\bin\activate
 ```
 ### API
 The final step is to start the backend. This will allow the client to access the database. Start the API with the following command:
