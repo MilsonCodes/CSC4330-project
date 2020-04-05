@@ -1,6 +1,13 @@
 import constants from './constants'
 import { request } from '../../api/index'
 
+const getObjectById = (arr, field, id) => {
+  for(let i = 0; i < arr.length; i++)
+    if(arr[i][field] === id) return arr[i]
+
+  return null
+}
+
 export function fetchUsers() {
   return dispatch => {
     dispatch({ type: constants.FETCH_USERS_REQUEST })
@@ -42,6 +49,54 @@ export function fetchProfiles() {
       dispatch({ type: constants.FETCH_DATA_SUCCESS, payload: data })
     })
     .catch(err => dispatch({ type: constants.FETCH_DATA_ERROR, payload: err }))
+  }
+}
+
+export function fetchUserProfile(userId) {
+  return async dispatch => {
+    dispatch({ type: constants.FETCH_MAIN_PROFILE_REQUEST })
+
+    try {
+      var res = await request("/users/", null, "GET", true)
+
+      var profile = getObjectById(res.data, "user", userId)
+
+      if(!profile)
+        dispatch({ type: constants.FETCH_MAIN_PROFILE_ERROR, payload: { message: "Could not find profile with id " + userId } })
+
+      dispatch({ type: constants.FETCH_MAIN_PROFILE_SUCCESS, payload: profile })
+    } catch(e) {
+      console.log(e)
+      dispatch({ type: constants.FETCH_MAIN_PROFILE_ERROR, payload: e })
+    }
+  }
+}
+
+export function fetchProfile(userId) {
+  return async dispatch => {
+    dispatch({ type: constants.FETCH_PROFILE_REQUEST })
+
+    try {
+      var res = await request("/users/", null, "GET", true)
+
+      var profile = getObjectById(res.data, "user", userId)
+
+      if(!profile)
+        dispatch({ type: constants.FETCH_PROFILE_ERROR, payload: { message: "Could not find profile with id " + userId } })
+
+      res = await request("/address/", null, "GET", true)
+
+      profile.address = res.data[profile.address-1]
+
+      res = await request("/company/", null, "GET", true)
+
+      profile.company = res.data[profile.company-1]
+
+      dispatch({ type: constants.FETCH_PROFILE_SUCCESS, payload: profile })
+    } catch(e) {
+      console.log(e)
+      dispatch({ type: constants.FETCH_PROFILE_ERROR, payload: e })
+    }
   }
 }
 

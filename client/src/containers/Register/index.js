@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles'
 import { Container, Row, Col, Form, Dropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import { Card } from "@material-ui/core";
+import { Warning } from "@material-ui/icons"
 import Textbox from "../../components/Form/textbox"
 import Checkbox from "../../components/Form/checkbox"
 import Button from "../../components/Form/SubmitButton"
+import { ErrorModal, MessageModal } from "../../components/Modal/index"
 import { connect } from "react-redux";
 import { fetchCompanies } from '../../redux/user/actions'
 import { registerUser } from '../../redux/auth/actions'
 
 const RegisterPage = props => {
   //TODO: Determine fields for register page
-  const { companies, loading, loaded } = props
+  const { companies, loading, error } = props
 
   if (!companies)
     props.dispatch(fetchCompanies())
@@ -32,7 +34,8 @@ const RegisterPage = props => {
       manager: false,
       stakeholder: false
     },
-    dropdown: false
+    dropdown: false,
+    showMessageModal: false
   });
 
   const toggle = () => {
@@ -55,6 +58,20 @@ const RegisterPage = props => {
       newState.form.company = index
     
     setState(newState)
+  }
+
+  const validateForm = form => {
+    var hasEmpty = false
+
+    Object.keys(form).forEach(elem => {
+      if(typeof(form[elem]) == "string") {
+        if(form[elem] === "") hasEmpty = true
+
+        if(elem == "email" && !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form[elem]))) hasEmpty = true
+      }
+    })
+
+    return !hasEmpty
   }
 
   const onSubmit = event => {
@@ -83,15 +100,27 @@ const RegisterPage = props => {
       }
     }
 
-    console.log(data)
-
     //TODO: IT'S TIME TO REGISTER SOMEONE :D
-    props.dispatch(registerUser(data))
+    if(validateForm(form))
+      props.dispatch(registerUser(data))
+    else
+      setState({ ...state, showMessageModal: true })
   }
+
+  const removeMessageModal = () => setTimeout(() => setState({ ...state, showMessageModal: false }), 500);
+
 
   return (
     <>
-      <Container className="mt-4 mb-4">
+      {error && !loading ?
+        <ErrorModal error={error} />
+        : null
+      }
+      {state.showMessageModal ? 
+        <MessageModal title="Notice!" message="One or more fields are not filled out!" onClose={removeMessageModal} icon={<Warning fontSize="large" color="error" />} />
+        : null
+      }
+      <Container className="mt-5 mb-5">
         <Row>
           <Col md="8" className="ml-auto mr-auto">
             <Card>
@@ -225,11 +254,12 @@ const RegisterPage = props => {
 }
 
 function mapStateToProps(state) {
-  const { loading, loaded, entities } = state.user
+  const { loading, error } = state.auth
+  const { loaded, entities } = state.user
   if(loaded && entities.companies)
-    return { loading, loaded, companies: entities.companies }
+    return { loading, error, companies: entities.companies }
 
-  return { loading, loaded }
+  return { loading }
 }
 
 const Register = connect(mapStateToProps)(RegisterPage)

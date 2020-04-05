@@ -3,3 +3,15 @@
 h1, h2, h3, h4, h5, h6, p, a {
   font-family: "Noto Sans JP", "sans-serif";
 }
+
+.nav-item a:link, .nav-item a:visited, .nav a:link, .nav a:visited {
+  color: #ffffff !important
+}
+
+a:link, a:visited {
+  color: #000000 !important
+}
+
+a:hover, .nav-item a:hover, .nav a:hover {
+  color: #a8a8a8 !important
+}

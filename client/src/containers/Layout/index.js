@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     overflow: "auto",
     margin: 0,
     padding: 0,
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   }
 }));
 
@@ -28,12 +28,12 @@ const Layout = props => {
   const classes = useStyles()
 
   return (
-    <div className={classes.background}>
-      <Header />
-      <div id="content" className="">
+    <div className={classes.background + " d-flex flex-column"}>
+      <Header style={{ flex: "none" }} />
+      <div id="content" className="" style={{ flex: "auto" }}>
         {props.children}
       </div>
-      <Footer />
+      <Footer style={{ flex: "none" }} />
     </div>
   );
 };

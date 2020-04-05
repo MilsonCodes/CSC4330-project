@@ -113,12 +113,12 @@ const useStyles = makeStyles({
 
 const options = ["Job Titles", "Salary Range", "Location", "Search"];
 
-const Test = props => {
+export const Test = props => {
 
 	const classes = useStyles();
 
 	return (
-		<div style={{ overflow: "auto" }} >
+		<div style={{ overflow: "auto" }} className="mb-5">
 
 			<div >
 				<img src={BusinessLeader} className={classes.imagewrapper} />
@@ -217,5 +217,3 @@ const Test = props => {
 		</div>
   )
 }
-
-export default Home

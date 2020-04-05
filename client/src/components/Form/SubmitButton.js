@@ -14,14 +14,9 @@ export default function SubmitButton(props) {
 	/* Determines the CSS used to help design the button */
 	const useStyles = makeStyles(theme => ({
 		root: {
-			color: theme.palette.getContrastText(purple[500]),
+			color: theme.palette.secondary,
 			width: props.width,
 			'text-align': 'center',
-
-			backgroundColor: '#e53935',
-			'&:hover': {
-				backgroundColor: purple[700],
-			},
 		},
 	}));
 
@@ -63,7 +58,7 @@ export default function SubmitButton(props) {
 				{/*
 				 * Will render any text, if given, by an external prop variable.  This text will be seen inside the button itself.
 				 * */}
-				{"Submit"}
+				{props.children ? props.children : "Submit"}
       </Button>
 		</div>
 	);
