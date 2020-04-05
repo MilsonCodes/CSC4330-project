@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Search = props => {
+export const Search = props => {
     //TODO: Create job search page
 
     return (
@@ -10,5 +10,3 @@ const Search = props => {
         </div>
     );
 }
-
-export default Search

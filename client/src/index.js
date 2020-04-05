@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import Layout from "./containers/Layout";
+import { Layout } from "./containers";
 import { Routing } from "./constants/Routes";
 import theme from "./constants/theme"
 import { ThemeProvider } from "@material-ui/core/styles";

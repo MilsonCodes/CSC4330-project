@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Error = props => {
+export const Error = props => {
     //TODO: Create error page
 
     return (
@@ -10,5 +10,3 @@ const Error = props => {
         </div>
     );
 }
-
-export default Error

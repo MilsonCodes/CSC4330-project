@@ -9,6 +9,7 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 import logging
 from rest_framework.authentication import TokenAuthentication
@@ -33,12 +34,12 @@ class AuthViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     # Blacklist user's refresh token
-    def sign_out(request):
+    def sign_out(self, request, *args, **kwargs):
         # Get token from header and splice name
-        token = RefreshToken(request.headers['Authorization'][7:])
+        token = RefreshToken(request.data['refresh'])
         token.blacklist()
-        data = {'count': queryset.count()}
-        return Response(data, status=status.HTTP_201_CREATED)
+        data = { 'message': 'Logout successful' }
+        return Response(data, status=status.HTTP_200_OK)
 
 
     # Registration method
@@ -62,15 +63,16 @@ class AuthViewSet(viewsets.ModelViewSet):
         usr = User.objects.get(username=request.data['username'])
         token = RefreshToken.for_user(usr)
         headers = self.get_success_headers(serializer.data)
-        header = {
+        data = {
             'refresh': str(token),
             'access': str(token.access_token),
+            'user': serializer.data
         }
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
         pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
         pro.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=header)
+        return Response(data, status=status.HTTP_201_CREATED)
 
 class UserViewSet(viewsets.ModelViewSet):
     # API endpoint that allows users to be viewed or edited.
@@ -89,7 +91,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all().order_by('name')
     serializer_class = CompanySerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class AssociationViewSet(viewsets.ModelViewSet):

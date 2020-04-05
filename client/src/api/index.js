@@ -1,5 +1,6 @@
 import API_HOST from './config'
 import axios from 'axios'
+import { getAccessToken, getRefreshToken, updateTokens } from './cookies'
 
 /* API Calling
  * ----------
@@ -9,34 +10,56 @@ import axios from 'axios'
  * for each container. The requests should provide all the data needed in a JSON format. If it doesn't, we will change
  * that.
  */
-
-async function request(endpoint, body, type, authenticated, contentType="application/json") {
+export const request = async (endpoint, body, type, authenticated, contentType="application/json") => {
   var headers = {
     'Content-Type': contentType
   }
 
   if (authenticated) {
-    //Setup authentication checks here and add header with token
+    if(!getAccessToken()) await refreshAccessToken()
+
+    headers['Authorization'] = `Bearer ${getAccessToken()}`
   }
   
-  var response = await axios({
+  return axios({
     method: type,
     url: API_HOST + endpoint,
     headers: headers,
     data: body
   })
-
-  return response
 }
 
-export default class ChaseYourDreamsAPI {
-  constructor() {
+async function refreshAccessToken() {
+  const refresh = getRefreshToken()
 
-  }
+  if(!refresh) throw new Error("No valid refresh token exists!")
 
-  async testCall() {
-    var response = await request("/", null, "GET", false)
+  var response = await axios({
+    method: "GET",
+    url: API_HOST + "/token/refresh/",
+    headers: {
+      'Content-Type': "application/json",
+      'Authorization': `Bearer ${refresh}`
+    }
+  })
 
-    return response
-  }
+  updateTokens(response.data)
+}
+
+export const logout = () => {
+  const refresh = getRefreshToken()
+
+  if(!refresh) throw new Error("No valid refresh token exists!")
+
+  return axios({
+    method: "POST",
+    url: API_HOST + "/logout",
+    headers: {
+      'Content-Type': "application/json",
+      'Authorization': `Bearer ${getAccessToken()}`
+    },
+    data: {
+      refresh: refresh
+    }
+  })
 }

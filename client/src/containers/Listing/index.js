@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Listing = props => {
+export const Listing = props => {
     //TODO: Create listing page
 
     return (
@@ -10,5 +10,3 @@ const Listing = props => {
         </div>
     );
 }
-
-export default Listing
