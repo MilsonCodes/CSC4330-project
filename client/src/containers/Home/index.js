@@ -85,9 +85,9 @@ const useStyles = makeStyles({
 		background: 'rgba(189, 189, 189, 0.69)',
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
-    'border-width': 'medium',
-    borderRadius: '10px',
-    border: "2px solid rgba(0, 0, 0, 0.69)"
+		'border-width': 'medium',
+		borderRadius: '10px',
+		border: "2px solid rgba(0, 0, 0, 0.69)"
 	},
 
 	imagewrapper: {
@@ -113,8 +113,6 @@ const useStyles = makeStyles({
 	},
 
 });
-
-const options = ["Job Titles", "Salary Range", "Location", "Search"];
 
 export const Home = props => {
 
