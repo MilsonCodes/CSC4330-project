@@ -60,7 +60,7 @@ python manage.py runserver
 ```
 
 
-# The API is now [live!](http://18.222.89.143/api/) Access this to see latest version of the API.
+## The API is now [live!](http://18.222.89.143/api/) Access this to see latest version of the API.
 
 
 ## Viewing the Site
