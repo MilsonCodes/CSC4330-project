@@ -44,7 +44,7 @@ const FooterProp = props => {
                 <NavItem>
                   <NavLink href="/profile">Profile</NavLink>
                 </NavItem>
-                {profile.company > 0 ? 
+                {profile.company && profile.company.id > 0 ? 
                   <NavItem>
                     <NavLink href="/company">Company Profile</NavLink>
                   </NavItem> : null
@@ -56,7 +56,7 @@ const FooterProp = props => {
                     <NavLink href="/applications">Applications</NavLink>
                   </NavItem>
                 }
-                {profile.admin > 0 ? 
+                {profile.admin ? 
                   <NavItem>
                     <NavLink href="/admin">Admin</NavLink>
                   </NavItem> : null

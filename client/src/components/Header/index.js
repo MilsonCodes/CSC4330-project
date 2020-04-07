@@ -19,15 +19,23 @@ const useStyles = makeStyles(theme => ({
 const HeaderComp = props => {
   const classes = useStyles()
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [state, setState] = useState({
+    dropdownOpen: false,
+    loading: false
+  });
 
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setState({ ...state, dropdownOpen: !state.dropdownOpen });
 
-  const { loggedIn, loading, loaded, userProfile, user, error } = props
+  const { loggedIn, userProfile, user, error } = props
   const profile = userProfile
 
+  if(profile && state.loading) setState({ ...state, loading: false })
+
   useEffect(() => {
-    if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
+    if(loggedIn && !profile && !state.loading){ 
+      props.dispatch(fetchUserProfile(user.id))
+      setState({ ...state, loading: true })
+    }
   })
 
   if(error) return history.push({ pathname: `/error`, state: { error }})
@@ -50,8 +58,8 @@ const HeaderComp = props => {
               <Nav className="mt-auto mb-auto">
                 {loggedIn 
                 ?
-                  !loading && loaded && profile ?
-                    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                  profile ?
+                    <Dropdown isOpen={state.dropdownOpen} toggle={toggle}>
                       <DropdownToggle tag="div">
                         <Avatar style={{ border: "2px solid #ffffff" }} >{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
                       </DropdownToggle>
