@@ -30,7 +30,7 @@ const HeaderComp = props => {
     if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
   })
 
-  if(error) return history.push({ pathname: `/${error.response.status}`, state: { error }})
+  if(error) return history.push({ pathname: `/error`, state: { error }})
 
   console.log(props)
 
@@ -53,7 +53,7 @@ const HeaderComp = props => {
                   !loading && loaded && profile ?
                     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
                       <DropdownToggle tag="div">
-                        <Avatar >{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
+                        <Avatar style={{ border: "2px solid #ffffff" }} >{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem header>{user.username}</DropdownItem>

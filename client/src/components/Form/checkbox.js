@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
+import { green, purple } from '@material-ui/core/colors';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import styled, { css } from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 
 //http://react.tips/checkboxes-in-react/
 //https://menubar.io/reactjs-checkboxes
@@ -23,8 +24,31 @@ const GreenCheckbox = withStyles({
 	checked: {},
 })(props => <Checkbox color="default" {...props} />);
 
+const useStyles = makeStyles(theme => ({
+
+	root: {
+		//Changes text color
+		//color: theme.palette.getContrastText(purple[500]),
+
+		/* Does not function */
+
+		flexDirection: 'row',
+		position: 'relative',
+		'vertical-align': 'middle',
+		'text-align': 'center',
+		'justify-content': 'space-evenly',
+		//backgroundColor: '#e53935',
+		'&:hover': {
+			//backgroundColor: purple[700],
+		},
+
+		/* Does not function */
+	},
+}));
 
 export default function CheckboxApp(props) {
+
+	const classes = useStyles();
 
 	/* True/False states used to indicate if the checkbox is checked or not */
 	const [state, setState] = React.useState({
@@ -56,7 +80,7 @@ export default function CheckboxApp(props) {
 			eval('checkedState[' + i + '] = false;'),
 
 			//HTML work for the checkbox creation.
-			<FormControlLabel
+			<FormControlLabel className={classes.root}
 				//ID for identification
 				id={i}
 				//Identification for fieldset type

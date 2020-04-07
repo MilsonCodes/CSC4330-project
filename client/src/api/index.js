@@ -39,7 +39,9 @@ async function refreshAccessToken() {
     url: API_HOST + "/token/refresh/",
     headers: {
       'Content-Type': "application/json",
-      'Authorization': `Bearer ${refresh}`
+    },
+    data: {
+      refresh: refresh
     }
   })
 

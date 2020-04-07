@@ -20,8 +20,9 @@ from rest_framework.status import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 
-
+# Debugging tool
 logger = logging.getLogger(__name__)
 
 # Create your views here.
@@ -37,6 +38,7 @@ class AuthViewSet(viewsets.ModelViewSet):
     def sign_out(self, request, *args, **kwargs):
         # Get token from header and splice name
         token = RefreshToken(request.data['refresh'])
+        # Make refresh token invalid
         token.blacklist()
         data = { 'message': 'Logout successful' }
         return Response(data, status=status.HTTP_200_OK)
@@ -44,6 +46,7 @@ class AuthViewSet(viewsets.ModelViewSet):
 
     # Registration method
     def create(self, request, *args, **kwargs):
+        # Splice all data from request
         profile = request.data['profile']
         address = profile['address']
         first = profile['first_name']
@@ -57,61 +60,109 @@ class AuthViewSet(viewsets.ModelViewSet):
         zip_c = address['zip']
         city = address['city']
         country = address['country']
+        # Use serializer to format data
         serializer = self.get_serializer(data=request.data)
+        # Check validity
         serializer.is_valid(raise_exception=True)
+        # Create User instance
         self.perform_create(serializer)
+        # Get user
         usr = User.objects.get(username=request.data['username'])
+        # register token to user
         token = RefreshToken.for_user(usr)
-        headers = self.get_success_headers(serializer.data)
+        # Prepare return data
         data = {
             'refresh': str(token),
             'access': str(token.access_token),
             'user': serializer.data
         }
+        # Create address object and save
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
+        # Create matching profile object and save
         pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
         pro.save()
         return Response(data, status=status.HTTP_201_CREATED)
 
+# API endpoint that allows users to be viewed or edited.
 class UserViewSet(viewsets.ModelViewSet):
-    # API endpoint that allows users to be viewed or edited.
+    # Get all profiles
     queryset = Profile.objects.all().order_by('type')
+    # Format profiles based on serializer
     serializer_class = ProfileSerializer
+    # Require token permissions to access associated routes
     permission_classes = (IsAuthenticated,)
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        # Get specific user from url
+        user = self.request.query_params.get('user', None)
+        # Set data set to be default (all profiles)
+        queryset = self.queryset
+        # Check user exists
+        if user is not None:
+            # Set data set to be profiles matching user id
+            queryset = Profile.objects.filter(user=user)
+        # Return data set
+        return queryset
 
+# API enpoint for accessing Company Model
+class CompanyViewSet(viewsets.ModelViewSet):
+    # Get all companies by default
+    queryset = Company.objects.all().order_by('name')
+    serializer_class = CompanySerializer
+    permission_classes = (IsAuthenticated,)
 
+    # Method for listing company with its active listings
+    def listings(self, request, **kwargs):
+        # Get companys matching parameter in url and format data based on serializer
+        queryset = [Company.objects.get(id=kwargs['company_id'])]
+        serializer = CompanySerializer(queryset, many=True)
+        # Get listings that are active and by the company, then format data based on serializer
+        listset = Listing.objects.filter(company=kwargs['company_id'], active=True)
+        listdata = ShortListingSerializer(listset, many=True)
+        # Format data for HTTP response
+        data = {
+            'company': serializer.data,
+            'listings': listdata.data
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+# API endpoint for access Address model
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Address.objects.all().order_by('country')
+    # Get all addresses
+    queryset = Address.objects.all().order_by('id')
     serializer_class = LocationSerializer
     permission_classes = (IsAuthenticated,)
 
-
-class CompanyViewSet(viewsets.ModelViewSet):
+# API endpoint for accessing Company model [read only]
+class CompanyList(generics.ListAPIView):
     queryset = Company.objects.all().order_by('name')
     serializer_class = CompanySerializer
-    # permission_classes = (IsAuthenticated,)
+    # No authentication, used for user registration
 
-
+# API end point for accessing Association model
 class AssociationViewSet(viewsets.ModelViewSet):
     queryset = Association.objects.all().order_by('name')
     serializer_class = AssociationSerializer
     permission_classes = (IsAuthenticated,)
 
-
+# API endpoint for accessing Committee model
 class CommitteeViewSet(viewsets.ModelViewSet):
     queryset = Committee.objects.all().order_by('name')
     serializer_class = CommitteeSerializer
     permission_classes = (IsAuthenticated,)
 
-
+# API enpoint for accessing Listing model
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
     permission_classes = (IsAuthenticated,)
 
-
+# API endpoint for accessing Application model
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('status')
     serializer_class = ApplicationSerializer
