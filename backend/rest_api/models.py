@@ -39,7 +39,6 @@ class Company(models.Model):  # Table for storing companies
     description = models.CharField(
         max_length=256, null=True)  # Info about the company
 
-
     def __str__(self):
         return self.name + ", " + self.address.city
 
@@ -55,7 +54,7 @@ class Association(models.Model):  # Group of companies
 
 
 class Profile(models.Model):  # Abstract model for all managers, employees, and applicants
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # Connect to user model
     first_name = models.CharField('first', max_length=64,)  # First name
     last_name = models.CharField('last', max_length=64,)  # Last name
     address = models.ForeignKey(
