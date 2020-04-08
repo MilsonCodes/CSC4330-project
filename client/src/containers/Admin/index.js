@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Admin = props => {
+export const Admin = props => {
     //TODO: Create admin page
 
     return (
@@ -10,5 +10,3 @@ const Admin = props => {
         </div>
     );
 }
-
-export default Admin

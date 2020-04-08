@@ -1,49 +1,67 @@
-//https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+import API_HOST from './config'
+import axios from 'axios'
+import { getAccessToken, getRefreshToken, updateTokens } from './cookies'
 
-// Example API call
-export const fetchData = async () => {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/");
-    const data = await res.json();
-    console.log(data);
-  } catch (e) {
-    console.log(e);
+/* API Calling
+ * ----------
+ * There will be a main request function. Use it.
+ * 
+ * Each endpoint will have a function on here for us to call in containers and components. Less code to worry about
+ * for each container. The requests should provide all the data needed in a JSON format. If it doesn't, we will change
+ * that.
+ */
+export const request = async (endpoint, body, type, authenticated, contentType="application/json") => {
+  var headers = {
+    'Content-Type': contentType
   }
-};
 
-// Example class will API call and use of data
-// import React from "react";
+  if (authenticated) {
+    if(!getAccessToken()) await refreshAccessToken()
 
-// const Todo = () => {
-//   const [todos, setTodos] = React.useState([]);
+    headers['Authorization'] = `Bearer ${getAccessToken()}`
+  }
+  
+  return axios({
+    method: type,
+    url: API_HOST + endpoint,
+    headers: headers,
+    data: body
+  })
+}
 
-//   React.useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const res = await fetch("http://127.0.0.1:8000/todos/");
-//         const todos = await res.json();
-//         setTodos(todos);
-//       } catch (e) {
-//         console.log(e);
-//       }
-//     };
-//     fetchData();
-//   }, []);
+async function refreshAccessToken() {
+  const refresh = getRefreshToken()
 
-//   let Todos = () => {
-//     return (
-//       <div>
-//         {todos.map(item => (
-//           <div key={item.id}>
-//             <h1>{item.title}</h1>
-//             <span>{item.description}</span>
-//           </div>
-//         ))}
-//       </div>
-//     );
-//   };
+  if(!refresh) throw new Error("No valid refresh token exists!")
 
-//   return <Todos></Todos>;
-// };
+  var response = await axios({
+    method: "GET",
+    url: API_HOST + "/token/refresh/",
+    headers: {
+      'Content-Type': "application/json",
+    },
+    data: {
+      refresh: refresh
+    }
+  })
 
-// export default Todo;
+  updateTokens(response.data)
+}
+
+export const logout = () => {
+  const refresh = getRefreshToken()
+
+  if(!refresh) throw new Error("No valid refresh token exists!")
+
+  return axios({
+    method: "POST",
+    url: API_HOST + "/logout",
+    headers: {
+      'Content-Type': "application/json",
+      'Authorization': `Bearer ${getAccessToken()}`
+    },
+    data: {
+      refresh: refresh
+    }
+  })
+}

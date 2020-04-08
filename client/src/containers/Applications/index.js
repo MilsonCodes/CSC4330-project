@@ -3,7 +3,7 @@ import LinkButton from "../../components/Buttons/LinkButton.js"
 
 //class Button extends StyledButton
 
-const UserApplications = props => {
+export const UserApplications = props => {
     //TODO: Create user applications page
     return (
         <div>
@@ -15,5 +15,3 @@ const UserApplications = props => {
         </div>
     );
 }
-
-export default UserApplications

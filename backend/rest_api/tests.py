@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import *
+from models import *
 import datetime
 
 # Create your tests here.
@@ -98,35 +98,35 @@ class AssociationModelTest(TestCase):
         self.assertEquals(asc1.description, asc2.description)
 
 
-class ApplicantModelTest(TestCase):
+class ProfileModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):  # Create data for tests
-        Applicant.objects.create(
+        Profile.objects.create(
             user=User.objects.create(username="Test User"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
                 zip_code="111111", city="San Fransico", country="USA"),)
-        Applicant.objects.create(
+        Profile.objects.create(
             user=User.objects.create(username="User Test"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
                 zip_code="111111", city="San Fransico", country="USA"),)
 
     def test_user_content(self):  # Test that proper user is assigned
         usr = User.objects.get(id=1)
-        app1 = Applicant.objects.get(id=1)
+        app1 = Profile.objects.get(id=1)
         self.assertEquals(app1.user, usr)
 
     def test_name_content(self):  # Test that the name is assigned correctly
-        app1 = Applicant.objects.get(id=1)
-        app2 = Applicant.objects.get(id=2)
+        app1 = Profile.objects.get(id=1)
+        app2 = Profile.objects.get(id=2)
         self.assertIn(app1.name, app2.name)
 
     # Test that the last name is assigned correctly
     def test_last_name_content(self):
-        app1 = Applicant.objects.get(id=1)
-        app2 = Applicant.objects.get(id=2)
+        app1 = Profile.objects.get(id=1)
+        app2 = Profile.objects.get(id=2)
         self.assertNotEquals(app1.last_name, app2.last_name)
 
     def test_email_content(self):  # Test that the email is assigned correctly
-        app1 = Applicant.objects.get(id=1)
-        app2 = Applicant.objects.get(id=2)
+        app1 = Profile.objects.get(id=1)
+        app2 = Profile.objects.get(id=2)
         self.assertIn(app1.email, app2.email)
 
 
@@ -135,9 +135,9 @@ class CommitteeModelTest(TestCase):
     def setUpTestData(cls):  # Create test data
         com = Committee.objects.create(name="Test Group")
         com.members.add(
-            Applicant.objects.create(user=User.objects.create(username="Test Users"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
+            Profile.objects.create(user=User.objects.create(username="Test Users"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
                 zip_code="111111", city="San Fransico", country="USA"),),
-            Applicant.objects.create(user=User.objects.create(username="User Test"), name='Testy', last_name='Testington', email='test@test.test', address=Address.objects.create(
+            Profile.objects.create(user=User.objects.create(username="User Test"), name='Testy', last_name='Testington', email='test@test.test', address=Address.objects.create(
                 zip_code="111111", city="San Fransico", country="USA"),))
 
     def test_name_content(self):  # Test that the committe name is created correctly
@@ -148,8 +148,8 @@ class CommitteeModelTest(TestCase):
     # Test that the member names are created correctly
     def test_member_content(self):
         com = Committee.objects.get(id=1)
-        app1 = Applicant.objects.get(id=1)
-        app2 = Applicant.objects.get(id=2)
+        app1 = Profile.objects.get(id=1)
+        app2 = Profile.objects.get(id=2)
         apps = [app1.name, app2.name]
         mems = list(com.members.all())
         self.assertIn(mems[0].name, apps)
@@ -196,7 +196,7 @@ class ApplicationModelTest(TestCase):
             zip_code="111111", city="San Fransico", country="USA"), description="Software Company")
         offer = Listing.objects.create(
             title='Job Offer', description='Only the best', committee=com, company=co)
-        app = Applicant.objects.create(user=User.objects.create(username="Test User"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
+        app = Profile.objects.create(user=User.objects.create(username="Test User"), name='Tester', last_name='Testington', email='test@test.test', address=Address.objects.create(
             zip_code="111111", city="San Fransico", country="USA"),)
         test = Application.objects.create(listing=offer)
         test.applicants.add(app)

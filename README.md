@@ -1,4 +1,4 @@
-# Deployment Instructions
+# Testing Instructions
 ## Prerequisites
 You will need the following technologies installed on your system, or quickly look up a guide to install them on your system:
 ### Terminal/Console
@@ -42,17 +42,26 @@ This will allow you to see the website at http://localhost:3000/, however this w
 #### Virtual Environment
 To start the virtual environment, you will need to create a new terminal in order to leave the client running. This is usually done through CTRL+SHIFT+t or some visual tool. Once you have a second terminal open, navigate to the project's root directory by typing the command:
 ```
-cd ../
+cd ../backend
 ```
 Then you will need to start the virtual environment using the following command (this command may vary across operating systems):
 ```
-source backend/bin/activate
+MacOS/Linux
+source env/bin/activate
+```
+```
+Windows
+.\env\bin\activate
 ```
 ### API
 The final step is to start the backend. This will allow the client to access the database. Start the API with the following command:
 ```
 python manage.py runserver
 ```
+
+
+## The API is now [live!](http://18.222.89.143/api/) Access this to see latest version of the API.
+
 
 ## Viewing the Site
 To view the site, navigate to http://localhost:3000/. You can create a new account or email me for an administrator account.
