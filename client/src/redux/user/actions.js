@@ -24,7 +24,7 @@ export function fetchCompanies() {
   return dispatch => {
     dispatch({ type: constants.FETCH_DATA_REQUEST })
 
-    request("/company/", null, "GET", false)
+    request("/companies", null, "GET", false)
     .then(res => {
       const data = {
         companies: res.data

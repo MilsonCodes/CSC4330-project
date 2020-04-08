@@ -12,6 +12,8 @@ export const Error = props => {
 
     const { error } = props.location.state
 
+    console.log(error)
+
     const getMessageFromResponse = res => {
       var message = `Status ${res.status}:\n`
 
