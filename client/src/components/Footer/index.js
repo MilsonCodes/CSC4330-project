@@ -26,7 +26,7 @@ const FooterProp = props => {
 
   if(profile) console.log(profile)
 
-  if(error) return history.push({ pathname: `/${error.response.status}`, state: { error }})
+  if(error) return history.push({ pathname: `/error`, state: { error }})
 
   return (
     <div className={classes.footer}>

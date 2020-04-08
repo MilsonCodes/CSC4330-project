@@ -40,8 +40,6 @@ const HeaderComp = props => {
 
   if(error) return history.push({ pathname: `/error`, state: { error }})
 
-  console.log(props)
-
   return (
     <>
       <Navbar color="bg-transparent" expand="lg" className={classes.header}>
