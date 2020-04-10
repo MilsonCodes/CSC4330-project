@@ -20,6 +20,8 @@ export default function Textbox(props) {
 		},
 		textField: {
 			width: 225,
+			color: 'white',
+			borderColor: 'red',
 		},
 	}));
 	//Use CSS Styling
@@ -67,6 +69,7 @@ export default function Textbox(props) {
 					type={props.type}			//If type = "password", will hide the text inside.
 					variant={props.variant}		//Adds the shading to the text field box.
 					onChange={props.handleChange} //Custom onChange prop.
+					style={{ backgroundColor: props.backgroundColor }}
 				/>
 			</form>
 		</>
