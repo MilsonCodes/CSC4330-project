@@ -39,17 +39,16 @@ const useStyles = makeStyles({
 	},
 
 	box: {
-
-		border: '2px solid grey',
+		
 		'border-width': 'medium',
 		'border-radius': '10px',
 		padding: 3,
 		width: 500,
-		background: 'rgba(88, 88, 88, 0.4)',
+		background: 'rgba(208, 208, 208, 0.4)',
 	},
 
 	card: {
-		
+		backgroundColor: '#D0D0D0',
 		flexWrap: 'wrap',
 		borderWidth: 1,
 		height: '100%',
@@ -90,7 +89,8 @@ const useStyles = makeStyles({
 		position: 'relative',
 		right: "500px",
 		margin: 'auto',
-
+		'font-family': 'Yanone Kaffeesatz',
+		'font-size': 40,
 	},
 
 	row: {
@@ -122,7 +122,8 @@ export const Test = props => {
 	//https://www.pexels.com/ For free stock images
 	const classes = useStyles();
 
-	const options = ["Option1", "Option2", "Option3", "Option4", "option5"];
+	const options = ["Business A", "Business B", "Business C", "Business D", "Business E"];
+	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
 	var i = -1;
 
 	return (
@@ -132,6 +133,7 @@ export const Test = props => {
 				<h1 className={clsx(classes.header, classes.box)}>
 				Let's get started
 				</h1>
+				<br />
 					<h2 className={clsx(classes.box, classes.header)}>
 					Join us and begin the search for a not just a new employer 
 						but for a new way of life.
@@ -139,10 +141,15 @@ export const Test = props => {
 			</header>
 			<img src={FriendlyCatchUp} className={classes.image} />
 
-			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 			<div>
-				
-				<h4 style={{ color: 'white', 'text-align': 'center'}}>Search</h4>
+				<div className={clsx(classes.header, classes.box)} style={{ 'text-align' : 'center', 'margin-left':'55%', width:'50%' }}>
+					<h4 style={{ color: 'white', 'text-align': 'center' }}>Search</h4>
+					<h4 style={{ color: 'white', 'text-align': 'center' }}>It's simple.  For a quick search, just fill out the textboxes below and we'll best match you to your preferences.</h4>
+				</div>
+
+				<br />
+
 				<Container className={classes.row} fixed style={{ backgroundColor: 'white'}}>
 					<Textbox
 						label="Keywords"
@@ -161,10 +168,13 @@ export const Test = props => {
 						backgroundColor='white'
 					/>
 				</Container>
-
+				<br/>
 				<SubmitButton
 					width='100px'
 					marginLeft="292px"
+					backgroundColor="#5C5959"
+					variant="contained"
+					color="secondary"
 				>
 				</SubmitButton>
 
@@ -176,20 +186,19 @@ export const Test = props => {
 
 					{options.map(options => (
 						i++ ,
-
 						<Card className={classes.card}>
 							<CardHeader
 								avatar={
 									<Avatar aria-label="business" className={classes.avatar}>
 										I
 									</Avatar>
-									}
-								title="Business Name"
+								}
+								title={options}
 								subheader="Date"
 							/>
 							<CardContent>
 								<br />
-								<Typography color="textSecondary"> Description </Typography>
+								<Typography color="textSecondary"> {desc[i]} </Typography>
 							</CardContent>
 							<CardActions>
 								<Button size="small">Learn More</Button>
@@ -198,11 +207,8 @@ export const Test = props => {
 					))
 					}
 				</div>
-
-
-
 		</div>
-
+			<br />
 		</div>
   )
 }
