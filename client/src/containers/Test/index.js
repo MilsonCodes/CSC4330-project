@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { red } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import Container from '@material-ui/core/Container';
+import DropDown from "../../components/Form/dropdown";
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Menu from '@material-ui/core/Menu';
@@ -30,7 +31,6 @@ import CheckboxApp from "../../components/Form/checkbox";
 import VertMenu from "../../components/Form/VertMenu";
 import SubmitButton from "../../components/Form/SubmitButton";
 import Textbox from "../../components/Form/textbox";
-import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
 import FriendlyCatchUp from "../../assets/stockimages/FriendlyCatchUp.jpg"
 
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 	},
 
 	box: {
-		
+
 		'border-width': 'medium',
 		'border-radius': '10px',
 		padding: 3,
@@ -78,6 +78,14 @@ const useStyles = makeStyles({
 
 	},
 
+	 
+
+	pagebreak: {
+		display: 'flex',
+		'flex-direction': 'column',
+		'justify-content': 'space-between',
+	},
+
 	row: {
 		'margin-left': 'auto',
 		'margin-right': 'auto',
@@ -86,8 +94,13 @@ const useStyles = makeStyles({
 		maxWidth: '1000px',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
-
 	},
+
+	tabbed_content: {
+		width: '100%',
+		'overflow-y': 'scroll',
+
+	}
 });
 
 //Settings page
@@ -125,23 +138,19 @@ function a11yProps(index) {
 
 export const Test = props => {
 
-		const classes = useStyles();
-		const [value, setValue] = React.useState(0);
+	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
 
-		const handleChange = (event, newValue) => {
-			setValue(newValue);
-		};
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 
 	return (
 
 		<div>
-		
+
 			<h2 className={classes.header}>Settings</h2>
-
-
-
-		<div className={classes.root}>
-
+			<div className={classes.root}>
 				<Tabs
 					orientation="vertical"
 					variant="scrollable"
@@ -152,28 +161,93 @@ export const Test = props => {
 					<Tab label="General" {...a11yProps(0)} />
 					<Tab label="Profile" {...a11yProps(1)} />
 					<Tab label="Notifications" {...a11yProps(2)} />
-					<Tab label="Appearance" {...a11yProps(3)} />
-					<Tab label="Account" {...a11yProps(4)} />
-					<Tab label="Language" {...a11yProps(5)} />
+					<Tab label="Account" {...a11yProps(3)} />
+					{/*<Tab label="Language" {...a11yProps(4)} />*/}
 				</Tabs>
-				<TabPanel value={value} index={0}>
+				<TabPanel value={value} index={0} className={classes.tabbed_content}>
 					<h3>General Settings</h3>
+					<hr />
+					<div className={classes.pagebreak} >
+						<br />
+						<div>
+							<br />
+							<h4>Account Details</h4>
+							<hr />
+							<h6>Set Password</h6>
+						</div>
 
-					<div>
-
-						<br/>
+						<div>
+							<br />
+							<h4>Two-Factor Authentication</h4>
+							<br />
+							<h6>Enable Two-Factor Authentication</h6>
+						</div>
 
 					</div>
 
-      </TabPanel>
-				<TabPanel value={value} index={1}>
+				</TabPanel>
+				<TabPanel value={value} index={1} className={classes.tabbed_content}>
 					<h3>Profile Settings</h3>
-
-      </TabPanel>
-				<TabPanel value={value} index={2}>
-					<h3>Notifications settings</h3>
+					<hr />
 					<div>
-						<br/>
+						<br />
+						<h4>About</h4>
+					</div>
+					<hr />
+					<div>
+						<h4>Full Name</h4>
+						<Textbox
+							label="Location"
+							variant="filled"
+							backgroundColor='white'
+						/>
+					</div>
+					<div>
+						<br />
+						<h4>Username</h4>
+						<Textbox
+							label="Location"
+							variant="filled"
+							backgroundColor='white'
+							size='sm'
+						/>
+					</div>
+					<div>
+						<br />
+						<h4>First Name</h4>
+						<Textbox
+							label="First Name"
+							variant="filled"
+							backgroundColor='white'
+						/>
+					</div>
+					<div>
+						<br />
+						<h4>Bio</h4>
+						<Textbox
+							label="Bio"
+							variant="filled"
+							backgroundColor='white'
+						/>
+					</div>
+					<div>
+						<br />
+						<h4>Contact</h4>
+						<Textbox
+							label="Contact"
+							variant="filled"
+							backgroundColor='white'
+						/>
+					</div>
+					<Button variant="contained" color="primary">
+						Save
+					</Button>
+
+				</TabPanel>
+				<TabPanel value={value} index={2} className={classes.tabbed_content}>
+					<h3>Notifications settings</h3>
+					<hr />
+					<div>
 						<h5>Notify me when:</h5>
 						<CheckboxApp
 							options={["Someone has sent me a message",
@@ -187,34 +261,39 @@ export const Test = props => {
 						</CheckboxApp>
 
 					</div>
-      </TabPanel>
-				<TabPanel value={value} index={3}>
-					<h3>Appearance Settings</h3>
-					<div>
-
-						<br />
-
-					</div>
-      </TabPanel>
-				<TabPanel value={value} index={4}>
+				</TabPanel>
+				<TabPanel value={value} index={3} className={classes.tabbed_content}>
 					<h3>Account Settings</h3>
+					<hr />
 					<div>
 
 						<br />
 
 					</div>
-      </TabPanel>
-				<TabPanel value={value} index={5}>
+				</TabPanel>
+				{/* Adding this has the implication that one of us has the capabilities of translating our entire site into another language, so let's keep this hidden */}
+				<TabPanel value={value} index={4} className={classes.tabbed_content}>
 					<h3>Language Settings</h3>
 					<div>
+						<br />
+						<DropDown
+							options={["English", "Español"]}
+							controls="simple-menu"
+							haspopup="true"
+							defaultValue="English"
+							color="#302F2F"
+							hoverColor="black"
+						>
+							test
+						</DropDown>
 
 						<br />
 
 					</div>
-      </TabPanel>
+				</TabPanel>
 
 			</div>
 		</div>
 
-		);
-	}
+	);
+}

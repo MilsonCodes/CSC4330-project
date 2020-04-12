@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
@@ -107,13 +107,24 @@ export const Search = props => {
 		setAnchorEl(null);
 	};
 	*/
+
 	//Job Search Page
 	//https://www.pexels.com/ For free stock images
 	const classes = useStyles();
 
-	const options = ["Business A", "Business B", "Business C", "Business D", "Business E"];
+	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
 	var i = -1;
+
+	function componentDidMount() {
+		fetch("http://18.222.89.143//api/company/?format=api")
+			.then(results => results.json())
+			.then(data => {
+				const users = data.results;
+				options.push(users);
+			}).catch(err => console.log(err))
+	}
+	options.push('data');
 
 	return (
 		<div style={{ overflow: "auto" }}>
