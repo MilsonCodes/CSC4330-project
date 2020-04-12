@@ -114,6 +114,7 @@ export const Search = props => {
 
 	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
+	const TextBoxSize = 225;
 	var i = -1;
 
 	function componentDidMount() {
@@ -155,17 +156,20 @@ export const Search = props => {
 						label="Keywords"
 						variant="filled"
 						backgroundColor='white'
+						width={TextBoxSize}
 					/>
 
 					<Textbox
 						label="Location"
 						variant="filled"
 						backgroundColor='white'
+						width={TextBoxSize}
 					/>
 					<Textbox
 						label="Salary"
 						variant="filled"
 						backgroundColor='white'
+						width={TextBoxSize}
 					/>
 				</Container>
 				<br />

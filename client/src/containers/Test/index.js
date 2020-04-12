@@ -3,36 +3,16 @@ import styled from "styled-components";
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { red } from '@material-ui/core/colors';
-import Avatar from '@material-ui/core/Avatar';
-import Container from '@material-ui/core/Container';
 import DropDown from "../../components/Form/dropdown";
-import IconButton from '@material-ui/core/IconButton';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import FormControl from "@material-ui/core/FormControl";
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import LinkButtons from "../../components/Buttons/LinkButton";
-import StyledButtons from "../../components/Buttons/StyledButton";
 import CheckboxApp from "../../components/Form/checkbox";
-import VertMenu from "../../components/Form/VertMenu";
-import SubmitButton from "../../components/Form/SubmitButton";
 import Textbox from "../../components/Form/textbox";
-import SubmitForm from "../../components/Form/index";
-import FriendlyCatchUp from "../../assets/stockimages/FriendlyCatchUp.jpg"
 
 
 //https://css-tricks.com/almanac/properties/b/backdrop-filter/
@@ -145,6 +125,8 @@ export const Test = props => {
 		setValue(newValue);
 	};
 
+	const TextBoxSize = 500;
+
 	return (
 
 		<div>
@@ -161,26 +143,25 @@ export const Test = props => {
 					<Tab label="General" {...a11yProps(0)} />
 					<Tab label="Profile" {...a11yProps(1)} />
 					<Tab label="Notifications" {...a11yProps(2)} />
-					<Tab label="Account" {...a11yProps(3)} />
+					<Tab label="Privacy" {...a11yProps(3)} />
 					{/*<Tab label="Language" {...a11yProps(4)} />*/}
 				</Tabs>
 				<TabPanel value={value} index={0} className={classes.tabbed_content}>
 					<h3>General Settings</h3>
 					<hr />
 					<div className={classes.pagebreak} >
-						<br />
 						<div>
 							<br />
 							<h4>Account Details</h4>
 							<hr />
-							<h6>Set Password</h6>
+							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)'}}>Set Password</Button>
 						</div>
 
 						<div>
-							<br />
+							<hr />
 							<h4>Two-Factor Authentication</h4>
 							<br />
-							<h6>Enable Two-Factor Authentication</h6>
+							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Enable Two-Factor Authentication</Button>
 						</div>
 
 					</div>
@@ -191,54 +172,75 @@ export const Test = props => {
 					<hr />
 					<div>
 						<br />
-						<h4>About</h4>
+						<h4>About Me</h4>
 					</div>
 					<hr />
-					<div>
+					<FormControl>
 						<h4>Full Name</h4>
-						<Textbox
-							label="Location"
-							variant="filled"
-							backgroundColor='white'
-						/>
-					</div>
+						<div style={{ 'justify-content': 'flex-start', display: 'inline-flex', 'flex-direction': 'row', }}>
+							<Textbox
+								label="First Name"
+								variant="filled"
+								backgroundColor='white'
+								width={TextBoxSize/2 - 10}
+							/>
+							<Textbox
+								label="Last Name"
+								variant="filled"
+								backgroundColor='white'
+								width={TextBoxSize/2 - 10}
+							/>
+						</div>
+					</FormControl>
 					<div>
-						<br />
+						<hr />
 						<h4>Username</h4>
 						<Textbox
-							label="Location"
+							label="Username"
 							variant="filled"
 							backgroundColor='white'
-							size='sm'
+							width={TextBoxSize}
 						/>
 					</div>
 					<div>
-						<br />
-						<h4>First Name</h4>
-						<Textbox
-							label="First Name"
-							variant="filled"
-							backgroundColor='white'
-						/>
-					</div>
-					<div>
-						<br />
+						<hr />
 						<h4>Bio</h4>
 						<Textbox
 							label="Bio"
 							variant="filled"
 							backgroundColor='white'
+							multiline="true"
+							width={TextBoxSize}
 						/>
 					</div>
 					<div>
-						<br />
+						<hr />
 						<h4>Contact</h4>
 						<Textbox
-							label="Contact"
+							label="Email Address"
 							variant="filled"
 							backgroundColor='white'
+							width={TextBoxSize}
 						/>
 					</div>
+
+					<div>
+						<hr />
+						<h4>Resume</h4>
+						<br />
+						<Button
+							variant="contained"
+							component="label"
+						>
+							Upload File
+							<input
+								type="file"
+								style={{ display: "none" }}
+							/>
+						</Button>
+					</div>
+
+					<hr />
 					<Button variant="contained" color="primary">
 						Save
 					</Button>
@@ -250,7 +252,8 @@ export const Test = props => {
 					<div>
 						<h5>Notify me when:</h5>
 						<CheckboxApp
-							options={["Someone has sent me a message",
+							options={[
+								"Someone has sent me a message",
 								"I have been selected by an employee/employer",
 								"I have submitted my application",
 								"I have received an offer about potential opportunities",
@@ -259,18 +262,64 @@ export const Test = props => {
 							flexDirection="column"
 						>
 						</CheckboxApp>
-
+						<Button variant="contained" color="primary">
+							Save
+						</Button>
 					</div>
 				</TabPanel>
 				<TabPanel value={value} index={3} className={classes.tabbed_content}>
-					<h3>Account Settings</h3>
+					<h3>Privacy Settings</h3>
 					<hr />
 					<div>
+						<div>
+							<h5>Who can see your page?</h5>
+							<hr />
+							<CheckboxApp
+								options={[
+									"Employers",
+									"Employees",
+									"Unsigned users",
+								]}
+								flexDirection="column"
+							>
+							</CheckboxApp>
 
-						<br />
+						</div>
 
+						<div>
+							<h5>Who can contact you?</h5>
+							<hr />
+							<CheckboxApp
+								options={[
+									"Employers",
+									"Employees",
+									"Unsigned users",
+								]}
+								flexDirection="column"
+							>
+							</CheckboxApp>
+						</div>
+
+						<div>
+							<h5>Who can find you?</h5>
+							<hr />
+							<CheckboxApp
+								options={[
+									"Employers",
+									"Employees",
+									"Unsigned users",
+								]}
+								flexDirection="column"
+							>
+							</CheckboxApp>
+						</div>
+						<Button variant="contained" color="primary">
+							Save
+						</Button>
 					</div>
 				</TabPanel>
+
+
 				{/* Adding this has the implication that one of us has the capabilities of translating our entire site into another language, so let's keep this hidden */}
 				<TabPanel value={value} index={4} className={classes.tabbed_content}>
 					<h3>Language Settings</h3>
