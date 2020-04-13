@@ -212,6 +212,13 @@ export const Settings = props => {
 							multiline="true"
 							width={TextBoxSize}
 						/>
+						<hr />
+						<Textbox
+							label="Skills"
+							variant="filled"
+							backgroundColor='white'
+							width={TextBoxSize}
+						/>
 					</div>
 					<div>
 						<hr />
