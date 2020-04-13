@@ -51,6 +51,8 @@ class AuthViewSet(viewsets.ModelViewSet):
         address = profile['address']
         first = profile['first_name']
         last = profile['last_name']
+        bio = profile['bio']
+        skills = profile['skills']
         company = Company.objects.get(id=profile['company'])
         admin = profile['admin']
         holder = profile['stakeholder']
@@ -80,7 +82,7 @@ class AuthViewSet(viewsets.ModelViewSet):
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
         # Create matching profile object and save
-        pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
+        pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr, bio=bio, skills=skills)
         pro.save()
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -93,11 +95,37 @@ class UserViewSet(viewsets.ModelViewSet):
     # Require token permissions to access associated routes
     permission_classes = (IsAuthenticated,)
 
+    def update(self, request, *args, **kwargs):
+        data = request.data
+        usr = User.objects.get(id=data['user']['id'])
+        address = None
+        if usr is not None:
+            usr.username = data['user']['username']
+            usr.email = data['user']['email']
+            usr.save()
+        company = Company.objects.get(id=data['company']['id'])
+        try:
+            address = Address.objects.get(id=data['address']['id'])
+        except:
+            pass
+        pro = Profile.objects.get(id=data['id'])
+        if pro is not None:
+            if company is not None:
+                pro.company = company
+            if address is None:
+                address = Address.objects.create(address1=data['address']['address1'], address2=data['address']['address2'], city=data['address']['city'], zip_code=data['address']['zip_code'], country=data['address']['country'])
+                address.save()
+            pro.address = address
+            pro.first_name = data['first_name']
+            pro.last_name = data['last_name']
+            pro.bio = data['bio']
+            pro.skills = data['skills']
+            address.save()
+            pro.save()
+        data = pro
+        return Response(data, status=status.HTTP_200_OK)
+
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         # Get specific user from url
         user = self.request.query_params.get('user', None)
         # Set data set to be default (all profiles)

@@ -61,7 +61,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             'last_name',
             'address',
             'admin',
-            'manager'
+            'manager',
+            'bio',
+            'skills',
         )
 
 # Class for organizing Association data
@@ -102,6 +104,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'company',
             'committee',
             'internal_only',
+            'key_words',
         )
 
 # Class for organizing Listing data for company pages

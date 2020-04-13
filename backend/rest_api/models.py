@@ -67,6 +67,10 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     company = models.ForeignKey(Company, models.CASCADE, null=True, )
     admin = models.BooleanField(default=False)
     stakeholder = models.BooleanField(default=False)
+    # Description of user
+    bio = models.CharField(max_length=1024)
+    # User skills
+    skills = models.TextField()
     type = models.CharField(max_length=16, choices=TYPES, default='Applicants',)
 
     def save(self, *args, **kwargs):
@@ -111,6 +115,8 @@ class Listing(models.Model):  # Job posting model
     committee = models.ForeignKey(Committee, models.CASCADE, )
     # True when Profile must already work for the company
     internal_only = models.BooleanField(default=False)
+    # Key words to search applicant resumes
+    key_words = models.TextField()
 
     def save(self, *args, **kwargs):
         self.date = datetime.datetime.now()+datetime.timedelta(days=31)
