@@ -14,10 +14,18 @@ export function loginUser(data) {
     dispatch({ type: constants.LOGIN_REQUEST })
 
     request("/login", data, "POST", false)
-      .then(res => {
+      .then(async res => {
         updateTokens(res.data)
 
         var user = findElem(getState().user.users, "username", data.username)
+
+        try {
+          var result = await request("/users/?user=" + user.id, null, "GET", true)
+
+          user = result.data[0]
+        } catch(e) {
+          dispatch({ type: constants.LOGIN_ERROR, payload: e })
+        }
 
         dispatch({ type: constants.LOGIN_SUCCESS, payload: user })
 
@@ -65,9 +73,9 @@ export function registerUser(data) {
 
       updateTokens(tokens)
 
-      dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data.user })
+      dispatch({ type: constants.REGISTER_SUCCESS, payload: res.data })
 
-      localStorage.setItem('user', JSON.stringify(res.data.user))
+      localStorage.setItem('user', JSON.stringify(res.data))
 
       history.push('/profile')
     })

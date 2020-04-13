@@ -20,25 +20,13 @@ const HeaderComp = props => {
   const classes = useStyles()
 
   const [state, setState] = useState({
-    dropdownOpen: false,
-    loading: false
+    dropdownOpen: false
   });
 
   const toggle = () => setState({ ...state, dropdownOpen: !state.dropdownOpen });
 
-  const { loggedIn, userProfile, user, error } = props
-  const profile = userProfile
-
-  if(profile && state.loading) setState({ ...state, loading: false })
-
-  useEffect(() => {
-    if(loggedIn && !profile && !state.loading){ 
-      props.dispatch(fetchUserProfile(user.id))
-      setState({ ...state, loading: true })
-    }
-  })
-
-  if(error) return history.push({ pathname: `/error`, state: { error }})
+  const { loggedIn, user } = props
+  const profile = user
 
   return (
     <>
@@ -62,7 +50,9 @@ const HeaderComp = props => {
                         <Avatar style={{ border: "2px solid #ffffff" }} >{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem header>{user.username}</DropdownItem>
+                        <DropdownItem header>{profile.user.username}</DropdownItem>
+                        {profile.admin ? <DropdownItem onClick={() => history.push("/admin")}>Admin</DropdownItem> : null }
+                        {profile.company.name != "None" ? <DropdownItem onClick={() => history.push("/company")}>Company</DropdownItem> : null }
                         <DropdownItem onClick={() => history.push("/logout")}>Logout</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
@@ -86,8 +76,7 @@ const HeaderComp = props => {
 
 function mapStateToProps(state) {
   const { loggedIn, user } = state.auth
-  const { userProfile, loading, loaded, error } = state.user
-  return { loggedIn, loading, loaded, error, user, userProfile }
+  return { loggedIn, user }
 }
 
 const Header = connect(mapStateToProps)(HeaderComp)
