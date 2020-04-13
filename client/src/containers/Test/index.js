@@ -6,11 +6,16 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DropDown from "../../components/Form/dropdown";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Applications from '../../components/Card/Applications';
 import FormControl from "@material-ui/core/FormControl";
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Card from '@material-ui/core/Card';
+import Collapse from '@material-ui/core/Collapse';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -47,7 +52,7 @@ const useStyles = makeStyles({
 		flexWrap: 'wrap',
 		borderWidth: 1,
 		height: '100%',
-		width: '300px',
+		width: '1400px',
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 		'padding-bottom': '3px',
@@ -62,20 +67,39 @@ const useStyles = makeStyles({
 
 	},
 
-	header: {
+	expand: {
+		transform: 'rotate(0deg)',
+		marginLeft: 'auto',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest,
+		}),
+	},
+	expandOpen: {
+		transform: 'rotate(180deg)',
+	},
 
+	header: {
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
 		'font-family': 'Calibri',
 		'font-size': 40,
-
 	},
+
+	subHeader: {
+		color: 'white',
+		position: 'relative',
+		'text-align': 'center',
+		'font-family': 'Calibri',
+		'font-size': 30,
+		maxWidth: '1500px',
+	},
+
 
 	row: {
 		'margin-left': 'auto',
 		'margin-right': 'auto',
-		flexDirection: 'row',
+		flexDirection: 'column',
 		display: 'flex',
 		maxWidth: '1500px',
 		'flex-wrap': 'wrap',
@@ -84,32 +108,46 @@ const useStyles = makeStyles({
 		'padding-bottom': '10px',
 		'padding-top': '10px',
 	},
-
-	step: {
-	},
 	
 
 });
 
-//Job application listing page
-//Create a page list of what you've applied for and the statuses of each one
 export const Test = props => {
 
 	const classes = useStyles();
-	const [value, setValue] = React.useState(0);
-	
-	const options = ["Business A", "Business B"];
-	const desc = ["Your Application Content", "Your Application Submitted here"];
+
+	const options = ["Business A",
+					"Business B",
+					'Business C'];
+
+	const job = ["I.T.",
+				"Janitor",
+				'Manager'];
+
+	const FullDetails = ["The Communists are distinguished from the other working-class parties by this only: 1. In the national struggles of the proletarians of the different countries, they point out and bring to the front the common interests of the entire proletariat, independently of all nationality. 2. In the various stages of development which the struggle of the working class against the bourgeoisie has to pass through, they always and everywhere represent the interests of the movement as a whole.",
+						"The Communists, therefore, are on the one hand, practically, the most advanced and resolute section of the working-class parties of every country, that section which pushes forward all others; on the other hand, theoretically, they have over the great mass of the proletariat the advantage of clearly understanding the line of march, the conditions, and the ultimate general results of the proletarian movement.",
+						'The immediate aim of the Communists is the same as that of all other proletarian parties: formation of the proletariat into a class, overthrow of the bourgeois supremacy, conquest of political power by the proletariat.'];
+
+	const Date = ['4/13/2020',
+				'4/14/2020',
+				'4/15/2020',];
+
+	const statuses = ['Accepted',
+					'Unsent',
+					'Rejected'];
+
+	var status;
 	var i = -1;
 	return (
 		<div>
-			<h3 className={clsx(classes.header)}>
+			<h3 className={classes.header}>
 				Application Page
 			</h3>
-			
+			<h5 className={classes.subHeader}>
+				Here is a list of all applications you have submitted and their respective statuses.
+				Good luck on your applications and we hope you and your potential employer can find even ground with each other.
+			</h5>
 			<br />
-			<h4 className={classes.header}>Applications</h4>
-			
 			<Container className={classes.row} style={{ backgroundColor: 'white' }}>
 
 				<div>
@@ -117,26 +155,25 @@ export const Test = props => {
 					<div className={clsx(classes.step, classes.row)}>
 						{options.map(options => (
 							i++ ,
+							status = 'Status: ' + statuses[i],
+							
 							<Card className={classes.card}>
-								<CardHeader
+								<Applications
 									title={options}
-									subheader="Date Submitted"
-									style={{'text-align': 'center'}}
-								/>
-								<CardContent>
-									<br />
-									<Typography color="textSecondary"> {desc[i]} </Typography>
-								</CardContent>
-								<CardActions>
-									<Button size="small">Status: [Received/Approved]</Button>
-								</CardActions>
+									subheader={'Status: ' + statuses[i]}
+									job={job[i]}
+									FullDetails={FullDetails[i]}
+									Date={Date[i]}
+								>
+								</Applications>
+
 							</Card>
 						))
 						}
 						</div>
 				</div>
 			</Container>
-
+			<br />
 		</div>
 
 	);

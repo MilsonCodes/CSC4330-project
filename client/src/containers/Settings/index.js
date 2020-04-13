@@ -57,9 +57,6 @@ const useStyles = makeStyles({
 		'font-size': 40,
 
 	},
-
-
-
 	pagebreak: {
 		display: 'flex',
 		'flex-direction': 'column',

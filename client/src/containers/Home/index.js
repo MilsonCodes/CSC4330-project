@@ -13,7 +13,6 @@ import SubmitButton from "../../components/Form/SubmitButton";
 import Textbox from "../../components/Form/textbox";
 import DropDown from "../../components/Form/dropdown";
 import SubmitForm from "../../components/Form/index";
-import OutlinedCard from "../../components/Card/container";
 import BusinessLeader from "../../assets/stockimages/SkyScapeCrop.png";
 import logo from "../../assets/img/ChaseYourDreams.png";
 

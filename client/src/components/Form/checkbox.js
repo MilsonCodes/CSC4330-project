@@ -58,7 +58,7 @@ export default function CheckboxApp(props) {
 	const options = props.options;
 
 	/* Will switch state of a targeted value.
-	 * In this scenario, will swithc between a checked state and an
+	 * In this scenario, will switch between a checked state and an
 	 * unchecked state */
 	const handleChange = (name) => event => {
 		if (props.onChange) props.onChange(event)
