@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { request } from "../../api/index";
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,9 +19,6 @@ import SubmitButton from "../../components/Form/SubmitButton";
 import Textbox from "../../components/Form/textbox";
 import FriendlyCatchUp from "../../assets/stockimages/FriendlyCatchUp.jpg"
 
-
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
-
 const useStyles = makeStyles({
 
 	avatar: {
@@ -28,24 +26,23 @@ const useStyles = makeStyles({
 	},
 
 	box: {
-
+		background: 'rgba(208, 208, 208, 0.4)',
 		'border-width': 'medium',
 		'border-radius': '10px',
 		padding: 3,
 		width: 500,
-		background: 'rgba(208, 208, 208, 0.4)',
 	},
 
 	card: {
 		backgroundColor: '#D0D0D0',
-		flexWrap: 'wrap',
+		border: '4px solid black',
 		borderWidth: 1,
-		height: '100%',
-		width: '300px',
 		flexDirection: 'row',
+		flexWrap: 'wrap',
+		height: '100%',
 		'justify-content': 'space-evenly',
 		'padding-bottom': '3px',
-		border: '4px solid black',
+		width: '300px',
 	},
 
 	card_bullet: {
@@ -55,42 +52,36 @@ const useStyles = makeStyles({
 	},
 
 	card_header: {
-
 		fontSize: 14,
-		position: 'relative',
 		left: '-60px',
-
+		position: 'relative',
 	},
 
 	image: {
-
 		position: "absolute",
 		margin: 'auto',
 		height: 'auto',
 		top: '100px',
 		right: '150px',
-
 	},
 
 	header: {
-
 		color: 'white',
-		position: 'relative',
-		right: "500px",
-		margin: 'auto',
 		'font-family': 'Yanone Kaffeesatz',
 		'font-size': 40,
+		margin: 'auto',
+		position: 'relative',
+		right: "500px",
 	},
 
 	row: {
-		'margin-left': 'auto',
-		'margin-right': 'auto',
-		flexDirection: 'row',
 		display: 'flex',
-		maxWidth: '1000px',
+		flexDirection: 'row',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
-
+		maxWidth: '1000px',
+		'margin-left': 'auto',
+		'margin-right': 'auto',
 	},
 });
 
@@ -110,22 +101,13 @@ export const Search = props => {
 
 	//Job Search Page
 	//https://www.pexels.com/ For free stock images
+
 	const classes = useStyles();
 
 	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
 	const TextBoxSize = 225;
 	var i = -1;
-
-	function componentDidMount() {
-		fetch("http://18.222.89.143//api/company/?format=api")
-			.then(results => results.json())
-			.then(data => {
-				const users = data.results;
-				options.push(users);
-			}).catch(err => console.log(err))
-	}
-	options.push('data');
 
 	return (
 		<div style={{ overflow: "auto" }}>

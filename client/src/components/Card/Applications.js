@@ -22,40 +22,25 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: red[500],
 	},
 
-	box: {
-
-		border: '2px solid grey',
-		'border-width': 'medium',
-		'border-radius': '10px',
-		padding: 3,
-		'padding-bottom': '30px',
-		width: 500,
-		background: 'rgba(88, 88, 88, 0.4)',
-	},
-
 	card: {
-
-		flexWrap: 'wrap',
+		border: '4px solid black',
 		borderWidth: 1,
-		height: '100%',
-		width: '1400px',
+		flexWrap: 'wrap',
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 		'padding-bottom': '3px',
-		border: '4px solid black',
+		width: '1450px',
 	},
 
 	card_header: {
-
-		fontSize: 14,
-		position: 'relative',
-		left: '-60px',
-
+		backgroundColor: 'grey',
+		'font-family': 'Helvetica',
+		'text-align': 'left',
 	},
 
 	expand: {
-		transform: 'rotate(0deg)',
 		marginLeft: 'auto',
+		transform: 'rotate(0deg)',
 		transition: theme.transitions.create('transform', {
 			duration: theme.transitions.duration.shortest,
 		}),
@@ -65,26 +50,28 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	header: {
-
 		color: 'white',
-		position: 'relative',
-		'text-align': 'center',
 		'font-family': 'Calibri',
 		'font-size': 40,
+		position: 'relative',
+		'text-align': 'center',
 
 	},
 
+	preview: {
+
+		'font-size': 20,
+	},
+
 	row: {
-		'margin-left': 'auto',
-		'margin-right': 'auto',
-		flexDirection: 'column',
+		'align-content': 'center',
 		display: 'flex',
-		maxWidth: '1500px',
+		flexDirection: 'column',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
-		'allign-content': 'center',
-		'padding-bottom': '10px',
-		'padding-top': '10px',
+		'margin-left': 'auto',
+		'margin-right': 'auto',
+		maxWidth: '1500px',
 	},
 }));
 
@@ -103,7 +90,7 @@ export default function Applications(props) {
 			{
 				(props.subheader == "Status: Accepted")
 					? <CardHeader
-						title={props.title}
+						title={props.Business}
 						subheader={props.subheader}
 						style={{ 'text-align': 'left', backgroundColor: '#04a829' }}
 					/>
@@ -112,7 +99,7 @@ export default function Applications(props) {
 			{
 				(props.subheader == "Status: Rejected")
 					? <CardHeader
-						title={props.title}
+						title={props.Business}
 						subheader={props.subheader}
 						style={{ 'text-align': 'left', backgroundColor: 'red' }}
 					/>
@@ -121,7 +108,7 @@ export default function Applications(props) {
 			{
 				(props.subheader == "Status: Unsent")
 					? <CardHeader
-						title={props.title}
+						title={props.Business}
 						subheader={props.subheader}
 						style={{ 'text-align': 'left', backgroundColor: 'grey' }}
 					/>
@@ -129,16 +116,31 @@ export default function Applications(props) {
 			}
 			
 			<CardContent>
-				<Typography color="textSecondary" style={{fontSize: 20}}> Job: {props.job} </Typography>
+				{/* Generates the preview text that will always be seen upon loading */}
+				<Typography
+					color="textSecondary"
+					className={classes.preview}
+				>
+					Job: {props.job}
+				</Typography>
+				<Typography
+					color="textSecondary"
+					className={classes.preview}
+				>
+					Salary: {props.Salary}
+				</Typography>
 			</CardContent>
+			{/* Generates a collapsable button for the card which will reveal more information regarding the contents of this card */}
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardContent>
 					<Typography paragraph>
+						{/* The extra content that will be shown when the card is expanded */}
 						{props.FullDetails}
 					</Typography>
 				</CardContent>
 			</Collapse>
 			<CardActions>
+				{/* When either the date or the down arrow button is clicked on, it will trigger the collapse or uncollapse effect */}
 				<Button size="small" onClick={handleExpandClick}>Date Submitted:  {props.Date}</Button>
 				<IconButton
 					className={clsx(classes.expand, {
