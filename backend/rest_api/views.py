@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.contrib.auth.models import User
-from rest_framework import generics
+from rest_framework import generics, views
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -195,3 +195,36 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('status')
     serializer_class = ApplicationSerializer
     permission_classes = (IsAuthenticated,)
+
+# View for handling stakeholder report
+class StakeHolderView(views.APIView):
+    def get(self, request):
+        employed = Profile.objects.exclude(type='Applicant').count()
+        total_users = User.objects.all().count()
+        listings = Listing.objects.filter(active=True).count()
+        applications = Application.objects.all().count()
+        companies = Company.objects.all().count()
+        comp_size = employed/companies
+        associations = Association.objects.all().count()
+        assoc_size = companies/associations
+        committees = Committee.objects.all().count()
+        managers = Profile.objects.filter(type='Manager').count()
+        stakeholders = Profile.objects.filter(type='Stakeholder').count()
+        admins = Profile.objects.filter(type='Administrator').count()
+        data = {
+            'Employed Workers': employed,
+            'Unemployed Workers': total_users-employed,
+            'Registered Users': total_users,
+            'Percent Employed': str(employed/total_users*100) + '%',
+            'Registered Companies': companies,
+            'Average Size of Company': str(comp_size) + ' workers per company',
+            'Registered Associations': associations,
+            'Average Size of Association': str(assoc_size) + ' companies per association',
+            'Active Job Openings': listings,
+            'Applications Submitted': applications,
+            'Hiring Committees': committees,
+            'Managers': managers,
+            'Stakeholders': stakeholders,
+            'Site Administrators': admins,
+        }
+        return Response(data)
