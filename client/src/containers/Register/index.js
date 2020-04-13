@@ -8,15 +8,12 @@ import Checkbox from "../../components/Form/checkbox"
 import Button from "../../components/Form/SubmitButton"
 import { ErrorModal, MessageModal } from "../../components/Modal/index"
 import { connect } from "react-redux";
-import { fetchCompanies } from '../../redux/user/actions'
+import { request } from "../../api/index"
 import { registerUser } from '../../redux/auth/actions'
 
 const RegisterPage = props => {
   //TODO: Determine fields for register page
-  const { companies, loading, error } = props
-
-  if (!companies)
-    props.dispatch(fetchCompanies())
+  const { error } = props
 
   var [state, setState] = useState({
     form: {
@@ -35,8 +32,16 @@ const RegisterPage = props => {
       stakeholder: false
     },
     dropdown: false,
-    showMessageModal: false
+    showMessageModal: false,
+    companies: null,
+    error: null
   });
+
+  if(!state.companies) {
+    request("/companies", null, "GET", false)
+    .then(res => setState({ ...state, companies: res.data }))
+    .catch(err => setState({ ...state, error: err }))
+  } 
 
   const toggle = () => {
     var newState = { ...state }
@@ -112,8 +117,12 @@ const RegisterPage = props => {
 
   return (
     <>
-      {error && !loading ?
+      {error ?
         <ErrorModal error={error} />
+        : null
+      }
+      {state.error ?
+        <ErrorModal error={state.error} />
         : null
       }
       {state.showMessageModal ? 
@@ -153,21 +162,20 @@ const RegisterPage = props => {
                       <label>Company:</label>
                       <Dropdown isOpen={state.dropdown} toggle={toggle} className="ml-2">
                         <DropdownToggle caret>
-                          {!companies ?
+                          {!state.companies ?
                             "Loading..."
                             :
-                            state.form.company != -1 ? companies[state.form.company].name : "Other"
+                            state.form.company != -1 ? state.companies[state.form.company].name : "Other"
                           }
                         </DropdownToggle>
                         <DropdownMenu>
-                          {!companies ?
+                          {!state.companies ?
                             <DropdownItem header>Loading...</DropdownItem>
                             :
                             <>
-                              {companies.map((elem, index) => <DropdownItem onClick={() => updateCompany(index)}>{elem.name}</DropdownItem>)}
+                              {state.companies.map((elem, index) => <DropdownItem onClick={() => updateCompany(index)}>{elem.name}</DropdownItem>)}
                             </>
                           }
-                          <DropdownItem onClick={() => updateCompany("Other")}>Other</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </Col>
@@ -254,12 +262,9 @@ const RegisterPage = props => {
 }
 
 function mapStateToProps(state) {
-  const { loading, error } = state.auth
-  const { loaded, entities } = state.user
-  if(loaded && entities.companies)
-    return { loading, error, companies: entities.companies }
+  const { error } = state.auth
 
-  return { loading }
+  return { error }
 }
 
 const Register = connect(mapStateToProps)(RegisterPage)
