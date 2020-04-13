@@ -6,24 +6,40 @@ import Applications from '../../components/Card/Applications';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import { request } from "../../api/index";
-
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
+import CodeApplication from "../../assets/stockimages/CodeApplication.jpg";
+import JobApplication from "../../assets/stockimages/JobApplication.jpg";
 
 const useStyles = makeStyles({
+
+	boxHeader: {
+		alignItems: 'center',
+		display: 'flex',
+		justifyContent: 'center',
+	},
 
 	header: {
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
-		'font-family': 'Calibri',
+		'font-family': 'serif-voga',
 		'font-size': 40,
+	},
+
+	imagewrapper: {
+		display: 'block',
+		width: '100%',
+		height: 'auto',
+		margin: 'auto',
+
+		/* Add the blur effect */
+		filter: 'blur(2px)',
 	},
 
 	subHeader: {
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
-		'font-family': 'Calibri',
+		'font-family': 'serif-voga',
 		'font-size': 30,
 		maxWidth: '1500px',
 	},
@@ -75,7 +91,8 @@ export const ListingApps = props => {
 	var i = -1;
 
 	return (
-		<div>
+		<div style={{ "backgroundImage": `url(${CodeApplication})` }}>
+			<br />
 			{/* Page header */}
 			<h3 className={classes.header}>
 				Application Page
@@ -91,7 +108,7 @@ export const ListingApps = props => {
 
 			<Container className={classes.row} style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
 				<div>
-					<h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}> Applications Received: </h1>
+					<h1 className={classes.boxHeader}> Applications Received: </h1>
 					<div className={classes.row}>
 
 						{/* For each application found, generate a card giving out the details for each application */}

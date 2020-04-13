@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import { request } from "../../api/index";
 import CodeApplication from "../../assets/stockimages/CodeApplication.jpg";
-import JobApplication from "../../assets/stockimages/CodeApplication.jpg";
+import JobApplication from "../../assets/stockimages/JobApplication.jpg";
 
 const useStyles = makeStyles({
 
