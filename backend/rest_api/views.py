@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.contrib.auth.models import User
-from rest_framework import generics
+from rest_framework import generics, views
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -51,6 +51,8 @@ class AuthViewSet(viewsets.ModelViewSet):
         address = profile['address']
         first = profile['first_name']
         last = profile['last_name']
+        bio = profile['bio']
+        skills = profile['skills']
         company = Company.objects.get(id=profile['company'])
         admin = profile['admin']
         holder = profile['stakeholder']
@@ -80,7 +82,7 @@ class AuthViewSet(viewsets.ModelViewSet):
         address_obj = Address.objects.create(address1=line1, address2=line2, zip_code=zip_c, city=city, country=country)
         address_obj.save()
         # Create matching profile object and save
-        pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr)
+        pro = Profile.objects.create(first_name=first, last_name=last, address=address_obj, company=company, admin=admin, stakeholder=holder, manager=man, user=usr, bio=bio, skills=skills)
         pro.save()
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -93,11 +95,37 @@ class UserViewSet(viewsets.ModelViewSet):
     # Require token permissions to access associated routes
     permission_classes = (IsAuthenticated,)
 
+    def update(self, request, *args, **kwargs):
+        data = request.data
+        usr = User.objects.get(id=data['user']['id'])
+        address = None
+        if usr is not None:
+            usr.username = data['user']['username']
+            usr.email = data['user']['email']
+            usr.save()
+        company = Company.objects.get(id=data['company']['id'])
+        try:
+            address = Address.objects.get(id=data['address']['id'])
+        except:
+            pass
+        pro = Profile.objects.get(id=data['id'])
+        if pro is not None:
+            if company is not None:
+                pro.company = company
+            if address is None:
+                address = Address.objects.create(address1=data['address']['address1'], address2=data['address']['address2'], city=data['address']['city'], zip_code=data['address']['zip_code'], country=data['address']['country'])
+                address.save()
+            pro.address = address
+            pro.first_name = data['first_name']
+            pro.last_name = data['last_name']
+            pro.bio = data['bio']
+            pro.skills = data['skills']
+            address.save()
+            pro.save()
+        data = pro
+        return Response(data, status=status.HTTP_200_OK)
+
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         # Get specific user from url
         user = self.request.query_params.get('user', None)
         # Set data set to be default (all profiles)
@@ -167,3 +195,36 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('status')
     serializer_class = ApplicationSerializer
     permission_classes = (IsAuthenticated,)
+
+# View for handling stakeholder report
+class StakeHolderView(views.APIView):
+    def get(self, request):
+        employed = Profile.objects.exclude(type='Applicant').count()
+        total_users = User.objects.all().count()
+        listings = Listing.objects.filter(active=True).count()
+        applications = Application.objects.all().count()
+        companies = Company.objects.all().count()
+        comp_size = employed/companies
+        associations = Association.objects.all().count()
+        assoc_size = companies/associations
+        committees = Committee.objects.all().count()
+        managers = Profile.objects.filter(type='Manager').count()
+        stakeholders = Profile.objects.filter(type='Stakeholder').count()
+        admins = Profile.objects.filter(type='Administrator').count()
+        data = {
+            'Employed Workers': employed,
+            'Unemployed Workers': total_users-employed,
+            'Registered Users': total_users,
+            'Percent Employed': str(employed/total_users*100) + '%',
+            'Registered Companies': companies,
+            'Average Size of Company': str(comp_size) + ' workers per company',
+            'Registered Associations': associations,
+            'Average Size of Association': str(assoc_size) + ' companies per association',
+            'Active Job Openings': listings,
+            'Applications Submitted': applications,
+            'Hiring Committees': committees,
+            'Managers': managers,
+            'Stakeholders': stakeholders,
+            'Site Administrators': admins,
+        }
+        return Response(data)
