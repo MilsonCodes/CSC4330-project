@@ -3,10 +3,7 @@ import styled from "styled-components";
 import clsx from 'clsx';
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
-import Applications from '../../components/Card/Applications';
-import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
-import MessageIcon from '@material-ui/icons/Message';
 import Typography from '@material-ui/core/Typography';
 import InputIcon from '@material-ui/icons/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -128,27 +125,30 @@ export const CompanyProfile = props => {
 			<img src={WorkingTogether} className={classes.imagewrapper} />
 			<Container className={clsx(classes.box, classes.imagebox)} style={{
 				position: 'absolute',
-				top: '200px',
+				top: '150px',
 				left: '-100px',
 				width: '500px',
 				'margin-left': '150px',
 			}}>
 				<h3>{CompanyName}</h3>
 				<hr />
+				{/*---------------------------------------LOCATION----------------------------------------------*/}
 				<Typography color="primary" className={classes.BoldAndBrash}>Location: {State}</Typography>
-
 				<br />
+				{/*---------------------------------------FIELD----------------------------------------------*/}
 				<Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
 
 				<br />
 				{/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
 				<h2>Contact Information</h2>
 				<hr />
+				{/*---------------------------------------PHONE----------------------------------------------*/}
 				<div className={classes.IconAndText}>
 					<PhoneIcon style={{ 'margin-right': '5px' }} />
 					<Typography className={classes.BoldAndBrash}> Phone: {PhoneNumber}</Typography>
 				</div>
 				<br />
+				{/*---------------------------------------EMAIL----------------------------------------------*/}
 				<div className={classes.IconAndText}>
 					<EmailIcon style={{ 'margin-right': '5px' }} />
 					<Typography className={classes.BoldAndBrash}>Email: {Email}</Typography>
@@ -158,14 +158,14 @@ export const CompanyProfile = props => {
 			{/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
 			<div className={classes.box, classes.darkbox} style={{
 				position: 'absolute',
-				top: '505px',
+				top: '455px',
 				left: '500px',
 				width: '750px',
 				height: '75px',
 				'z-index': '1',
 				'margin-left': '150px',
 			}}>
-			{/* ADDRESS CONTENT */}
+			{/*------------------------------------ADDRESS CONTENT-------------------------------------*/}
 			<Typography className={classes.BoldAndBrash, classes.Address}>
 				Ecolibrium Farms
 				</Typography>
@@ -180,7 +180,7 @@ export const CompanyProfile = props => {
 	{/*-----------------------------IMAGE PLACEMENT------------------------------------*/ }
 	< img src = { OfficeBuilding } style = {{
 	position: 'absolute',
-		top: '200px',
+		top: '150px',
 			left: '500px',
 				width: '750px',
 					'margin-left': '150px', }}
@@ -190,7 +190,7 @@ export const CompanyProfile = props => {
 {/* Provides a description of the company */ }
 <Container className={clsx(classes.box, classes.imagebox)} style={{
 	position: 'absolute',
-	top: '600px',
+	top: '550px',
 	left: '500px',
 	width: '750px',
 	'margin-left': '150px',
@@ -208,7 +208,7 @@ export const CompanyProfile = props => {
 		{/* Generates the send an application box */}
 		<Container
 			className={(classes.box, classes.imagebox)}
-			style={{ position: 'absolute', top: '600px', left: '75px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
+			style={{ position: 'absolute', top: '550px', left: '75px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
 		>
 			{/* Input Icon */}
 			<InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
@@ -220,7 +220,7 @@ export const CompanyProfile = props => {
 		{/* Generates the visit website box*/}
 		<Container
 			className={classes.box, classes.imagebox}
-					style={{ position: 'absolute', top: '600px', left: '315px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
+					style={{ position: 'absolute', top: '550px', left: '315px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
 		>
 				{/* Link Icon */}
 		<InsertLinkIcon className={classes.largeIcon} />
