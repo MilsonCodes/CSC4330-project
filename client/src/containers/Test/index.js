@@ -1,20 +1,57 @@
 import React from 'react'
 import styled from "styled-components";
+import clsx from 'clsx';
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
 import Applications from '../../components/Card/Applications';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
+import MessageIcon from '@material-ui/icons/Message';
+import Typography from '@material-ui/core/Typography';
+import InputIcon from '@material-ui/icons/Input';
+import PhoneIcon from '@material-ui/icons/Phone';
+import EmailIcon from '@material-ui/icons/Email';
+import InsertLinkIcon from '@material-ui/icons/InsertLink';
 import { request } from "../../api/index";
-import CodeApplication from "../../assets/stockimages/CodeApplication.jpg";
-import JobApplication from "../../assets/stockimages/JobApplication.jpg";
+import WorkingTogether from "../../assets/stockimages/WorkingTogether.jpg";
+import SkyScraper from "../../assets/stockimages/Skyscraper.jpg"
+import OfficeBuilding from "../../assets/stockimages/OfficeBuildingCrop.jpg"
 
 const useStyles = makeStyles({
+
+	Address: {
+		'color': 'white',
+		'font-size': '14px',
+		'margin-left': '5px',
+	},
+
+	BoldAndBrash: {
+		'font-weight': 'bold',
+		'font-size': '18px',
+	},
+
+	box: {
+		backgroundColor: 'white',
+		width: '1500px',
+		'padding-top': '20px',
+		'padding-bottom': '20px',
+		'backdrop-filter': 'blur(4px)',
+	},
 
 	boxHeader: {
 		alignItems: 'center',
 		display: 'flex',
 		justifyContent: 'center',
+	},
+
+	darkbox: {
+		//Slightly dark background
+		background: 'rgba(0, 0, 0, 0.69)',
+		//Blurs the background of the textbox
+		'backdrop-filter': 'blur(4px)',
+		'border-width': 'small',
+		borderRadius: '10px',
+		border: "2px solid rgba(0, 0, 0, 0.69)",
 	},
 
 	header: {
@@ -23,6 +60,21 @@ const useStyles = makeStyles({
 		'text-align': 'center',
 		'font-family': 'serif-voga',
 		'font-size': 40,
+	},
+
+	IconAndText: {
+		display: 'flex',
+		'flex-direction': 'row',
+	},
+
+	imagebox: {
+		//Slightly dark background
+		background: 'rgba(189, 189, 189, 0.69)',
+		//Blurs the background of the textbox
+		'backdrop-filter': 'blur(4px)',
+		'border-width': 'small',
+		borderRadius: '10px',
+		border: "2px solid rgba(0, 0, 0, 0.69)",
 	},
 
 	imagewrapper: {
@@ -35,6 +87,11 @@ const useStyles = makeStyles({
 		filter: 'blur(2px)',
 	},
 
+	largeIcon: {
+		width: 60,
+		height: 60,
+	},
+	
 	subHeader: {
 		color: 'white',
 		position: 'relative',
@@ -47,12 +104,12 @@ const useStyles = makeStyles({
 	row: {
 		'margin-left': 'auto',
 		'margin-right': 'auto',
-		flexDirection: 'column',
+		flexDirection: 'row',
 		display: 'flex',
 		maxWidth: '1500px',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
-		'allign-content': 'center',
+		'align-content': 'center',
 	},
 });
 
@@ -60,85 +117,121 @@ export const Test = props => {
 
 	const classes = useStyles();
 
+	const CompanyName = "Company A";
+	const CompanyDescription = 'He discovered a trick that was immensely hard to pull off.  It required ten angle perfect inputs, thirteen pixel perfect inputs, and alternating buttons every 60th of a second without pausing.  It took place in the last minute of the run, and he had to be there on the perfect frame, which meant completely perfect play up to that point.Additionally, not only was his position required to be right, but his subpixel position, which takes too long to manipulate and is essentially RNG(7 / 3000 chance) had to be right as well.In all, the trick saved around three tenths of a second. Obviously, it was worth going for it.';
+	const State = "Washington";
+	const PhoneNumber = "123-456-789";
+	const Email = "fakeAddress@fakeDomain.com";
 	/* DATA TO BE PUT IN VIA API LATER */
 	
-	const Date = ['4/13/2020',
-				'4/14/2020',
-				'4/15/2020',];
-
-	const FullDetails = ["The Communists are distinguished from the other working-class parties by this only: 1. In the national struggles of the proletarians of the different countries, they point out and bring to the front the common interests of the entire proletariat, independently of all nationality. 2. In the various stages of development which the struggle of the working class against the bourgeoisie has to pass through, they always and everywhere represent the interests of the movement as a whole.",
-						"The Communists, therefore, are on the one hand, practically, the most advanced and resolute section of the working-class parties of every country, that section which pushes forward all others; on the other hand, theoretically, they have over the great mass of the proletariat the advantage of clearly understanding the line of march, the conditions, and the ultimate general results of the proletarian movement.",
-						'The immediate aim of the Communists is the same as that of all other proletarian parties: formation of the proletariat into a class, overthrow of the bourgeois supremacy, conquest of political power by the proletariat.'];
-
-	const job = ["I.T.",
-				"Janitor",
-				'Manager'];
-
-	
-	const Business = ["Business A",
-					"Business B",
-					'Business C'];
-
-	const statuses = ['Accepted',
-					'Unsent',
-					'Rejected'];
-
-	const salary = ['$50000',
-					'$2000',
-					'$90000'];
-
-	var status;
-	var i = -1;
-
 	return (
-		<div style={{ "backgroundImage": `url(${CodeApplication})` }}>
-			<br />
-			{/* Page header */}
-			<h3 className={classes.header}>
-				Application Page
-			</h3>
-			{/* Page Subheader */}
-			<h5 className={classes.subHeader}>
-				Here is a list of all applications you have submitted and their respective statuses.
-				Good luck on your applications and we hope you and your potential employer can find even ground with each other.
-			</h5>
-			<br />
+		<div>
+			{/*-----------------------------COMPANY DESCRIPTION & CONTACT INFORMATION BOX------------------------------------*/}
+			<img src={WorkingTogether} className={classes.imagewrapper} />
+			<Container className={clsx(classes.box, classes.imagebox)} style={{
+													position: 'absolute',
+													top: '200px',
+													left: '-100px',
+													width: '500px',
+													'margin-left':'150px',
+												}}>
+				<h3>{CompanyName}</h3>
+				<hr />
+				<Typography color="primary" className={classes.BoldAndBrash}>Location: {State}</Typography>
 
-			{/* Page box that will contain the contents of all applications found.  Each one will be generated based upon the applications found by that user*/}
+				<br />
+				<Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
 
-			<Container className={classes.row} style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
-				<div>
-					<h1 className={classes.boxHeader}> Applications Received: </h1>
-					<div className={classes.row}>
-
-						{/* For each application found, generate a card giving out the details for each application */}
-						{Business.map(Business => (
-							i++ ,
-							status = 'Status: ' + statuses[i],
-
-							<Card className={classes.card} style={{'padding-bottom': '15px', 'border-style': 'hidden'}}>
-								<Applications
-									/* Business Name*/
-									Business={Business}
-									/* Status of application */
-									subheader={'Status: ' + statuses[i]}
-									/* What tyep of job the user was applying for */
-									job={job[i]}
-									/* The details of job, business, or application */
-									FullDetails={FullDetails[i]}
-									/* Date */
-									Date={Date[i]}
-									/* Salary */
-									Salary={salary[i]}
-								>
-								</Applications>
-							</Card>
-						))
-						}
-						</div>
+				<br />
+				{/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
+				<h2>Contact Information</h2>
+				<hr />
+				<div className={classes.IconAndText}>
+					<PhoneIcon style={{'margin-right': '5px'}} />
+					<Typography className={classes.BoldAndBrash}> Phone: {PhoneNumber}</Typography>
+				</div>
+				<br />
+				<div className={classes.IconAndText}>
+					<EmailIcon style={{ 'margin-right': '5px' }} />
+					<Typography className={classes.BoldAndBrash}>Email: {Email}</Typography>
 				</div>
 			</Container>
 			<br />
+			{/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
+			<div className={classes.box, classes.darkbox} style={{
+				position: 'absolute',
+				top: '505px',
+				left: '500px',
+				width: '750px',
+				height: '75px',
+				'z-index':'1',
+				'margin-left': '150px',
+			}}>
+			{/* ADDRESS CONTENT */}
+				<Typography className={classes.BoldAndBrash, classes.Address}>
+					Ecolibrium Farms
+				</Typography>
+				<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+					15410 Northeast 124th StreetRedmond
+				</Typography>
+				<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+					WA 98052
+				</Typography>
+			</div>
+
+			{/*-----------------------------IMAGE PLACEMENT------------------------------------*/ }
+			<img src={OfficeBuilding} style={{
+										position: 'absolute',
+										top: '200px',
+										left: '500px',
+										width: '750px',
+										'margin-left': '150px', }}
+			/>
+
+{/*-----------------------------ABOUT THE COMPANY TEXTBOX------------------------------------*/ }
+{/* Provides a description of the company */ }
+			<Container className={clsx(classes.box, classes.imagebox)} style={{
+																		position: 'absolute',
+																		top: '600px',
+																		left:'500px',
+																		width: '750px',
+																		'margin-left': '150px',
+																		}}>
+				<h3>About this company</h3>
+				<hr />
+				{/* Company Description */}
+				<Typography color='primary'>
+					{CompanyDescription}
+				</Typography>
+			</Container>
+			<br />
+
+			<div className={classes.row} style={{ width: '800px' }}>
+				{/* Generates the send an application box */}
+				<Container
+					className={(classes.box, classes.imagebox)}
+					style={{ position: 'absolute', top: '600px', left: '75px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center"}}
+				>
+					{/* Input Icon */}
+					<InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
+					{/* Subtext */}
+					<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px'}}>
+						Send an application
+					</Typography>
+				</Container>
+				{/* Generates the visit website box*/}
+				<Container
+					className={classes.box, classes.imagebox}
+					style={{ position: 'absolute', top: '600px', left: '315px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
+				>
+				{/* Link Icon */}
+				<InsertLinkIcon className={classes.largeIcon} />
+				{/* Subtext */}
+				<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px'}}>
+					Visit Website
+				</Typography>
+				</Container>
+			</div>
 		</div>
 	);
 }
