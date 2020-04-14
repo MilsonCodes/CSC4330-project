@@ -50,7 +50,6 @@ const useStyles = makeStyles({
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
 		'border-width': 'small',
-		borderRadius: '10px',
 		border: "2px solid rgba(0, 0, 0, 0.69)",
 	},
 
@@ -73,7 +72,6 @@ const useStyles = makeStyles({
 		//Blurs the background of the textbox
 		'backdrop-filter': 'blur(4px)',
 		'border-width': 'small',
-		borderRadius: '10px',
 		border: "2px solid rgba(0, 0, 0, 0.69)",
 	},
 

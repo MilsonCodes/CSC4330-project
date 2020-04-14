@@ -125,9 +125,7 @@ export const Settings = props => {
 	const TextBoxSize = 500;
 
 	return (
-
 		<div>
-
 			<h2 className={classes.header}>Settings</h2>
 			<div className={classes.root}>
 				<Tabs
