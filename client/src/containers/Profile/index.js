@@ -3,15 +3,18 @@ import { connect } from "react-redux";
 import { fetchUsers, fetchProfile } from '../../redux/user/actions'
 import { Container, Row, Col } from "reactstrap";
 import { Card, Avatar } from "@material-ui/core";
+import { request } from "../../api";
+import { history } from "../../helpers/history";
 
 const ProfilePage = props => {
     //TODO: Create profile page
     var [state, setState] = useState({
-      profile: {},
+      profile: null,
+      error: null,
       editable: false
     })
 
-    const { user, loading, loaded, profile, users, match, dispatch } = props
+    const { user, loading, users, match, dispatch } = props
 
     console.log(props)
 
@@ -23,18 +26,23 @@ const ProfilePage = props => {
         if((users[i].username.toLowerCase() === match.params.id.toLowerCase()) || users[i].id == match.params.id)
           userId = users[i].id
 
-    if(match.params.id) {
+    if(match.params.id && !state.profile) {
       if(users.length === 0 && !loading)
         dispatch(fetchUsers())
 
-      if(users.length > 0 && !profile && !loading)
-        dispatch(fetchProfile(userId))
-    } else
-      if(!profile && !loading) dispatch(fetchProfile(user.id))
+      if(users.length > 0 && !state.profile) {
+        request("/users/?user=" + userId, null, "GET", true)
+        .then(res => setState({ profile: res.data[0] }))
+        .catch(err => setState({ error: err }))
+      }
+    } else if(!match.params.id && !state.profile) setState({ profile: user, editable: true })
+
+    if(state.error)
+      history.push({ pathname: "/error", state: { error: state.error } })
 
     return (
         <>
-          {loading || !profile ?
+          {!state.profile ?
               <div>
                 <h1>Loading...</h1>
               </div>
@@ -46,11 +54,11 @@ const ProfilePage = props => {
                       <Container className="mt-5 mb-5">
                         <Row className="d-flex justify-content-center align-items-center">
                           <Col md="4">
-                            <Avatar className="ml-5 mr-auto" style={{ width:"150px", height: "150px", fontSize: "75px", border: "4px solid #a8a8a8" }}>{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
+                            <Avatar className="ml-5 mr-auto" style={{ width:"150px", height: "150px", fontSize: "75px", border: "4px solid #a8a8a8" }}>{`${state.profile.first_name.charAt(0)}${state.profile.last_name.charAt(0)}`}</Avatar>
                           </Col>
                           <Col md="8">
-                            <h1 className="mt-auto mr-auto">{`${profile.first_name} ${profile.last_name}`}</h1>
-                            <h2 className="mt-2 mb-auto mr-auto">{profile.company.name}</h2>
+                            <h1 className="mt-auto mr-auto">{`${state.profile.first_name} ${state.profile.last_name}`}</h1>
+                            <h2 className="mt-2 mb-auto mr-auto">{state.profile.company.name}</h2>
                           </Col>
                         </Row>
                       </Container>
@@ -64,8 +72,8 @@ const ProfilePage = props => {
 
 function mapStateToProps(state) {
   const { user } = state.auth
-  const { loading, loaded, profile, users } = state.user
-  return { user, loading, loaded, profile, users }
+  const { loading, loaded, users } = state.user
+  return { user, loading, loaded, users }
 }
 
 export const Profile = connect(mapStateToProps)(ProfilePage)

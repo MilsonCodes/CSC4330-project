@@ -2,11 +2,11 @@ import React from "react";
 
 
 export const ListingApps = props => {
-    //TODO: Create listing applications page
+	//TODO: Create admin page
 
-    return (
-        <div>
-            <h1>Job Listing Applications</h1>
-        </div>
-    );
+	return (
+		<div>
+			<h1>Administrator</h1>
+		</div>
+	);
 }

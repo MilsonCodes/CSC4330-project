@@ -19,20 +19,14 @@ const useStyles = makeStyles(theme => ({
 const HeaderComp = props => {
   const classes = useStyles()
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [state, setState] = useState({
+    dropdownOpen: false
+  });
 
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setState({ ...state, dropdownOpen: !state.dropdownOpen });
 
-  const { loggedIn, loading, loaded, userProfile, user, error } = props
-  const profile = userProfile
-
-  useEffect(() => {
-    if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
-  })
-
-  if(error) return history.push({ pathname: `/error`, state: { error }})
-
-  console.log(props)
+  const { loggedIn, user } = props
+  const profile = user
 
   return (
     <>
@@ -50,13 +44,15 @@ const HeaderComp = props => {
               <Nav className="mt-auto mb-auto">
                 {loggedIn 
                 ?
-                  !loading && loaded && profile ?
-                    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                  profile ?
+                    <Dropdown isOpen={state.dropdownOpen} toggle={toggle}>
                       <DropdownToggle tag="div">
                         <Avatar style={{ border: "2px solid #ffffff" }} >{`${profile.first_name.charAt(0)}${profile.last_name.charAt(0)}`}</Avatar>
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem header>{user.username}</DropdownItem>
+                        <DropdownItem header>{profile.user.username}</DropdownItem>
+                        {profile.admin ? <DropdownItem onClick={() => history.push("/admin")}>Admin</DropdownItem> : null }
+                        {profile.company.name != "None" ? <DropdownItem onClick={() => history.push("/company")}>Company</DropdownItem> : null }
                         <DropdownItem onClick={() => history.push("/logout")}>Logout</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
@@ -80,8 +76,7 @@ const HeaderComp = props => {
 
 function mapStateToProps(state) {
   const { loggedIn, user } = state.auth
-  const { userProfile, loading, loaded, error } = state.user
-  return { loggedIn, loading, loaded, error, user, userProfile }
+  return { loggedIn, user }
 }
 
 const Header = connect(mapStateToProps)(HeaderComp)

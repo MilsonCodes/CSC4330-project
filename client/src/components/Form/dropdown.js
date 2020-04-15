@@ -14,16 +14,17 @@ export default function DropDown(props) {
 			display: 'flex',
 			flexWrap: 'wrap',
 			width: "130px",
-			color: "black",
+			color: props.color,
 		},
 		margin: {
 			margin: theme.spacing(1),
 		},
 		color: {
 			color: theme.palette.getContrastText(purple[500]),
-			backgroundColor: '#e53935',
+			backgroundColor: props.color,
 			'&:hover': {
-				backgroundColor: purple[700],
+				//backgroundColor: purple[700],
+				backgroundColor: props.hoverColor
 			},
 		},
 	}));

@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 #!/home/ubuntu/CSC4330-project/backend/env/bin/python3
 
+=======
+#!/home/mrsheppii/CSC4330-project/backend/env/bin/python2
+>>>>>>> d43159681f3e861bcaf75b388a94c5ab578023e1
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -6,6 +6,8 @@ import datetime
 import logging
 from django.conf import settings
 
+logger = logging.getLogger(__name__)
+
 # Create your models here.
 # This will be used to create the database schemas
 # AFTER EDITING THIS FILE YOU MUST RUN THE FOLLOWING COMMANDS:
@@ -67,6 +69,10 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     company = models.ForeignKey(Company, models.CASCADE, null=True, )
     admin = models.BooleanField(default=False)
     stakeholder = models.BooleanField(default=False)
+    # Description of user
+    bio = models.CharField(max_length=1024, null=True)
+    # User skills
+    skills = models.TextField(null=True)
     type = models.CharField(max_length=16, choices=TYPES, default='Applicants',)
 
     def save(self, *args, **kwargs):
@@ -94,7 +100,7 @@ class Committee(models.Model):  # Search committee in charge of applications
     name = models.CharField(max_length=1056, null=True)
     # Managers that are part of committee
     members = models.ManyToManyField(Profile)
-
+    company = models.ForeignKey(Company, models.CASCADE, null=True)
     def __str__(self):
         return self.name
 
@@ -104,29 +110,81 @@ class Listing(models.Model):  # Job posting model
     description = models.CharField(
         max_length=1024, )  # Description of work load
     # Date listing ends, default is one month from now
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True, default=datetime.datetime.now()+datetime.timedelta(days=31))
     active = models.BooleanField(default=True)  # True only for open positions
     company = models.ForeignKey(Company, models.CASCADE, )
     # Committee/Manager that controls the listing
     committee = models.ForeignKey(Committee, models.CASCADE, )
     # True when Profile must already work for the company
     internal_only = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        self.date = datetime.datetime.now()+datetime.timedelta(days=31)
-        super(Listing, self).save(*args, **kwargs)
+    # Key words to search applicant resumes
+    key_words = models.TextField()
 
     def __str__(self):
         return self.title + ", " + self.company.address.city
 
 
-class Application(models.Model):  # Link between Listing and Profile
-    Profile = models.OneToOneField(
-        Profile, models.CASCADE)  # Person applying for job
+class Application(models.Model): 
+    choices = [
+        (1, 'Optimal Candidate'),
+        (2, 'Considerable Candidate'),
+        (3, 'Standard Candidate')
+    ]
+    # Link between Listing and Profile
+    Profile = models.ForeignKey(Profile, models.CASCADE)  # Person applying for job
     listing = models.ForeignKey(Listing, models.CASCADE)  # Listing applied for
     # Either pending, accepted, or rejected
     status = models.CharField(max_length=8, choices=STATUS, default='Pending',)
-    # resume of associated Profile
+    # date submitted
+    date_submitted = models.DateTimeField(auto_now_add=True)
+    # priority of applicant compared to listing
+    priority = models.IntegerField(choices=choices, default=3)
+
+    # Override save method
+    def save(self, *args, **kwargs):
+        # Get job listing
+        listing = self.listing
+        # Get applicant
+        applicant = self.Profile
+        # Get applicant resume
+        resume = applicant.resume
+        # Find job listing key words and split on comma
+        key_words = listing.key_words.split(', ')
+        # Find user skills and split on comma
+        skills = applicant.skills.split(', ')
+        # Max key words a user could match with
+        total_points = len(key_words)
+        # Number of elements in key words but not in skills
+        difference = len(list(set(key_words)-set(skills)))
+        # Calculate amount of key words met out of total
+        points = total_points - difference
+        # Check resume exists
+        if resume.name is not '':
+            # Open file for read only
+            with open(resume.name, 'rb') as res_file:
+                # Read first line of file
+                line = res_file.readline().decode('latin-1')
+                # Loop while there are more lines
+                while line:
+                    # Split line into words
+                    words = line.split(' ')
+                    # Compare words to key_words
+                    difference = len(list(set(key_words) - set(words)))
+                    # Gain points for matching words
+                    point_gain = total_points - difference
+                    points += point_gain
+                    # Read next line
+                    line = res_file.readline().decode('latin-1')
+        # Highest priority from 51-100% match
+        if (points > total_points/2):
+            self.priority = 1
+        # Second priority from 10-50% match
+        elif (points >= total_points/10):
+            self.priority = 2
+        # Third priority for less than 10%
+        else:
+            self.priority = 3
+        super(Application, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.listing) + "- " + self.Profile.last_name + ": " + self.status

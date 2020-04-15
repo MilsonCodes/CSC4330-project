@@ -17,16 +17,8 @@ const useStyles = makeStyles(theme => ({
 const FooterProp = props => {
   const classes = useStyles()
 
-  const { loggedIn, loading, loaded, userProfile, user, error } = props
-  const profile = userProfile
-
-  useEffect(() => {
-    if(loggedIn && !profile) props.dispatch(fetchUserProfile(user.id))
-  })
-
-  if(profile) console.log(profile)
-
-  if(error) return history.push({ pathname: `/${error.response.status}`, state: { error }})
+  const { loggedIn, user } = props
+  const profile = user
 
   return (
     <div className={classes.footer}>
@@ -39,12 +31,12 @@ const FooterProp = props => {
           </Col>
           <Col md="6" xs="12" className="d-flex align-items-center">
             <Nav className="ml-auto mr-auto">
-              {loggedIn && loaded && profile ?
+              {loggedIn && profile ?
               <>
                 <NavItem>
                   <NavLink href="/profile">Profile</NavLink>
                 </NavItem>
-                {profile.company > 0 ? 
+                {profile.company && profile.company.id > 0 ? 
                   <NavItem>
                     <NavLink href="/company">Company Profile</NavLink>
                   </NavItem> : null
@@ -56,7 +48,7 @@ const FooterProp = props => {
                     <NavLink href="/applications">Applications</NavLink>
                   </NavItem>
                 }
-                {profile.admin > 0 ? 
+                {profile.admin ? 
                   <NavItem>
                     <NavLink href="/admin">Admin</NavLink>
                   </NavItem> : null
