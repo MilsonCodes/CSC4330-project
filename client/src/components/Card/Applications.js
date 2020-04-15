@@ -106,7 +106,7 @@ export default function Applications(props) {
 					: null
 			}
 			{
-				(props.subheader == "Status: Unsent")
+				(props.subheader == "Status: Pending")
 					? <CardHeader
 						title={props.Business}
 						subheader={props.subheader}

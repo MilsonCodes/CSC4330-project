@@ -2,11 +2,11 @@ import React from "react";
 
 
 export const Listing = props => {
-    //TODO: Create listing page
+	//TODO: Create listing page
 
-    return (
-        <div>
-            <h1>Job Listing</h1>
-        </div>
-    );
+	return (
+		<div>
+			<h1>Job Listing</h1>
+		</div>
+	);
 }
