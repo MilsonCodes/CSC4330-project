@@ -194,7 +194,7 @@ class ListingViewSet(viewsets.ModelViewSet):
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('priority')
     serializer_class = ApplicationSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 # View for handling stakeholder report
 class StakeHolderView(views.APIView):
