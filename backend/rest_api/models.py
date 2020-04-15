@@ -146,6 +146,8 @@ class Application(models.Model):
         listing = self.listing
         # Get applicant
         applicant = self.Profile
+        # Get applicant resume
+        resume = applicant.resume
         # Find job listing key words and split on comma
         key_words = listing.key_words.split(', ')
         # Find user skills and split on comma
@@ -156,13 +158,30 @@ class Application(models.Model):
         difference = len(list(set(key_words)-set(skills)))
         # Calculate amount of key words met out of total
         points = total_points - difference
-        logger.info(points)
+        # Check resume exists
+        if resume.name is not '':
+            # Open file for read only
+            with open(resume.name, 'rb') as res_file:
+                # Read first line of file
+                line = res_file.readline().decode('latin-1')
+                # Loop while there are more lines
+                while line:
+                    # Split line into words
+                    words = line.split(' ')
+                    # Compare words to key_words
+                    difference = len(list(set(key_words) - set(words)))
+                    # Gain points for matching words
+                    point_gain = total_points - difference
+                    points += point_gain
+                    # Read next line
+                    line = res_file.readline().decode('latin-1')
         # Highest priority from 51-100% match
         if (points > total_points/2):
             self.priority = 1
         # Second priority from 10-50% match
         elif (points >= total_points/10):
             self.priority = 2
+        # Third priority for less than 10%
         else:
             self.priority = 3
         super(Application, self).save(*args, **kwargs)
