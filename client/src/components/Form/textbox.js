@@ -19,7 +19,10 @@ export default function Textbox(props) {
 			marginTop: theme.spacing(3),
 		},
 		textField: {
-			width: 225,
+			width: props.width,
+			height: props.height,
+			color: 'white',
+			borderColor: 'red',
 		},
 	}));
 	//Use CSS Styling
@@ -55,9 +58,10 @@ export default function Textbox(props) {
 				
 					{/* Username settings */}
 					<TextField
-					autoFocus				/* If true, the input element will be focused during the first mount */
+					autoFocus={props.autoFocus}				/* If true, the input element will be focused during the first mount */
 					fullWidth				/* If true, the input will take up teh full width of its container */
 					required={props.required}				//Makes this textfield mandatory to fill out before submitting
+					multiline={props.multiline}
 
 					className={!props.className ? clsx(classes.margin, classes.textField) : ""}
 					defaultValue=""				//Adds text to fill if the textbox was not clicked on
@@ -67,6 +71,7 @@ export default function Textbox(props) {
 					type={props.type}			//If type = "password", will hide the text inside.
 					variant={props.variant}		//Adds the shading to the text field box.
 					onChange={props.handleChange} //Custom onChange prop.
+					style={{ backgroundColor: props.backgroundColor }}
 				/>
 			</form>
 		</>

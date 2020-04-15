@@ -12,8 +12,13 @@ import { makeStyles } from '@material-ui/core/styles';
 //https://material-ui.com/components/checkboxes/
 
 /* CSS Styling */
+/*
 const GreenCheckbox = withStyles({
 	root: {
+		'flex-direction': 'column',
+		'flex-wrap': 'nowrap',
+		'flexItems': 1,
+		'align-content': 'flex-start',
 		display: 'flex',
 		width: 200,
 		color: green[400],
@@ -23,7 +28,7 @@ const GreenCheckbox = withStyles({
 	},
 	checked: {},
 })(props => <Checkbox color="default" {...props} />);
-
+*/
 const useStyles = makeStyles(theme => ({
 
 	root: {
@@ -31,18 +36,11 @@ const useStyles = makeStyles(theme => ({
 		//color: theme.palette.getContrastText(purple[500]),
 
 		/* Does not function */
-
-		flexDirection: 'row',
-		position: 'relative',
-		'vertical-align': 'middle',
-		'text-align': 'center',
-		'justify-content': 'space-evenly',
+		
 		//backgroundColor: '#e53935',
 		'&:hover': {
 			//backgroundColor: purple[700],
 		},
-
-		/* Does not function */
 	},
 }));
 
@@ -60,10 +58,10 @@ export default function CheckboxApp(props) {
 	const options = props.options;
 
 	/* Will switch state of a targeted value.
-	 * In this scenario, will swithc between a checked state and an
+	 * In this scenario, will switch between a checked state and an
 	 * unchecked state */
 	const handleChange = (name) => event => {
-		if(props.onChange) props.onChange(event)
+		if (props.onChange) props.onChange(event)
 		setState({ ...state, [name]: event.target.checked });
 	};
 
@@ -75,7 +73,9 @@ export default function CheckboxApp(props) {
 		/* Will constantly iterate itself in a loop for each value in an array found.
 		 * For each array value, will create a checkbox and a unique checkbox state for that
 		 * particular value*/
-		options.map(options => (
+		<div style={{ flexDirection: props.flexDirection, display: 'flex'}}>
+		{
+			options.map(options => (
 			i++ ,
 			eval('checkedState[' + i + '] = false;'),
 
@@ -84,7 +84,7 @@ export default function CheckboxApp(props) {
 				//ID for identification
 				id={i}
 				//Identification for fieldset type
-				component = "legend"
+				component="legend"
 				control={
 					<Checkbox
 						//On click, changes the checkbox state
@@ -95,6 +95,7 @@ export default function CheckboxApp(props) {
 				//Checkbox text value
 				label={options}
 			/>
-			))
+				))}
+			</div>
 	);
 }
