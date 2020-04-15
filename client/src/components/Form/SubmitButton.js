@@ -15,8 +15,10 @@ export default function SubmitButton(props) {
 	const useStyles = makeStyles(theme => ({
 		root: {
 			color: theme.palette.secondary,
+			backgroundColor: props.backgroundColor,
 			width: props.width,
 			'text-align': 'center',
+			'margin-left': props.marginLeft,
 		},
 	}));
 

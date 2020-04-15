@@ -1,4 +1,4 @@
-# Deployment Instructions
+# Testing Instructions
 ## Prerequisites
 You will need the following technologies installed on your system, or quickly look up a guide to install them on your system:
 ### Terminal/Console
@@ -58,6 +58,10 @@ The final step is to start the backend. This will allow the client to access the
 ```
 python manage.py runserver
 ```
+
+
+## The API is now [live!](http://18.222.89.143/api/) Access this to see latest version of the API.
+
 
 ## Viewing the Site
 To view the site, navigate to http://localhost:3000/. You can create a new account or email me for an administrator account.
