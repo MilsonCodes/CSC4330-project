@@ -192,9 +192,9 @@ class ListingViewSet(viewsets.ModelViewSet):
 
 # API endpoint for accessing Application model
 class ApplicationViewSet(viewsets.ModelViewSet):
-    queryset = Application.objects.all().order_by('status')
+    queryset = Application.objects.all().order_by('priority')
     serializer_class = ApplicationSerializer
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
 # View for handling stakeholder report
 class StakeHolderView(views.APIView):

@@ -131,4 +131,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'Profile',
             'listing',
             'status',
+            'date_submitted',
+            'priority',
         )
