@@ -240,7 +240,7 @@ class StakeHolderView(views.APIView):
         p = canvas.Canvas(buffer)
         # Draw things on the PDF. Here's where the PDF generation happens.
         # See the ReportLab documentation for the full list of functionality.
-        p.drawString(3.5*inch, 11*inch, 'Report For ' + str(today))
+        p.drawCentredString(4*inch, 11*inch, 'Report For ' + str(today))
         p.drawString(inch, 10*inch, 'Employed Workers: ' + str(employed))
         p.drawString(inch, 9.5*inch, 'Unemployed Workers: ' + str(total_users-employed))
         p.drawString(inch, 9*inch, 'Registered Users: ' + str(total_users))
