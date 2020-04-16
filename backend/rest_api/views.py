@@ -18,6 +18,11 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
 )
+from datetime import date
+import io
+from reportlab.lib.units import inch
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
@@ -211,6 +216,7 @@ class StakeHolderView(views.APIView):
         managers = Profile.objects.filter(type='Manager').count()
         stakeholders = Profile.objects.filter(type='Stakeholder').count()
         admins = Profile.objects.filter(type='Administrator').count()
+        today = date.today()
         data = {
             'Employed Workers': employed,
             'Unemployed Workers': total_users-employed,
@@ -227,4 +233,32 @@ class StakeHolderView(views.APIView):
             'Stakeholders': stakeholders,
             'Site Administrators': admins,
         }
-        return Response(data)
+        filename = 'report' + str(today) + '.pdf'
+        # Create a file-like buffer to receive PDF data.
+        buffer = io.BytesIO()
+        # Create the PDF object, using the buffer as its "file."
+        p = canvas.Canvas(buffer)
+        # Draw things on the PDF. Here's where the PDF generation happens.
+        # See the ReportLab documentation for the full list of functionality.
+        p.drawString(3.5*inch, 11*inch, 'Report For ' + str(today))
+        p.drawString(inch, 10*inch, 'Employed Workers: ' + str(employed))
+        p.drawString(inch, 9.5*inch, 'Unemployed Workers: ' + str(total_users-employed))
+        p.drawString(inch, 9*inch, 'Registered Users: ' + str(total_users))
+        p.drawString(inch, 8.5*inch, 'Percent Employed: ' + str(employed/total_users*100) + '%')
+        p.drawString(inch, 8*inch, 'Registered Companies: ' + str(companies))
+        p.drawString(inch, 7.5*inch, 'Average Size of Company: ' + str(comp_size) + ' workers per company')
+        p.drawString(inch, 7*inch, 'Registered Associations: ' + str(associations))
+        p.drawString(inch, 6.5*inch, 'Average Size of Association: ' + str(assoc_size) + ' companies per association')
+        p.drawString(inch, 6*inch, 'Active Job Openings: ' + str(listings))
+        p.drawString(inch, 5.5*inch, 'Applications Submitted: ' + str(applications))
+        p.drawString(inch, 5*inch, 'Hiring Committees: ' + str(committees))
+        p.drawString(inch, 4.5*inch, 'Managers: ' + str(managers))
+        p.drawString(inch, 4*inch, 'Stakeholders: ' + str(stakeholders))
+        p.drawString(inch, 3.5*inch, 'Site Administrators: ' + str(admins))
+        # Close the PDF object cleanly, and we're done.
+        p.showPage()
+        p.save()
+        # FileResponse sets the Content-Disposition header so that browsers
+        # present the option to save the file.
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=False, filename=filename)
