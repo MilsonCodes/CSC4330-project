@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 import logging
+from django.core.mail import send_mail
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -261,4 +262,14 @@ class StakeHolderView(views.APIView):
         # FileResponse sets the Content-Disposition header so that browsers
         # present the option to save the file.
         buffer.seek(0)
+        # outgoing = []
+        # for o in Profile.objects.filter(stakeholder=True):
+        #     outgoing.append(o.user.email)
+        # send_mail(
+        #     'Stakeholder Report',
+        #     str(data), 
+        #     'mr.sheppii@gmail.com',
+        #     outgoing,
+        #     fail_silently=True
+        # )
         return FileResponse(buffer, as_attachment=False, filename=filename)
