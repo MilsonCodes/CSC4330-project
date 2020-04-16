@@ -214,8 +214,8 @@ class StakeHolderView(views.APIView):
         assoc_size = companies/associations
         committees = Committee.objects.all().count()
         managers = Profile.objects.filter(type='Manager').count()
-        stakeholders = Profile.objects.filter(type='Stakeholder').count()
-        admins = Profile.objects.filter(type='Administrator').count()
+        stakeholders = Profile.objects.filter(stakeholder=True).count()
+        admins = Profile.objects.filter(admin=True).count()
         today = date.today()
         data = {
             'Employed Workers': employed,
