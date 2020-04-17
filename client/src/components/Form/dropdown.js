@@ -39,7 +39,7 @@ export default function DropDown(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	//Copies the prop array list into a variable.  This is to allow the prop array to be mapped out into a menu.
-	const list = props.options
+	const list = props.options;
 
 	/* Change the text of the manu button when this function is called */
 	const handleChange = key => {
@@ -49,8 +49,7 @@ export default function DropDown(props) {
 
 		/* If received parameter does not match one of the options (User clicked outside the button),
 		 * reset the button text back to the default value */
-		for (var i = 0; i < list.length ; i++)
-		{
+		for (var i = 0; i < list.length; i++) {
 			if (list[i] != key);
 
 			else {
@@ -61,7 +60,7 @@ export default function DropDown(props) {
 	};
 
 	/* Creates and anchors the dropdown menu to the button */
-	const handleClick = event => {
+	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
 
@@ -72,10 +71,12 @@ export default function DropDown(props) {
 		handleChange(key);
 	};
 
+	var i = -1;
+
 	return (
 		//Div classname is used for the CSS styling variable.
 		<div className={classes.root}>
-			<Button className={ classes.color }
+			<Button className={classes.color}
 				//Determines the color of the button
 				color={props.color}
 				//Determines appearance of the button
@@ -89,7 +90,7 @@ export default function DropDown(props) {
 				//Indicates that there is an interactive popup sub-menui
 				aria-haspopup={props.haspopup}
 				onClick={handleClick}
-				>
+			>
 				{select} ▼
       </Button>
 			<Menu
@@ -106,10 +107,14 @@ export default function DropDown(props) {
 				{/* Creates a loop that maps out the contents of an array and adds each array value as its own menu type.
 				 * This allows for a menu button to dynamically create a series of menu options based on the available options*/}
 				{list.map(list => (
+					i++ ,
 					<MenuItem
 						type="text"
 						onClick={
 							() => handleClose(list)
+						}
+						onChange={
+							() => props.handleChange[i](list)
 						}
 					>
 						{list}
