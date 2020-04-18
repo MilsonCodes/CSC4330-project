@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 		'padding-bottom': '3px',
-		width: '1450px',
 	},
 
 	card_header: {
@@ -59,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	preview: {
-
 		'font-size': 20,
 	},
 
@@ -71,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
 		'justify-content': 'space-evenly',
 		'margin-left': 'auto',
 		'margin-right': 'auto',
-		maxWidth: '1500px',
 	},
 }));
 
