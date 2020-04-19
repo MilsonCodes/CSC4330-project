@@ -13,6 +13,8 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
+import { Container } from 'reactstrap';
+import { connect } from "react-redux";
 
 
 //https://css-tricks.com/almanac/properties/b/backdrop-filter/
@@ -54,7 +56,6 @@ const useStyles = makeStyles({
 		position: 'relative',
 		'text-align': 'center',
 		'font-family': 'Calibri',
-		'font-size': 40,
 
 	},
 	pagebreak: {
@@ -113,7 +114,7 @@ function a11yProps(index) {
 	};
 }
 
-export const Settings = props => {
+const SettingsPage = props => {
 
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
@@ -125,9 +126,9 @@ export const Settings = props => {
 	const TextBoxSize = 500;
 
 	return (
-		<div>
-			<h2 className={classes.header}>Settings</h2>
-			<div className={classes.root}>
+		<Container>
+			<h1 className={classes.header + " pt-2 mb-2"}><i>Settings</i></h1>
+			<div className={classes.root} style={{ borderRadius: "10px" }}>
 				<Tabs
 					orientation="vertical"
 					variant="scrollable"
@@ -149,14 +150,14 @@ export const Settings = props => {
 							<br />
 							<h4>Account Details</h4>
 							<hr />
-							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Set Password</Button>
+							<Button href="/" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Set Password</Button>
 						</div>
 
 						<div>
 							<hr />
 							<h4>Two-Factor Authentication</h4>
 							<br />
-							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Enable Two-Factor Authentication</Button>
+							<Button href="/" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Enable Two-Factor Authentication</Button>
 						</div>
 
 					</div>
@@ -344,7 +345,15 @@ export const Settings = props => {
 				</TabPanel>
 
 			</div>
-		</div>
+		</Container>
 
 	);
 }
+
+function mapStateToProps(state) {
+  const { user } = state.auth
+
+  return { user }
+}
+
+export const Settings = connect(mapStateToProps)(SettingsPage)

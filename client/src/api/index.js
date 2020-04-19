@@ -35,7 +35,7 @@ async function refreshAccessToken() {
   if(!refresh) throw new Error("No valid refresh token exists!")
 
   var response = await axios({
-    method: "GET",
+    method: "POST",
     url: API_HOST + "/token/refresh/",
     headers: {
       'Content-Type': "application/json",

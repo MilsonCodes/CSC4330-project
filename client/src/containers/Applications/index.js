@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +8,7 @@ import { request } from "../../api/index";
 import CodeApplication from "../../assets/stockimages/CodeApplication.jpg";
 import JobApplication from "../../assets/stockimages/JobApplication.jpg";
 import { Container, Row, Col } from 'reactstrap';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
 
@@ -52,13 +53,41 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export const UserApplications = props => {
+const UserApplicationsComp = props => {
+  var [state, setState] = useState({
+    applications: null,
+    error: null
+  })
+
+  const { user } = props
 
 	const classes = useStyles();
 
-	/* DATA TO BE PUT IN VIA API LATER */
+  /* DATA TO BE PUT IN VIA API LATER */
 
-	const Date = ['4/13/2020',
+  //TODO: Remove filtering and use query when it is set up
+  if(!state.applications && !state.error)
+    request("/applications/", null, "GET", true)
+    .then(res => {
+      var applications = []
+
+      for(let i = 0; i < res.data.length; i++) { 
+        var app = res.data[i]
+
+        if(app.Profile.id === user.user.id)
+          applications.push(app)
+      }
+
+      setState({ ...state, applications: applications })
+    })
+    .catch(err => setState({ ...state, error: err }))
+
+  if(state.error)
+    console.log(state.error)
+
+  console.log(state)
+
+	const Dates = ['4/13/2020',
 		'4/14/2020',
 		'4/15/2020',];
 
@@ -83,11 +112,10 @@ export const UserApplications = props => {
 		'$2000',
 		'$90000'];
 
-	var status;
-	var i = -1;
+  var date;
 
 	return (
-		<div style={{ "backgroundImage": `url(${CodeApplication})` }}>
+		<div style={{ backgroundImage: `url(${CodeApplication})`, backgroundRepeat: "repeat-y", minHeight: "100%" }}>
 			<br />
 			{/* Page header */}
 			<h1 className={classes.header}>
@@ -103,32 +131,49 @@ export const UserApplications = props => {
 			{/* Page box that will contain the contents of all applications found.  Each one will be generated based upon the applications found by that user*/}
 
 			<Container style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
-				<h1 className="mt-4 mb-4 text-center"> Applications: </h1>
+        <Row className="pt-3 mb-3 ml-auto mr-auto" style={{ width: "100%" }}>
+				  <h1 className="ml-auto mr-auto text-center"> Applications: </h1>
+        </Row>
 				<Row>
           {/* For each application found, generate a card giving out the details for each application */}
-          {Business.map(Business => (
-            i++ ,
-            status = 'Status: ' + statuses[i],
-            <Col md="6" xs="12">
-              <Card className="mb-4" style={{ 'border-style': 'hidden' }}>
-                <Applications
-                  /* Business Name*/
-                  Business={Business}
-                  /* Status of application */
-                  subheader={'Status: ' + statuses[i]}
-                  /* What tyep of job the user was applying for */
-                  job={job[i]}
-                  /* The details of job, business, or application */
-                  FullDetails={FullDetails[i]}
-                  /* Date */
-                  Date={Date[i]}
-                  /* Salary */
-                  Salary={salary[i]}
-                >
-                </Applications>
-              </Card>
-            </Col>
-          ))
+          {state.applications && state.applications.length > 0 ?
+            <>
+              {state.applications.map(application => (
+                date = new Date(application.date_submitted),
+                <Col md="6" xs="12">
+                  <Card className="mb-4" style={{ 'border-style': 'hidden' }}>
+                    <Applications
+                      /* Business Name*/
+                      company={application.listing.company.name}
+                      /* Status of application */
+                      status={application.status}
+                      /* Title of job position the user was applying for */
+                      title={application.listing.title}
+                      /* The details of job, business, or application */
+                      description={application.listing.description}
+                      /* Date Application Was Submitted */
+                      submitDate={new Intl.DateTimeFormat('en-US').format(date)}
+                      /* Salary */
+                      salary={application.listing.salary ? application.listing.salary : "Unknown"}
+                    >
+                    </Applications>
+                  </Card>
+                </Col>
+              ))}
+            </>
+            :
+            <>
+              {state.applications && state.applications.length == 0 ?
+                <Col md="6" className="ml-auto mr-auto mt-5 mb-5 text-center">
+                  <h1>No Applications Found</h1>
+                  <h4>Go out and apply!</h4>
+                </Col>
+                :
+                <Col md="4" className="ml-auto mr-auto mt-5 mb-5">
+                  <h1 className="text-center">Loading...</h1>
+                </Col>
+              }
+            </>
           }
 				</Row>
 			</Container>
@@ -136,3 +181,11 @@ export const UserApplications = props => {
 		</div>
 	);
 }
+
+function mapStateToProps(state) {
+  const { user } = state.auth
+
+  return { user }
+}
+
+export const UserApplications = connect(mapStateToProps)(UserApplicationsComp)
