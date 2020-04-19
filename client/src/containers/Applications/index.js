@@ -1,4 +1,3 @@
-
 import React from 'react'
 import styled from "styled-components";
 import theme from "../../constants/theme";
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	subHeader: {
-		'margin-left': '4rem',
+    'margin-left': '4rem',
 		'margin-right': '4rem',
 		color: 'white',
 		position: 'relative',
@@ -106,31 +105,31 @@ export const UserApplications = props => {
 			<Container style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
 				<h1 className="mt-4 mb-4 text-center"> Applications: </h1>
 				<Row>
-					{/* For each application found, generate a card giving out the details for each application */}
-					{Business.map(Business => (
-						i++ ,
-						status = 'Status: ' + statuses[i],
-						<Col md="6" xs="12">
-							<Card className="mb-4" style={{ 'border-style': 'hidden' }}>
-								<Applications
-									/* Business Name*/
-									Business={Business}
-									/* Status of application */
-									subheader={'Status: ' + statuses[i]}
-									/* What tyep of job the user was applying for */
-									job={job[i]}
-									/* The details of job, business, or application */
-									FullDetails={FullDetails[i]}
-									/* Date */
-									Date={Date[i]}
-									/* Salary */
-									Salary={salary[i]}
-								>
-								</Applications>
-							</Card>
-						</Col>
-					))
-					}
+          {/* For each application found, generate a card giving out the details for each application */}
+          {Business.map(Business => (
+            i++ ,
+            status = 'Status: ' + statuses[i],
+            <Col md="6" xs="12">
+              <Card className="mb-4" style={{ 'border-style': 'hidden' }}>
+                <Applications
+                  /* Business Name*/
+                  Business={Business}
+                  /* Status of application */
+                  subheader={'Status: ' + statuses[i]}
+                  /* What tyep of job the user was applying for */
+                  job={job[i]}
+                  /* The details of job, business, or application */
+                  FullDetails={FullDetails[i]}
+                  /* Date */
+                  Date={Date[i]}
+                  /* Salary */
+                  Salary={salary[i]}
+                >
+                </Applications>
+              </Card>
+            </Col>
+          ))
+          }
 				</Row>
 			</Container>
 			<br />
