@@ -19,6 +19,7 @@ import SubmitButton from "../../components/Form/SubmitButton";
 import Textbox from "../../components/Form/textbox";
 import FriendlyCatchUp from "../../assets/stockimages/FriendlyCatchUp.jpg"
 
+//CSS styling
 const useStyles = makeStyles({
 
 	avatar: {
@@ -100,12 +101,14 @@ export const Search = props => {
 	*/
 
 	//Job Search Page
-	//https://www.pexels.com/ For free stock images
 
 	const classes = useStyles();
 
+	/* Placeholder data */
 	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
+
+	//Determines size of the textboxes
 	const TextBoxSize = 225;
 	var i = -1;
 
@@ -113,13 +116,15 @@ export const Search = props => {
 		<div style={{ overflow: "auto" }}>
 			<br />
 			<header>
+				{/* Main header */}
 				<h1 className={clsx(classes.header, classes.box)}>
 					Let's get started
 				</h1>
 				<br />
+				{/* Sub header */}
 				<h2 className={clsx(classes.box, classes.header)}>
 					Join us and begin the search for a not just a new employer
-						but for a new way of life.
+					but for a new way of life.
 				</h2>
 			</header>
 			<img src={FriendlyCatchUp} className={classes.image} />
@@ -127,6 +132,7 @@ export const Search = props => {
 			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 			<div>
 				<div className={clsx(classes.header, classes.box)} style={{ 'text-align': 'center', 'margin-left': '55%', width: '50%' }}>
+					{/* Search header */}
 					<h4 style={{ color: 'white', 'text-align': 'center' }}>Search</h4>
 					<h4 style={{ color: 'white', 'text-align': 'center' }}>It's simple.  For a quick search, just fill out the textboxes below and we'll best match you to your preferences.</h4>
 				</div>
@@ -134,19 +140,21 @@ export const Search = props => {
 				<br />
 
 				<Container className={classes.row} fixed style={{ backgroundColor: 'white' }}>
+					{/* Textbox for Keywords*/}
 					<Textbox
 						label="Keywords"
 						variant="filled"
 						backgroundColor='white'
 						width={TextBoxSize}
 					/>
-
+					{/* Textbox for Location*/}
 					<Textbox
 						label="Location"
 						variant="filled"
 						backgroundColor='white'
 						width={TextBoxSize}
 					/>
+					{/* Textbox for Salary*/}
 					<Textbox
 						label="Salary"
 						variant="filled"
@@ -155,6 +163,7 @@ export const Search = props => {
 					/>
 				</Container>
 				<br />
+				{/* Generates the button to submit data*/}
 				<SubmitButton
 					width='100px'
 					marginLeft="292px"
@@ -163,27 +172,30 @@ export const Search = props => {
 					color="secondary"
 				>
 				</SubmitButton>
-
+				{/* Header for the results generated*/}
 				<h4 style={{ display: 'flex', 'margin-left': '35%', 'text-align': 'center', top: '1000px', color: 'white' }}>
 					See what we have to offer right now
 				</h4>
 
 				<div className={classes.row}>
-
+					{/* Generates a series of cards which will display information related to what the user has searched for*/}
 					{options.map(options => (
 						i++ ,
 						<Card className={classes.card}>
 							<CardHeader
+								/* Generates a profile picture */
 								avatar={
 									<Avatar aria-label="business" className={classes.avatar}>
 										I
 									</Avatar>
 								}
+								/* Business Name */
 								title={options}
 								subheader="Date"
 							/>
 							<CardContent>
 								<br />
+								{/* Description of the business */}
 								<Typography color="textSecondary"> {desc[i]} </Typography>
 							</CardContent>
 							<CardActions>

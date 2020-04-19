@@ -14,9 +14,7 @@ import Box from '@material-ui/core/Box';
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
 
-
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
-
+//CSS styling
 const useStyles = makeStyles({
 
 	root: {

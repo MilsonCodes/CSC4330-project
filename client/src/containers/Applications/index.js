@@ -1,15 +1,16 @@
+
 import React from 'react'
 import styled from "styled-components";
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
 import Applications from '../../components/Card/Applications';
 import Card from '@material-ui/core/Card';
-import Container from '@material-ui/core/Container';
 import { request } from "../../api/index";
 import CodeApplication from "../../assets/stockimages/CodeApplication.jpg";
 import JobApplication from "../../assets/stockimages/JobApplication.jpg";
+import { Container, Row, Col } from 'reactstrap';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 
 	boxHeader: {
 		alignItems: 'center',
@@ -21,8 +22,6 @@ const useStyles = makeStyles({
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
-		'font-family': 'serif-voga',
-		'font-size': 40,
 	},
 
 	imagewrapper: {
@@ -36,12 +35,11 @@ const useStyles = makeStyles({
 	},
 
 	subHeader: {
+		'margin-left': '4rem',
+		'margin-right': '4rem',
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
-		'font-family': 'serif-voga',
-		'font-size': 30,
-		maxWidth: '1500px',
 	},
 
 	row: {
@@ -49,12 +47,11 @@ const useStyles = makeStyles({
 		'margin-right': 'auto',
 		flexDirection: 'column',
 		display: 'flex',
-		maxWidth: '1500px',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
 		'allign-content': 'center',
 	},
-});
+}));
 
 export const UserApplications = props => {
 
@@ -94,29 +91,27 @@ export const UserApplications = props => {
 		<div style={{ "backgroundImage": `url(${CodeApplication})` }}>
 			<br />
 			{/* Page header */}
-			<h3 className={classes.header}>
+			<h1 className={classes.header}>
 				Application Page
-			</h3>
+			</h1>
 			{/* Page Subheader */}
-			<h5 className={classes.subHeader}>
+			<h3 className={classes.subHeader}>
 				Here is a list of all applications you have submitted and their respective statuses.
 				Good luck on your applications and we hope you and your potential employer can find even ground with each other.
-			</h5>
+			</h3>
 			<br />
 
 			{/* Page box that will contain the contents of all applications found.  Each one will be generated based upon the applications found by that user*/}
 
-			<Container className={classes.row} style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
-				<div>
-					<h1 className={classes.boxHeader}> Applications Received: </h1>
-					<div className={classes.row}>
-
-						{/* For each application found, generate a card giving out the details for each application */}
-						{Business.map(Business => (
-							i++ ,
-							status = 'Status: ' + statuses[i],
-
-							<Card className={classes.card} style={{ 'padding-bottom': '15px', 'border-style': 'hidden' }}>
+			<Container style={{ backgroundColor: 'white', 'border-radius': '25px' }}>
+				<h1 className="mt-4 mb-4 text-center"> Applications: </h1>
+				<Row>
+					{/* For each application found, generate a card giving out the details for each application */}
+					{Business.map(Business => (
+						i++ ,
+						status = 'Status: ' + statuses[i],
+						<Col md="6" xs="12">
+							<Card className="mb-4" style={{ 'border-style': 'hidden' }}>
 								<Applications
 									/* Business Name*/
 									Business={Business}
@@ -133,10 +128,10 @@ export const UserApplications = props => {
 								>
 								</Applications>
 							</Card>
-						))
-						}
-					</div>
-				</div>
+						</Col>
+					))
+					}
+				</Row>
 			</Container>
 			<br />
 		</div>

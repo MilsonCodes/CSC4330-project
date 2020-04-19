@@ -19,8 +19,7 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControl from "@material-ui/core/FormControl";
 import clsx from 'clsx';
 
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
-
+//CSS styling
 const useStyles = makeStyles({
 
 	avatar: {
@@ -29,20 +28,23 @@ const useStyles = makeStyles({
 	
 });
 
+/* UNUSED FUNCTION */
+
 export default function VertMenu(props) {
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
+	//Activate option option on click
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
-
+	//Closes menu
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
 
-	const list = ["Option1", "Option2", "Option3", "Option4", "option5"];
+	const list = props.list;
 	var i = -1;
 
 	return (
@@ -57,11 +59,13 @@ export default function VertMenu(props) {
 			>
 				<Menu
 					id="long-menu"
+					/* Sets up the button adn the menu prompt */
 					anchorEl={anchorEl}
 					keepMounted
 					open={open}
 					onClose={handleClose}
 				>
+					{/* Generates a menu option for each option found */}
 					{list.map((list) => (
 						<MenuItem key={list} selected={list === 'Pyxis'} onClick={handleClose}>
 							{list}

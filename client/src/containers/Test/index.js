@@ -3,7 +3,7 @@ import styled from "styled-components";
 import clsx from 'clsx';
 import theme from "../../constants/theme";
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import ContainerBox from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import InputIcon from '@material-ui/icons/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -13,9 +13,9 @@ import { request } from "../../api/index";
 import WorkingTogether from "../../assets/stockimages/WorkingTogether.jpg";
 import SkyScraper from "../../assets/stockimages/Skyscraper.jpg"
 import OfficeBuilding from "../../assets/stockimages/OfficeBuildingCrop.jpg"
-import DropDown from '../../components/Form/dropdown';
+import { Container, Row, Col } from 'reactstrap';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 
 	Address: {
 		'color': 'white',
@@ -30,10 +30,10 @@ const useStyles = makeStyles({
 
 	box: {
 		backgroundColor: 'white',
-		width: '1500px',
 		'padding-top': '20px',
 		'padding-bottom': '20px',
 		'backdrop-filter': 'blur(4px)',
+		borderRadius: '15px',
 	},
 
 	boxHeader: {
@@ -71,9 +71,16 @@ const useStyles = makeStyles({
 		'backdrop-filter': 'blur(4px)',
 		'border-width': 'small',
 		border: "2px solid rgba(0, 0, 0, 0.69)",
+		borderRadius: '15px'
+	},
+
+	backgroundImg: {
+		backgroundImage: "url(../../assets/stockimages/WorkingTogether.jpg)",
+		backdropFilter: "blur(2px)"
 	},
 
 	imagewrapper: {
+
 		display: 'block',
 		width: '100%',
 		height: 'auto',
@@ -87,27 +94,25 @@ const useStyles = makeStyles({
 		width: 60,
 		height: 60,
 	},
-	
+
 	subHeader: {
 		color: 'white',
 		position: 'relative',
 		'text-align': 'center',
 		'font-family': 'serif-voga',
 		'font-size': 30,
-		maxWidth: '1500px',
 	},
-	
+
 	row: {
 		'margin-left': 'auto',
 		'margin-right': 'auto',
 		flexDirection: 'row',
 		display: 'flex',
-		maxWidth: '1500px',
 		'flex-wrap': 'wrap',
 		'justify-content': 'space-evenly',
 		'align-content': 'center',
 	},
-});
+}));
 
 export const Test = props => {
 
@@ -119,118 +124,103 @@ export const Test = props => {
 	const PhoneNumber = "123-456-789";
 	const Email = "fakeAddress@fakeDomain.com";
 	/* DATA TO BE PUT IN VIA API LATER */
-	
+
 	return (
-		<div>
-			{/*-----------------------------COMPANY DESCRIPTION & CONTACT INFORMATION BOX------------------------------------*/}
+		<>
 			<img src={WorkingTogether} className={classes.imagewrapper} />
-			<Container className={clsx(classes.box, classes.imagebox)} style={{
-													position: 'absolute',
-													top: '150px',
-													left: '-100px',
-													width: '500px',
-													'margin-left':'150px',
-												}}>
-				<h3>{CompanyName}</h3>
-				<hr />
-				{/*---------------------------------------LOCATION----------------------------------------------*/}
-				<Typography color="primary" className={classes.BoldAndBrash}>Location: {State}</Typography>
-				<br />
-				{/*---------------------------------------FIELD----------------------------------------------*/}
-				<Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
+			<div style={{ position: "absolute", width: "100%", top: 120 }}>
+				<Container className="mt-4 mb-4">
+					{/*-----------------------------COMPANY DESCRIPTION & CONTACT INFORMATION BOX------------------------------------*/}
+					<Row>
+						<Col md="8">
+							<ContainerBox className="ml-auto mr-auto" className={clsx(classes.box, classes.imagebox)}>
+								<h3>{CompanyName}</h3>
+								<hr />
+								{/*---------------------------------------LOCATION----------------------------------------------*/}
+								<Typography color="primary" className={classes.BoldAndBrash}>Location: {State}</Typography>
+								<br />
+								{/*---------------------------------------FIELD----------------------------------------------*/}
+								<Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
 
-				<br />
-				{/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
-				<h2>Contact Information</h2>
-				<hr />
-				{/*---------------------------------------PHONE----------------------------------------------*/}
-				<div className={classes.IconAndText}>
-					<PhoneIcon style={{'margin-right': '5px'}} />
-					<Typography className={classes.BoldAndBrash}> Phone: {PhoneNumber}</Typography>
-				</div>
-				<br />
-				{/*---------------------------------------EMAIL----------------------------------------------*/}
-				<div className={classes.IconAndText}>
-					<EmailIcon style={{ 'margin-right': '5px' }} />
-					<Typography className={classes.BoldAndBrash}>Email: {Email}</Typography>
-				</div>
-			</Container>
-			<br />
-			{/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
-			<div className={classes.box, classes.darkbox} style={{
-				position: 'absolute',
-				top: '455px',
-				left: '500px',
-				width: '750px',
-				height: '75px',
-				'z-index':'1',
-				'margin-left': '150px',
-			}}>
-			{/*------------------------------------ADDRESS CONTENT-------------------------------------*/}
-				<Typography className={classes.BoldAndBrash, classes.Address}>
-					Ecolibrium Farms
-				</Typography>
-				<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
-					15410 Northeast 124th StreetRedmond
-				</Typography>
-				<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
-					WA 98052
-				</Typography>
-			</div>
-
-			{/*-----------------------------IMAGE PLACEMENT------------------------------------*/ }
-			<img src={OfficeBuilding} style={{
-										position: 'absolute',
-										top: '150px',
-										left: '500px',
-										width: '750px',
-										'margin-left': '150px', }}
-			/>
-
-			{/*-----------------------------ABOUT THE COMPANY TEXTBOX------------------------------------*/ }
-								{/* Provides a description of the company */ }
-			<Container className={clsx(classes.box, classes.imagebox)} style={{
-																		position: 'absolute',
-																		top: '550px',
-																		left:'500px',
-																		width: '750px',
-																		'margin-left': '150px',
-																		}}>
+								<br />
+								{/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
+								<h2>Contact Information</h2>
+								<hr />
+								{/*---------------------------------------PHONE----------------------------------------------*/}
+								<div className={classes.IconAndText}>
+									<PhoneIcon style={{ 'margin-right': '5px' }} />
+									<Typography className={classes.BoldAndBrash}> Phone: {PhoneNumber}</Typography>
+								</div>
+								<br />
+								{/*---------------------------------------EMAIL----------------------------------------------*/}
+								<div className={classes.IconAndText}>
+									<EmailIcon style={{ 'margin-right': '5px' }} />
+									<Typography className={classes.BoldAndBrash}>Email: {Email}</Typography>
+								</div>
+							</ContainerBox>
+						</Col>
+						<Col md="4" className="d-flex flex-column">
+							{/* Generates the send an application box */}
+							<ContainerBox
+								className={(classes.box, classes.imagebox) + " mt-auto mb-3"}
+								style={{ cursor: "pointer" }}
+							>
+								{/* Input Icon */}
+								<InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
+								{/* Subtext */}
+								<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px', width: 'auto' }}>
+									Send an application
+              </Typography>
+							</ContainerBox>
+							{/* Generates the visit website box*/}
+							<ContainerBox
+								className={(classes.box, classes.imagebox) + " mt-3 mb-auto"}
+								style={{ cursor: "pointer" }}
+							>
+								{/* Link Icon */}
+								<InsertLinkIcon className={classes.largeIcon} />
+								{/* Subtext */}
+								<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px' }}>
+									Visit Website
+              </Typography>
+							</ContainerBox>
+						</Col>
+					</Row>
+					<br />
+					<Row className="d-flex justify-content-center align-items-center">
+						<Col md="6">
+							{/*-----------------------------IMAGE PLACEMENT------------------------------------*/}
+							<img src={OfficeBuilding} className={classes.box, classes.darkbox} style={{ width: '100%', height: 'auto', borderBottom: 0 }}/>
+            {/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
+							<div className={classes.box, classes.darkbox}>
+              {/*------------------------------------ADDRESS CONTENT-------------------------------------*/}
+							<Typography className={classes.BoldAndBrash, classes.Address}>
+							  Ecolibrium Farms
+              </Typography>
+						<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+						  15410 Northeast 124th StreetRedmond
+              </Typography >
+					<Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+					  WA 98052
+              </Typography>
+			</div >
+		</Col>
+		<Col md="6">
+			{/*-----------------------------ABOUT THE COMPANY TEXTBOX------------------------------------*/}
+			{/* Provides a description of the company */}
+			<ContainerBox className={clsx(classes.box, classes.imagebox)}>
 				<h3>About this company</h3>
 				<hr />
 				{/* Company Description */}
 				<Typography color='primary'>
 					{CompanyDescription}
 				</Typography>
-			</Container>
-			<br />
-
-			<div className={classes.row} style={{ width: '800px' }}>
-				{/* Generates the send an application box */}
-				<Container
-					className={(classes.box, classes.imagebox)}
-					style={{ position: 'absolute', top: '550px', left: '75px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center"}}
-				>
-					{/* Input Icon */}
-					<InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
-					{/* Subtext */}
-					<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px'}}>
-						Send an application
-					</Typography>
-				</Container>
-				{/* Generates the visit website box*/}
-				<Container
-					className={classes.box, classes.imagebox}
-					style={{ position: 'absolute', top: '550px', left: '315px', width: '230px', height: '150px', display: 'flex', flexDirection: 'column', 'align-items': 'center', justifyContent: "center" }}
-				>
-				{/* Link Icon */}
-				<InsertLinkIcon className={classes.largeIcon} />
-				{/* Subtext */}
-				<Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px'}}>
-					Visit Website
-				</Typography>
-				</Container>
-			</div>
-		</div>
-	);
+			</ContainerBox>
+		</Col>
+        </Row >
+	<br />
+      </Container >
+    </div >
+    </>
+  );
 }

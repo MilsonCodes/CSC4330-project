@@ -110,9 +110,11 @@ export default function DropDown(props) {
 					i++ ,
 					<MenuItem
 						type="text"
+						/* Closes the menu */
 						onClick={
 							() => handleClose(list)
 						}
+						/* [Untested] Will activate any provided functions passed down to this particular option */
 						onChange={
 							() => props.handleChange[i](list)
 						}
