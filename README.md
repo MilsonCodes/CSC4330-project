@@ -39,7 +39,7 @@ After the installations are complete, run the following command to launch the fr
 npm start
 ```
 This will allow you to see the website at http://localhost:3000/, however this will not work properly until the backend is started in the following steps.
-#### Virtual Environment
+#### Virtual Environment (optional)
 To start the virtual environment, you will need to create a new terminal in order to leave the client running. This is usually done through CTRL+SHIFT+t or some visual tool. Once you have a second terminal open, navigate to the project's root directory by typing the command:
 ```
 cd ../backend
@@ -60,7 +60,7 @@ pip3 install requirements.txt
 ```
 The final step is to start the backend. This will allow the client to access the database. Start the API with the following command:
 ```
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 
