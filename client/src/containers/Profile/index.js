@@ -5,7 +5,7 @@ import { Container, Row, Col } from "reactstrap";
 import { Card, Avatar, Chip } from "@material-ui/core";
 import { request } from "../../api";
 import { history } from "../../helpers/history";
-import getStateFromZipCode from '../../helpers/address'
+import { getStateFromZipCode } from '../../helpers/address'
 
 const ProfilePage = props => {
     //TODO: Create profile page

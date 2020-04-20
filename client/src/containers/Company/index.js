@@ -15,7 +15,7 @@ import SkyScraper from "../../assets/stockimages/Skyscraper.jpg"
 import OfficeBuilding from "../../assets/stockimages/OfficeBuildingCrop.jpg"
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import getStateFromZipCode from '../../helpers/address'
+import { getStateFromZipCode } from '../../helpers/address'
 import { history } from '../../helpers/history'
 
 const useStyles = makeStyles(theme => ({
