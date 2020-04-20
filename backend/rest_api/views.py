@@ -27,6 +27,7 @@ from reportlab.pdfgen import canvas
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import MultiPartParser
 
 # Debugging tool
 logger = logging.getLogger(__name__)
@@ -103,34 +104,54 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         data = request.data
-        usr = User.objects.get(id=data['user']['id'])
-        address = None
+        try:
+            usr = User.objects.get(id=data['user']['id'])
+        except:
+            usr = None
         if usr is not None:
             usr.username = data['user']['username']
             usr.email = data['user']['email']
             usr.save()
-        company = Company.objects.get(id=data['company']['id'])
         try:
             address = Address.objects.get(id=data['address']['id'])
+            pro.address = address
+            company = Company.objects.get(id=data['company']['id'])
+            pro.company = company
         except:
             pass
-        pro = Profile.objects.get(id=data['id'])
-        if pro is not None:
-            if company is not None:
-                pro.company = company
-            if address is None:
-                address = Address.objects.create(address1=data['address']['address1'], address2=data['address']['address2'], city=data['address']['city'], zip_code=data['address']['zip_code'], country=data['address']['country'])
-                address.save()
-            pro.address = address
-            pro.first_name = data['first_name']
-            pro.last_name = data['last_name']
-            pro.bio = data['bio']
-            pro.skills = data['skills']
-            pro.resume = data['resume']
+        pro = Profile.objects.get(id=kwargs['pk'])
+        try:
+            address = Address.objects.create(address1=data['address']['address1'], address2=data['address']['address2'], city=data['address']['city'], zip_code=data['address']['zip_code'], country=data['address']['country'])
             address.save()
-            pro.save()
-        data = pro
-        return Response(data, status=status.HTTP_200_OK)
+            pro.address = address
+        except:
+            pass
+        try:
+            pro.first_name = data['first_name']
+        except:
+            pass
+        try:
+            pro.last_name = data['last_name']
+        except:
+            pass
+        try:
+            pro.bio = data['bio']
+        except:
+            pass
+        try:
+            pro.skills = data['skills']
+        except:
+            pass
+        try:
+            pro.resume = data['resume']
+        except:
+            pass
+        for d in data:
+            dat = data[d]
+            pro.d = dat
+        pro.save()
+        data = self.serializer_class(pro)
+        return Response(data.data, status=status.HTTP_200_OK)
 
     def get_queryset(self):
         # Get specific user from url
@@ -215,8 +236,8 @@ class ListingViewSet(viewsets.ModelViewSet):
         listing.internal_only = data['internal_only']
         listing.key_words = data['key_words']
         listing.save()
-        data = listing
-        return Response(data, status=status.HTTP_200_OK)
+        data = self.serializer_class(listing)
+        return Response(data.data, status=status.HTTP_200_OK)
 
 # API endpoint for accessing Application model
 class ApplicationViewSet(viewsets.ModelViewSet):
@@ -226,9 +247,10 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     def update_app(self, request, id):
         app = self.queryset.get(id=id)
         data = request.data
+        res = self.serializer_class(app)
         app.status = data['status']
         app.save()
-        return Response(app, status=status.HTTP_200_OK)
+        return Response(res.data, status=status.HTTP_200_OK)
 
 class UserAppsView(views.APIView):
     permission_classes = (IsAuthenticated,)
@@ -249,17 +271,37 @@ class ListingAppsView(views.APIView):
 
 class UserResumeView(views.APIView):
     permission_classes = (IsAuthenticated,)
+    parser_class = [MultiPartParser]
     def get(self, request, id):
         queryset = Profile.objects.get(id=id)
         data = queryset.resume
         if data and hasattr(data, 'name'):
             filename = data.name
-            return FileResponse(data, as_attachment=False, filename=filename)
+            return FileResponse(data, as_attachment=True, filename=filename)
         else:
             data = {
                 'messsage': 'The user has not uploaded a resume'
             }
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+   
+    def post(self, request, id):
+        queryet = Profile.objects.get(id=id)
+        data = request.data
+        if data and hasattr(data, 'resume'):
+            queryset.resume = data
+            queryset.save()
+            return Response({'message': 'Successfully uploaded!'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, id, format=None):
+        user = Profile.objects.get(id=id)
+        if 'resume' not in request.data:
+            return Response({'message': 'Must send file'}, status=status.HTTP_400_BAD_REQUEST)
+        f = request.data['resume']
+        logger.info(f)
+        user.resume = f #(f['name'], f, save=True)
+        return Response(status=status.HTTP_201_CREATED)
 
 
 # View for handling stakeholder report
