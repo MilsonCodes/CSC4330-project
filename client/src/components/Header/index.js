@@ -51,8 +51,11 @@ const HeaderComp = props => {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem header>{profile.user.username}</DropdownItem>
+                        <DropdownItem onClick={() => history.push("/profile")}>Profile</DropdownItem>
                         {profile.admin ? <DropdownItem onClick={() => history.push("/admin")}>Admin</DropdownItem> : null }
                         {profile.company.name != "None" ? <DropdownItem onClick={() => history.push("/company")}>Company</DropdownItem> : null }
+                        <DropdownItem onClick={() => history.push("/applications")}>Applications</DropdownItem>
+                        <DropdownItem onClick={() => history.push("/settings")}>Settings</DropdownItem>
                         <DropdownItem onClick={() => history.push("/logout")}>Logout</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>

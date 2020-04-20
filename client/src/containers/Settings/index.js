@@ -13,6 +13,11 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import CheckboxApp from "../../components/Form/checkbox";
 import Textbox from "../../components/Form/textbox";
+import { Container } from 'reactstrap';
+import { connect } from "react-redux";
+import { Chip } from '@material-ui/core';
+import { request } from '../../api';
+import { updateProfile } from '../../redux/auth/actions'
 
 //CSS styling
 const useStyles = makeStyles({
@@ -21,7 +26,6 @@ const useStyles = makeStyles({
 		flexGrow: 1,
 		backgroundColor: theme.palette.background.paper,
 		display: 'flex',
-		height: 500,
 	},
 	tabs: {
 		borderRight: `1px solid ${theme.palette.divider}`,
@@ -37,13 +41,11 @@ const useStyles = makeStyles({
 	},
 
 	image: {
-
 		position: "absolute",
 		margin: 'auto',
 		height: 'auto',
 		top: '100px',
 		right: '150px',
-
 	},
 
 	header: {
@@ -52,7 +54,6 @@ const useStyles = makeStyles({
 		position: 'relative',
 		'text-align': 'center',
 		'font-family': 'Calibri',
-		'font-size': 40,
 
 	},
 	pagebreak: {
@@ -72,9 +73,7 @@ const useStyles = makeStyles({
 	},
 
 	tabbed_content: {
-		width: '100%',
-		'overflow-y': 'scroll',
-
+		width: '100%'
 	}
 });
 
@@ -111,21 +110,115 @@ function a11yProps(index) {
 	};
 }
 
-export const Settings = props => {
+const SettingsPage = props => {
+  const { user } = props
+
+  console.log(user)
 
 	const classes = useStyles();
-	const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0);
+  const [state, setState] = React.useState({
+    profile: {
+      first_name: user.first_name,
+      last_name: user.last_name,
+      skills: user.skills,
+      bio: user.bio
+    },
+    resume: null,
+    profileSubmitted: false,
+    error: null
+  });
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 
-	const TextBoxSize = 500;
+  const TextBoxSize = 500;
+  
+  console.log(state)
+
+  const updateField = (field, value) => {
+    var newState = { ...state }
+    newState.profile[field] = value
+    setState(newState)
+  }
+
+  const convertToStr = arr => {
+    var str = ""
+
+    for(let i = 0; i < arr.length; i++)
+      str += `${arr[i]}${i < arr.length - 1 ? ", " : ""}`
+
+    return str
+  }
+
+  const keyDownSkills = e => {
+    if(e.key === "Enter"){
+      e.preventDefault()
+
+      var skill = e.target.value, skills = state.profile.skills != "" ? state.profile.skills.split(", ") : []
+
+      if(!skills.includes(skill)){
+        skills.push(skill)
+        setState({ ...state, profile: { ...state.profile, skills: convertToStr(skills) }})
+      }
+
+      e.target.value = null
+    }
+  }
+
+  const deleteSkill = index => {
+    var skills = state.profile.skills != "" ? state.profile.skills.split(", ") : []
+    skills.splice(index, 1) 
+    setState({ ...state, profile: { ...state.profile, skills: convertToStr(skills) }})
+  }
+
+  const submitProfileChanges = e => {
+    setState({ ...state, profileSubmitted: false })
+
+    var data = {}
+
+    Object.keys(state.profile).forEach(element => {
+      if(state.profile[element] != user[element])
+        data[element] = state.profile[element]
+    });
+
+    console.log(data)
+
+    if(data != {}) {
+      request("/users/" + user.id + "/", data, "PATCH", true)
+      .then(res => {
+        setState({ ...state, profileSubmitted: true })
+        props.dispatch(updateProfile(res.data))
+      })
+      .catch(err => {
+        setState({ ...state, error: err })
+      })
+    }
+
+    var fileData = new FormData()
+    if(state.resume) {
+      fileData.append("resume", state.resume)
+    }
+
+    if(state.resume) {
+      request("/users/" + user.id + "/resume", fileData, "PUT", true, "multipart/form-data")
+      .then(res => {
+        setState({ ...state, profileSubmitted: true })
+        console.log(res)
+      })
+      .catch(err => {
+        setState({ ...state, error: err })
+      })
+    }
+  }
+
+  const skillsArr = state.profile.skills != "" ? state.profile.skills.split(", ") : []
 
 	return (
-		<div>
-			<h2 className={classes.header}>Settings</h2>
-			<div className={classes.root}>
+		<Container>
+			<h1 className={classes.header + " pt-2 mb-2"}><i>Settings</i></h1>
+			<div className={classes.root + " mb-4"} style={{ borderRadius: "10px" }}>
 				<Tabs
 					orientation="vertical"
 					variant="scrollable"
@@ -147,14 +240,14 @@ export const Settings = props => {
 							<br />
 							<h4>Account Details</h4>
 							<hr />
-							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Set Password</Button>
+							<Button href="/" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Set Password</Button>
 						</div>
 
 						<div>
 							<hr />
 							<h4>Two-Factor Authentication</h4>
 							<br />
-							<Button href="Link here" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Enable Two-Factor Authentication</Button>
+							<Button href="/" style={{ 'backgroundColor': 'rgb(200,200,200)' }}>Enable Two-Factor Authentication</Button>
 						</div>
 
 					</div>
@@ -175,26 +268,18 @@ export const Settings = props => {
 								label="First Name"
 								variant="filled"
 								backgroundColor='white'
-								width={TextBoxSize / 2 - 10}
+                width={TextBoxSize / 2 - 10}
+                handleChange={e => updateField("first_name", e.target.value )}
 							/>
 							<Textbox
 								label="Last Name"
 								variant="filled"
 								backgroundColor='white'
-								width={TextBoxSize / 2 - 10}
+                width={TextBoxSize / 2 - 10}
+                handleChange={e => updateField("last_name", e.target.value )}
 							/>
 						</div>
 					</FormControl>
-					<div>
-						<hr />
-						<h4>Username</h4>
-						<Textbox
-							label="Username"
-							variant="filled"
-							backgroundColor='white'
-							width={TextBoxSize}
-						/>
-					</div>
 					<div>
 						<hr />
 						<h4>Bio</h4>
@@ -203,48 +288,56 @@ export const Settings = props => {
 							variant="filled"
 							backgroundColor='white'
 							multiline="true"
-							width={TextBoxSize}
+              width={TextBoxSize}
+              handleChange={e => updateField("bio", e.target.value)}
 						/>
 						<hr />
 						<Textbox
 							label="Skills"
 							variant="filled"
 							backgroundColor='white'
-							width={TextBoxSize}
+              width={TextBoxSize}
+              onKeyDown={keyDownSkills}
 						/>
-					</div>
-					<div>
-						<hr />
-						<h4>Contact</h4>
-						<Textbox
-							label="Email Address"
-							variant="filled"
-							backgroundColor='white'
-							width={TextBoxSize}
-						/>
+            {skillsArr.length > 0 ? skillsArr.map((skill, i) => (
+              <Chip
+                label={skill}
+                onDelete={() => deleteSkill(i)}
+                className="mr-1"
+              />
+            )) : null}
 					</div>
 
 					<div>
 						<hr />
 						<h4>Resume</h4>
 						<br />
-						<Button
-							variant="contained"
-							component="label"
-						>
-							Upload File
-							<input
-								type="file"
-								style={{ display: "none" }}
-							/>
-						</Button>
+            <div style={{ width: '100%', whiteSpace: "nowrap" }}>
+              <Button
+                variant="contained"
+                component="label"
+              >
+                Upload File
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  style={{ display: "none" }}
+                  onChange={e => setState({ ...state, resume: e.target.files[0] })}
+                />
+              </Button>
+              {state.resume ?
+                <p className="ml-3 d-inline" style={{ width:"auto" }}>{state.resume.name}</p>
+              : null}
+            </div>
 					</div>
 
 					<hr />
-					<Button variant="contained" color="primary">
+					<Button variant="contained" color="primary" onClick={submitProfileChanges}>
 						Save
 					</Button>
-
+          {state.profileSubmitted ?
+            <p className="ml-3 d-inline" style={{ width:"auto", color: 'green' }}>Saved!</p>
+          : null}
 				</TabPanel>
 				<TabPanel value={value} index={2} className={classes.tabbed_content}>
 					<h3>Notifications settings</h3>
@@ -342,7 +435,15 @@ export const Settings = props => {
 				</TabPanel>
 
 			</div>
-		</div>
+		</Container>
 
 	);
 }
+
+function mapStateToProps(state) {
+  const { user } = state.auth
+
+  return { user }
+}
+
+export const Settings = connect(mapStateToProps)(SettingsPage)

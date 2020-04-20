@@ -31,8 +31,14 @@ export default (state=initialState, action) => {
     case constants.REGISTER_REQUEST: {
       return { ...state, loading: true, loaded: false }
     }
+    case constants.REGISTER_ERROR: {
+      return { ...state, loading: false, error: action.payload }
+    }
     case constants.REGISTER_SUCCESS: {
       return { ...state, loading: false, loaded: true, loggedIn: true, user: action.payload }
+    }
+    case constants.UPDATE_PROFILE: {
+      return { ...state, user: action.payload }
     }
   }
 
