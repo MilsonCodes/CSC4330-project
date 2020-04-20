@@ -54,6 +54,6 @@ urlpatterns = [
     path('report', report),
     path('users/<int:id>/applications', user_app.as_view(), name='user_applications'),
     path('listings/<int:id>/applications', list_app.as_view(), name='listing_applications'),
-    path('users/<int:id>/resume/<filename>', user_res.as_view()),
+    path('users/<int:id>/resume', user_res.as_view()),
     path('application/<int:id>', update_app),
 ]

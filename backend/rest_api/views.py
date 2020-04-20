@@ -27,7 +27,7 @@ from reportlab.pdfgen import canvas
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Debugging tool
 logger = logging.getLogger(__name__)
@@ -271,7 +271,7 @@ class ListingAppsView(views.APIView):
 
 class UserResumeView(views.APIView):
     permission_classes = (IsAuthenticated,)
-    parser_class = [MultiPartParser]
+    parser_class = [FormParser, MultiPartParser]
     def get(self, request, id):
         queryset = Profile.objects.get(id=id)
         data = queryset.resume
@@ -300,7 +300,8 @@ class UserResumeView(views.APIView):
             return Response({'message': 'Must send file'}, status=status.HTTP_400_BAD_REQUEST)
         f = request.data['resume']
         logger.info(f)
-        user.resume = f #(f['name'], f, save=True)
+        user.resume = f.name
+        user.save()
         return Response(status=status.HTTP_201_CREATED)
 
 
