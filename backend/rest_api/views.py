@@ -323,14 +323,4 @@ class StakeHolderView(views.APIView):
         # FileResponse sets the Content-Disposition header so that browsers
         # present the option to save the file.
         buffer.seek(0)
-        # outgoing = []
-        # for o in Profile.objects.filter(stakeholder=True):
-        #     outgoing.append(o.user.email)
-        # send_mail(
-        #     'Stakeholder Report',
-        #     str(data), 
-        #     'mr.sheppii@gmail.com',
-        #     outgoing,
-        #     fail_silently=True
-        # )
         return FileResponse(buffer, as_attachment=False, filename=filename)
