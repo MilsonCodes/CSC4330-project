@@ -64,6 +64,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'manager',
             'bio',
             'skills',
+            'resume',
         )
 
 # Class for organizing Association data
@@ -124,13 +125,13 @@ class ShortListingSerializer(serializers.ModelSerializer):
 
 # Class for organizing Application data
 class ApplicationSerializer(serializers.ModelSerializer):
-    Profile = ProfileSerializer(required=True)
+    profile = ProfileSerializer(required=True)
     listing = ListingSerializer(required=True)
     class Meta:
         model = Application
         fields = (
             'id',
-            'Profile',
+            'profile',
             'listing',
             'status',
             'date_submitted',

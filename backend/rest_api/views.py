@@ -99,7 +99,7 @@ class UserViewSet(viewsets.ModelViewSet):
     # Format profiles based on serializer
     serializer_class = ProfileSerializer
     # Require token permissions to access associated routes
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def update(self, request, *args, **kwargs):
         data = request.data
@@ -126,6 +126,7 @@ class UserViewSet(viewsets.ModelViewSet):
             pro.last_name = data['last_name']
             pro.bio = data['bio']
             pro.skills = data['skills']
+            pro.resume = data['resume']
             address.save()
             pro.save()
         data = pro
@@ -194,18 +195,50 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
 # API endpoint for accessing Application model
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('priority')
     serializer_class = ApplicationSerializer
+    #permission_classes = (IsAuthenticated,)
+
+class UserAppsView(views.APIView):
     permission_classes = (IsAuthenticated,)
+    def get(self, request, id):
+        queryset = Application.objects.all()
+        data = Application.objects.filter(profile_id=id)
+        data = ApplicationSerializer(data, many=True, read_only=True)
+        return Response(data.data, status=status.HTTP_200_OK)
+
+class ListingAppsView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, id):
+        queryset = Application.objects.all()
+        data = Application.objects.filter(listing=id)
+        data = ApplicationSerializer(data, many=True, read_only=True)
+        return Response(data.data, status=status.HTTP_200_OK)
+
+
+class UserResumeView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, id):
+        queryset = Profile.objects.get(id=id)
+        data = queryset.resume
+        if data and hasattr(data, 'name'):
+            filename = data.name
+            return FileResponse(data, as_attachment=False, filename=filename)
+        else:
+            data = {
+                'messsage': 'The user has not uploaded a resume'
+            }
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
 
 # View for handling stakeholder report
 class StakeHolderView(views.APIView):
     def get(self, request):
         employed = Profile.objects.exclude(type='Applicant').count()
+        unemployed = Profile.objects.filter(company=5).count()
         total_users = User.objects.all().count()
         listings = Listing.objects.filter(active=True).count()
         applications = Application.objects.all().count()
@@ -220,7 +253,7 @@ class StakeHolderView(views.APIView):
         today = date.today()
         data = {
             'Employed Workers': employed,
-            'Unemployed Workers': total_users-employed,
+            'Unemployed Workers': unemployed,
             'Registered Users': total_users,
             'Percent Employed': str(employed/total_users*100) + '%',
             'Registered Companies': companies,

@@ -70,9 +70,9 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     admin = models.BooleanField(default=False)
     stakeholder = models.BooleanField(default=False)
     # Description of user
-    bio = models.CharField(max_length=1024, null=True)
+    bio = models.CharField(max_length=1024, null=True, blank=True)
     # User skills
-    skills = models.TextField(null=True)
+    skills = models.TextField(null=True, blank=True)
     type = models.CharField(max_length=16, choices=TYPES, default='Applicants',)
 
     def save(self, *args, **kwargs):
@@ -131,7 +131,7 @@ class Application(models.Model):
         (3, 'Standard Candidate')
     ]
     # Link between Listing and Profile
-    Profile = models.ForeignKey(Profile, models.CASCADE)  # Person applying for job
+    profile = models.ForeignKey(Profile, models.CASCADE)  # Person applying for job
     listing = models.ForeignKey(Listing, models.CASCADE)  # Listing applied for
     # Either pending, accepted, or rejected
     status = models.CharField(max_length=8, choices=STATUS, default='Pending',)
@@ -145,7 +145,7 @@ class Application(models.Model):
         # Get job listing
         listing = self.listing
         # Get applicant
-        applicant = self.Profile
+        applicant = self.profile
         # Get applicant resume
         resume = applicant.resume
         # Find job listing key words and split on comma
@@ -187,4 +187,4 @@ class Application(models.Model):
         super(Application, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.listing) + "- " + self.Profile.last_name + ": " + self.status
+        return str(self.listing) + "- " + self.profile.last_name + ": " + self.status

@@ -17,6 +17,12 @@ companyList = views.CompanyList().as_view()
 companyListings = views.CompanyViewSet.as_view({'get': 'listings'})
 # Stakeholder report
 report = views.StakeHolderView().as_view()
+# Applications by user
+user_app = views.UserAppsView
+# Applications by listing
+list_app = views.ListingAppsView
+# User Resume
+user_res = views.UserResumeView
 
 # The default router will include all CRUD routes for associated view sets
 # The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
@@ -41,5 +47,8 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'), # Verify token is valid
     path('companies', companyList), # Route for listing Companies [unauthorized; read only]
     path('listings/company/<int:company_id>', companyListings, name='company_listings'), # Route for showing Company and Listings
-    path('report', report)
+    path('report', report),
+    path('users/<int:id>/applications', user_app.as_view(), name='user_applications'),
+    path('listings/<int:id>/applications', list_app.as_view(), name='listing_applications'),
+    path('users/<int:id>/resume', user_res.as_view()),
 ]
