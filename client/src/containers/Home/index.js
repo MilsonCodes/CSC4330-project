@@ -16,8 +16,7 @@ import SubmitForm from "../../components/Form/index";
 import BusinessLeader from "../../assets/stockimages/SkyScapeCrop.png";
 import logo from "../../assets/img/ChaseYourDreams.png";
 
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
-
+//CSS styling
 const useStyles = makeStyles({
 
 	box: {
@@ -161,6 +160,7 @@ export const Home = props => {
 						We'll provide you the best possible results with little effort required on your part.
 					</p>
 					<div className={classes.center + " mb-4"}>
+					{/* Generates a button that will lead to the login page */}
 					<LinkButtons
 							size="sm"
 							label='stuff'
@@ -185,6 +185,7 @@ export const Home = props => {
 					</p>
 					<br/>
 					<div className={classes.center + " mb-4"}>
+						{/* Generates a button that will lead to the login page */}
 						<LinkButtons
 							size="sm"
 							label='stuff'
@@ -192,8 +193,8 @@ export const Home = props => {
 							width='auto'
 							height='auto'
 							text='Click here to begin now!'
-							  href='/login'
-							  className="ml-auto mr-auto"
+							href='/login'
+							className="ml-auto mr-auto"
 						>
 						</LinkButtons>
 					</div>

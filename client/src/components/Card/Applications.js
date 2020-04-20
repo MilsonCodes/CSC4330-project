@@ -17,6 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+//CSS styling classes
 const useStyles = makeStyles((theme) => ({
 	avatar: {
 		backgroundColor: red[500],
@@ -29,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'row',
 		'justify-content': 'space-evenly',
 		'padding-bottom': '3px',
-		width: '1450px',
 	},
 
 	card_header: {
@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	preview: {
-
 		'font-size': 20,
 	},
 
@@ -71,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
 		'justify-content': 'space-evenly',
 		'margin-left': 'auto',
 		'margin-right': 'auto',
-		maxWidth: '1500px',
 	},
 }));
 
