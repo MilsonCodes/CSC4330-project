@@ -10,9 +10,10 @@ import { getAccessToken, getRefreshToken, updateTokens } from './cookies'
  * for each container. The requests should provide all the data needed in a JSON format. If it doesn't, we will change
  * that.
  */
-export const request = async (endpoint, body, type, authenticated, contentType="application/json") => {
+export const request = async (endpoint, body, type, authenticated, contentType="application/json", headerAdd={}) => {
   var headers = {
-    'Content-Type': contentType
+    'Content-Type': contentType,
+    ...headerAdd
   }
 
   if (authenticated) {
@@ -35,7 +36,7 @@ async function refreshAccessToken() {
   if(!refresh) throw new Error("No valid refresh token exists!")
 
   var response = await axios({
-    method: "GET",
+    method: "POST",
     url: API_HOST + "/token/refresh/",
     headers: {
       'Content-Type': "application/json",

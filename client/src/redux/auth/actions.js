@@ -84,3 +84,10 @@ export function registerUser(data) {
     })
   }
 }
+
+export function updateProfile(data) {
+  return dispatch => {
+    localStorage.setItem('user', JSON.stringify(data))
+    dispatch({ type: constants.UPDATE_PROFILE, payload: data })
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import clsx from 'clsx';
 import theme from "../../constants/theme";
@@ -14,6 +14,9 @@ import WorkingTogether from "../../assets/stockimages/WorkingTogether.jpg";
 import SkyScraper from "../../assets/stockimages/Skyscraper.jpg"
 import OfficeBuilding from "../../assets/stockimages/OfficeBuildingCrop.jpg"
 import { Container, Row, Col } from 'reactstrap';
+import { connect } from 'react-redux';
+import { getStateFromZipCode } from '../../helpers/address'
+import { history } from '../../helpers/history'
 
 const useStyles = makeStyles(theme => ({
 
@@ -114,9 +117,41 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const CompanyProfile = props => {
-
+const CompanyProfilePage = props => {
   const classes = useStyles();
+
+  var [state, setState] = useState({
+    company: null,
+    error: null,
+    editable: false
+  })
+
+  const { user } = props
+
+  if(state.error)
+    history.push({ pathname: "/error", state: { error: state.error } })
+
+  if(props.match.params.id && !state.company) {
+    request("/company/" + props.match.params.id + "/", null, "GET", true)
+    .then(res => setState({ ...state, company: res.data }))
+    .catch(err => setState({ ...state, error: err }))
+  } else if(!props.match.params.id && !state.company) {
+    setState({ ...state, company: user.company, editable: user.manager })
+  }
+
+  console.log(state.company)
+
+  if(state.company && !state.company.address.state) {
+    const zipCode = state.company.address.zip_code
+    
+    const updateCallback = st => {
+      var newState = { ...state }
+      newState.company.address.state = st;
+      setState(newState)
+    }
+
+    getStateFromZipCode(zipCode, updateCallback, err => setState({ ...state, error: err }))
+  }
 
   const CompanyName = "Company A";
   const CompanyDescription = 'He discovered a trick that was immensely hard to pull off.  It required ten angle perfect inputs, thirteen pixel perfect inputs, and alternating buttons every 60th of a second without pausing.  It took place in the last minute of the run, and he had to be there on the perfect frame, which meant completely perfect play up to that point.Additionally, not only was his position required to be right, but his subpixel position, which takes too long to manipulate and is essentially RNG(7 / 3000 chance) had to be right as well.In all, the trick saved around three tenths of a second. Obviously, it was worth going for it.';
@@ -125,102 +160,125 @@ export const CompanyProfile = props => {
   const Email = "fakeAddress@fakeDomain.com";
   /* DATA TO BE PUT IN VIA API LATER */
 
+  const { company } = state
+
   return (
     <>
-    <img src={WorkingTogether} className={classes.imagewrapper} />
-    <div style={{ position: "absolute", width: "100%", top: 120 }}>
-      <Container className="mt-4 mb-4">
-        {/*-----------------------------COMPANY DESCRIPTION & CONTACT INFORMATION BOX------------------------------------*/}
-        <Row>
-          <Col md="8">
-            <ContainerBox className="ml-auto mr-auto" className={clsx(classes.box, classes.imagebox)}>
-              <h3>{CompanyName}</h3>
-              <hr />
-              {/*---------------------------------------LOCATION----------------------------------------------*/}
-              <Typography color="primary" className={classes.BoldAndBrash}>Location: {State}</Typography>
-              <br />
-              {/*---------------------------------------FIELD----------------------------------------------*/}
-              <Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
+      {company ?
+        <>
+          <img src={WorkingTogether} className={classes.imagewrapper} />
+          <div style={{ position: "absolute", width: "100%", top: 120 }}>
+            <Container className="mt-4 mb-4">
+              {/*-----------------------------COMPANY DESCRIPTION & CONTACT INFORMATION BOX------------------------------------*/}
+              <Row>
+                <Col md="8">
+                  <ContainerBox className="ml-auto mr-auto" className={clsx(classes.box, classes.imagebox)}>
+                    <h3>{company.name ? company.name : "No Name"}</h3>
+                    <hr />
+                    {/*---------------------------------------LOCATION----------------------------------------------*/}
+                    {company.address.state && company.address.city ?
+                      <Typography color="primary" className={classes.BoldAndBrash}>Location: {company.address.city}, {company.address.state}</Typography>
+                    : null}
+                    <br />
+                    {/*---------------------------------------FIELD----------------------------------------------*/}
+                    <Typography color="primary" className={classes.BoldAndBrash}>Field: Technology</Typography>
 
+                    <br />
+                    {/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
+                    <h2>Contact Information</h2>
+                    <hr />
+                    {/*---------------------------------------PHONE----------------------------------------------*/}
+                    <div className={classes.IconAndText}>
+                      <PhoneIcon style={{ 'margin-right': '5px' }} />
+                      <Typography className={classes.BoldAndBrash}> Phone: {company.phone ? company.phone : "N/A"}</Typography>
+                    </div>
+                    <br />
+                    {/*---------------------------------------EMAIL----------------------------------------------*/}
+                    <div className={classes.IconAndText}>
+                      <EmailIcon style={{ 'margin-right': '5px' }} />
+                      <Typography className={classes.BoldAndBrash}>Email: {company.email ? company.email : "N/A"}</Typography>
+                    </div>
+                  </ContainerBox>
+                </Col>
+                <Col md="4" className="d-flex flex-column">
+                  {/* Generates the send an application box */}
+                  <ContainerBox
+                    className={(classes.box, classes.imagebox) + " mt-auto mb-3"}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {/* Input Icon */}
+                    <InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
+                    {/* Subtext */}
+                    <Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px', width: 'auto' }}>
+                      Send an Application
+                    </Typography>
+                  </ContainerBox>
+                  {/* Generates the visit website box*/}
+                  <ContainerBox
+                    className={(classes.box, classes.imagebox)  + " mt-3 mb-auto"}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {/* Link Icon */}
+                    <InsertLinkIcon className={classes.largeIcon} />
+                    {/* Subtext */}
+                    <Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px' }}>
+                      Visit Website
+                    </Typography>
+                  </ContainerBox>
+                </Col>
+              </Row>
               <br />
-              {/*-----------------------------CONTACT INFORMATION SUBHEADER------------------------------------*/}
-              <h2>Contact Information</h2>
-              <hr />
-              {/*---------------------------------------PHONE----------------------------------------------*/}
-              <div className={classes.IconAndText}>
-                <PhoneIcon style={{ 'margin-right': '5px' }} />
-                <Typography className={classes.BoldAndBrash}> Phone: {PhoneNumber}</Typography>
-              </div>
-              <br />
-              {/*---------------------------------------EMAIL----------------------------------------------*/}
-              <div className={classes.IconAndText}>
-                <EmailIcon style={{ 'margin-right': '5px' }} />
-                <Typography className={classes.BoldAndBrash}>Email: {Email}</Typography>
-              </div>
-            </ContainerBox>
-          </Col>
-          <Col md="4" className="d-flex flex-column">
-            {/* Generates the send an application box */}
-            <ContainerBox
-              className={(classes.box, classes.imagebox) + " mt-auto mb-3"}
-              style={{ cursor: "pointer" }}
-            >
-              {/* Input Icon */}
-              <InputIcon className={classes.largeIcon} style={{ 'padding-top': '13px' }} />
-              {/* Subtext */}
-              <Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px', width: 'auto' }}>
-                Send an application
-              </Typography>
-            </ContainerBox>
-            {/* Generates the visit website box*/}
-            <ContainerBox
-              className={(classes.box, classes.imagebox)  + " mt-3 mb-auto"}
-              style={{ cursor: "pointer" }}
-            >
-              {/* Link Icon */}
-              <InsertLinkIcon className={classes.largeIcon} />
-              {/* Subtext */}
-              <Typography className={classes.BoldAndBrash} style={{ 'margin-bottom': '25px' }}>
-                Visit Website
-              </Typography>
-            </ContainerBox>
-          </Col>
-        </Row>
-        <br />
-        <Row className="d-flex justify-content-center align-items-center">
-          <Col md="6">
-            {/*-----------------------------IMAGE PLACEMENT------------------------------------*/}
-            <img src={OfficeBuilding} className={classes.box, classes.darkbox} style={{ width: '100%', height: 'auto', borderBottom: 0 }}/>
-            {/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
-            <div className={classes.box, classes.darkbox}>
-              {/*------------------------------------ADDRESS CONTENT-------------------------------------*/}
-              <Typography className={classes.BoldAndBrash, classes.Address}>
-                Ecolibrium Farms
-              </Typography>
-              <Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
-                15410 Northeast 124th StreetRedmond
-              </Typography >
-              <Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
-                WA 98052
-              </Typography>
-            </div >
-          </Col>
-          <Col md="6">
-            {/*-----------------------------ABOUT THE COMPANY TEXTBOX------------------------------------*/}
-            {/* Provides a description of the company */}
-            <ContainerBox className={clsx(classes.box, classes.imagebox)}>
-              <h3>About this company</h3>
-              <hr />
-              {/* Company Description */}
-              <Typography color='primary'>
-                {CompanyDescription}
-              </Typography>
-            </ContainerBox>
-          </Col>
-        </Row>
-        <br/>
-      </Container>
-    </div >
+              <Row className="d-flex justify-content-center align-items-center">
+                <Col md="6">
+                  {/*-----------------------------IMAGE PLACEMENT------------------------------------*/}
+                  <img src={OfficeBuilding} className={classes.box, classes.darkbox} style={{ width: '100%', height: 'auto', borderBottom: 0 }}/>
+                  {/*-----------------------------IMAGE SUBTEXT (ADDRESS)------------------------------------*/}
+                  <div className={classes.box, classes.darkbox}>
+                    {/*------------------------------------ADDRESS CONTENT-------------------------------------*/}
+                    <Typography className={classes.BoldAndBrash, classes.Address}>
+                      {company.name ? company.name : "No Name"}
+                    </Typography>
+                    {company.address.address1 ? <Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+                      {company.address.address1}
+                    </Typography > : null}
+                    {company.address.address2 ? <Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+                      {company.address.address2}
+                    </Typography > : null}
+                    {company.address.city && company.address.state && company.address.zip_code ? <Typography color="textSecondary" className={classes.BoldAndBrash, classes.Address}>
+                      {company.address.city} {company.address.state}, {company.address.zip_code}
+                    </Typography> : null}
+                  </div >
+                </Col>
+                <Col md="6">
+                  {/*-----------------------------ABOUT THE COMPANY TEXTBOX------------------------------------*/}
+                  {/* Provides a description of the company */}
+                  <ContainerBox className={clsx(classes.box, classes.imagebox)}>
+                    <h3>About this company</h3>
+                    <hr />
+                    {/* Company Description */}
+                    <Typography color='primary'>
+                      {company.description ? company.description : "No description"}
+                    </Typography>
+                  </ContainerBox>
+                </Col>
+              </Row>
+              <br/>
+            </Container>
+          </div >
+        </>
+      :
+        <div>
+          <h1>Loading...</h1>
+        </div>
+      }
     </>
   );
 }
+
+function mapStateToProps(state) {
+  const { user } = state.auth
+
+  return { user }
+}
+
+export const CompanyProfile = connect(mapStateToProps)(CompanyProfilePage)

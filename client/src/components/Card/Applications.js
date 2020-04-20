@@ -80,38 +80,27 @@ export default function Applications(props) {
 
 	const handleExpandClick = () => {
 		setExpanded(!expanded);
-	};
+  };
+  
+  const getColorFromStatus = status => {
+    switch(status) {
+      case "Accepted":
+        return '#04a829';
+      case "Rejected":
+        return 'red';
+      default:
+        return 'grey';
+    }
+  }
 
 	return (
 		<Card className={classes.card}>
 			{/* Generates a color for the header based on the status of the application*/}
-			{
-				(props.subheader == "Status: Accepted")
-					? <CardHeader
-						title={props.Business}
-						subheader={props.subheader}
-						style={{ 'text-align': 'left', backgroundColor: '#04a829' }}
-					/>
-					: null
-			}
-			{
-				(props.subheader == "Status: Rejected")
-					? <CardHeader
-						title={props.Business}
-						subheader={props.subheader}
-						style={{ 'text-align': 'left', backgroundColor: 'red' }}
-					/>
-					: null
-			}
-			{
-				(props.subheader == "Status: Pending")
-					? <CardHeader
-						title={props.Business}
-						subheader={props.subheader}
-						style={{ 'text-align': 'left', backgroundColor: 'grey' }}
-					/>
-					: null
-			}
+      <CardHeader
+        title={props.company}
+        subheader={`Status: ${props.status}`}
+        style={{ 'text-align': 'left', backgroundColor: getColorFromStatus(props.status) }}
+      />      
 			
 			<CardContent>
 				{/* Generates the preview text that will always be seen upon loading */}
@@ -119,13 +108,13 @@ export default function Applications(props) {
 					color="textSecondary"
 					className={classes.preview}
 				>
-					Job: {props.job}
+					Job: {props.title}
 				</Typography>
 				<Typography
 					color="textSecondary"
 					className={classes.preview}
 				>
-					Salary: {props.Salary}
+					Salary: {props.salary}
 				</Typography>
 			</CardContent>
 			{/* Generates a collapsable button for the card which will reveal more information regarding the contents of this card */}
@@ -133,13 +122,13 @@ export default function Applications(props) {
 				<CardContent>
 					<Typography paragraph>
 						{/* The extra content that will be shown when the card is expanded */}
-						{props.FullDetails}
+						{props.description}
 					</Typography>
 				</CardContent>
 			</Collapse>
 			<CardActions>
 				{/* When either the date or the down arrow button is clicked on, it will trigger the collapse or uncollapse effect */}
-				<Button size="small" onClick={handleExpandClick}>Date Submitted:  {props.Date}</Button>
+				<Button size="small" onClick={handleExpandClick}>Date Submitted:  {props.submitDate}</Button>
 				<IconButton
 					className={clsx(classes.expand, {
 						[classes.expandOpen]: expanded,
