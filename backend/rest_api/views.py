@@ -99,7 +99,7 @@ class UserViewSet(viewsets.ModelViewSet):
     # Format profiles based on serializer
     serializer_class = ProfileSerializer
     # Require token permissions to access associated routes
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def update(self, request, *args, **kwargs):
         data = request.data
@@ -195,13 +195,40 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
     serializer_class = ListingSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+    def update(self, request, *args, **kwargs):
+        data = request.data
+        listing = Listing.objects.get(id=data['id'])
+        company = Company.objects.get(id=data['company']['id'])
+        try:
+            address = Address.objects.get(id=data['address']['id'])
+        except:
+            pass
+        if listing is not None:
+            if company is not None:
+                listing.company = company
+        listing.title = data['title']
+        listing.description = data['description']
+        listing.date = data['date']
+        listing.active = data['active']
+        listing.committee = Committee.objects.get(id=data['committee'])
+        listing.internal_only = data['internal_only']
+        listing.key_words = data['key_words']
+        listing.save()
+        data = listing
+        return Response(data, status=status.HTTP_200_OK)
 
 # API endpoint for accessing Application model
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().order_by('priority')
     serializer_class = ApplicationSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+    def update_app(self, request, id):
+        app = self.queryset.get(id=id)
+        data = request.data
+        app.status = data['status']
+        app.save()
+        return Response(app, status=status.HTTP_200_OK)
 
 class UserAppsView(views.APIView):
     permission_classes = (IsAuthenticated,)
@@ -233,6 +260,7 @@ class UserResumeView(views.APIView):
                 'messsage': 'The user has not uploaded a resume'
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
+
 
 # View for handling stakeholder report
 class StakeHolderView(views.APIView):

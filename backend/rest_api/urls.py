@@ -23,6 +23,8 @@ user_app = views.UserAppsView
 list_app = views.ListingAppsView
 # User Resume
 user_res = views.UserResumeView
+# Update application
+update_app = views.ApplicationViewSet.as_view({'post': 'update_app'})
 
 # The default router will include all CRUD routes for associated view sets
 # The CRUD methods will be accessed using GET, POST, PUT, PATCH, and DELETE requests
@@ -51,4 +53,5 @@ urlpatterns = [
     path('users/<int:id>/applications', user_app.as_view(), name='user_applications'),
     path('listings/<int:id>/applications', list_app.as_view(), name='listing_applications'),
     path('users/<int:id>/resume', user_res.as_view()),
+    path('application/<int:id>', update_app),
 ]
