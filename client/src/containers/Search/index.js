@@ -13,7 +13,9 @@ import { Container, Row, Col } from 'reactstrap';
 import { history } from '../../helpers/history'
 import { connect } from 'react-redux';
 import { getLocationDataFromZipCode } from '../../helpers/address';
- 
+
+
+//CSS styling
 const useStyles = makeStyles({
 
 	avatar: {
@@ -128,14 +130,16 @@ const SearchPage = props => {
 	*/
 
 	//Job Search Page
-	//https://www.pexels.com/ For free stock images
 
   const classes = useStyles();
   
   const { user } = props
 
+	/* Placeholder data */
 	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
+
+	//Determines size of the textboxes
 	const TextBoxSize = 225;
   var i = -1;
   
@@ -248,6 +252,7 @@ const SearchPage = props => {
       <br/>
       <Row>
         <ContainerBox className={classes.row} fixed style={{ backgroundColor: 'white' }}>
+          {/* Textbox for Keywords*/}
 					<Textbox
 						label="Keywords"
 						variant="filled"
@@ -255,7 +260,7 @@ const SearchPage = props => {
             width={TextBoxSize}
             handleChange={e => setState({ ...state, filter: { ...state.filter, keywords: e.target.value } })}
 					/>
-
+					{/* Textbox for Location*/}
 					<Textbox
 						label="Location"
 						variant="filled"

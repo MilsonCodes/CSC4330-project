@@ -12,28 +12,6 @@ export default function LinkButtons(props) {
 	//Is currently not used for anything as of this moment.
 	const [isLoading, setIsLoading] = React.useState(false);
 
-	//Scrapped button effects used if the buttonh is currently busy loading an object.  Is not in use as of this moment.
-	/*
-	React.useEffect(
-	  SomeAPI => {
-		if (isLoading) {
-		  //Trigger a browser event upon a button click with the isLoading trigger
-		  fetch(SomeAPI) //If you want the button to be used to fetch an API
-			.then(response => response.json())
-			.then(success => {
-			  setIsLoading(false); //Set the button status to not loading
-			})
-			.catch(e => {
-			  setIsLoading(false); //Set button status to show not loading
-			});
-		}
-	  },
-	  [isLoading]
-	);
-  */
-
-	/* When the function LinkButtons is called up on, it will render the following React.js function through HTML & CSS code*/
-
 	return (
 		<div className="Button">
 

@@ -48,8 +48,6 @@ export default function Textbox(props) {
 		event.preventDefault();
 	};
 
-
-
 	return (
 		<>
 			<form className={props.className ? props.className : clsx(classes.margin, classes.textField)}
@@ -59,7 +57,7 @@ export default function Textbox(props) {
 					{/* Username settings */}
 					<TextField
 					autoFocus={props.autoFocus}				/* If true, the input element will be focused during the first mount */
-					fullWidth				/* If true, the input will take up teh full width of its container */
+					fullWidth								/* If true, the input will take up teh full width of its container */
 					required={props.required}				//Makes this textfield mandatory to fill out before submitting
 					multiline={props.multiline}
 

@@ -1,0 +1,56 @@
+BEGIN;
+--
+-- Create model Address
+--
+CREATE TABLE "rest_api_address" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "address1" varchar(1024) NOT NULL, "address2" varchar(1024) NOT NULL, "zip_code" varchar(12) NOT NULL, "city" varchar(1024) NOT NULL, "country" varchar(32) NOT NULL);
+--
+-- Create model Committee
+--
+CREATE TABLE "rest_api_committee" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(1056) NULL);
+--
+-- Create model Company
+--
+CREATE TABLE "rest_api_company" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(64) NOT NULL, "description" varchar(256) NULL, "address_id" integer NOT NULL REFERENCES "rest_api_address" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Profile
+--
+CREATE TABLE "rest_api_profile" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(64) NOT NULL, "last_name" varchar(64) NOT NULL, "resume" varchar(100) NULL, "manager" bool NOT NULL, "admin" bool NOT NULL, "stakeholder" bool NOT NULL, "bio" varchar(1024) NULL, "skills" text NULL, "type" varchar(16) NOT NULL, "address_id" integer NULL REFERENCES "rest_api_address" ("id") DEFERRABLE INITIALLY DEFERRED, "company_id" integer NULL REFERENCES "rest_api_company" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Listing
+--
+CREATE TABLE "rest_api_listing" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(1024) NOT NULL, "description" varchar(1024) NOT NULL, "date" datetime NULL, "active" bool NOT NULL, "internal_only" bool NOT NULL, "key_words" text NOT NULL, "committee_id" integer NOT NULL REFERENCES "rest_api_committee" ("id") DEFERRABLE INITIALLY DEFERRED, "company_id" integer NOT NULL REFERENCES "rest_api_company" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Add field company to committee
+--
+CREATE TABLE "new__rest_api_committee" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(1056) NULL, "company_id" integer NULL REFERENCES "rest_api_company" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "new__rest_api_committee" ("id", "name", "company_id") SELECT "id", "name", NULL FROM "rest_api_committee";
+DROP TABLE "rest_api_committee";
+ALTER TABLE "new__rest_api_committee" RENAME TO "rest_api_committee";
+CREATE INDEX "rest_api_company_address_id_d6b6d5cd" ON "rest_api_company" ("address_id");
+CREATE INDEX "rest_api_profile_address_id_d81061eb" ON "rest_api_profile" ("address_id");
+CREATE INDEX "rest_api_profile_company_id_c56b3d65" ON "rest_api_profile" ("company_id");
+CREATE INDEX "rest_api_listing_committee_id_727c6953" ON "rest_api_listing" ("committee_id");
+CREATE INDEX "rest_api_listing_company_id_61e87f2f" ON "rest_api_listing" ("company_id");
+CREATE INDEX "rest_api_committee_company_id_1bb4a8da" ON "rest_api_committee" ("company_id");
+--
+-- Add field members to committee
+--
+CREATE TABLE "rest_api_committee_members" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "committee_id" integer NOT NULL REFERENCES "rest_api_committee" ("id") DEFERRABLE INITIALLY DEFERRED, "profile_id" integer NOT NULL REFERENCES "rest_api_profile" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Association
+--
+CREATE TABLE "rest_api_association" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(64) NOT NULL, "description" varchar(256) NULL, "address_id" integer NOT NULL REFERENCES "rest_api_address" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE TABLE "rest_api_association_companies" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "association_id" integer NOT NULL REFERENCES "rest_api_association" ("id") DEFERRABLE INITIALLY DEFERRED, "company_id" integer NOT NULL REFERENCES "rest_api_company" ("id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Application
+--
+CREATE TABLE "rest_api_application" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "status" varchar(8) NOT NULL, "date_submitted" datetime NOT NULL, "priority" integer NOT NULL, "Profile_id" integer NOT NULL UNIQUE REFERENCES "rest_api_profile" ("id") DEFERRABLE INITIALLY DEFERRED, "listing_id" integer NOT NULL REFERENCES "rest_api_listing" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE UNIQUE INDEX "rest_api_committee_members_committee_id_profile_id_785c4d92_uniq" ON "rest_api_committee_members" ("committee_id", "profile_id");
+CREATE INDEX "rest_api_committee_members_committee_id_b1cbbac8" ON "rest_api_committee_members" ("committee_id");
+CREATE INDEX "rest_api_committee_members_profile_id_69b4ae2f" ON "rest_api_committee_members" ("profile_id");
+CREATE INDEX "rest_api_association_address_id_97e64314" ON "rest_api_association" ("address_id");
+CREATE UNIQUE INDEX "rest_api_association_companies_association_id_company_id_4205c9da_uniq" ON "rest_api_association_companies" ("association_id", "company_id");
+CREATE INDEX "rest_api_association_companies_association_id_61ac66f7" ON "rest_api_association_companies" ("association_id");
+CREATE INDEX "rest_api_association_companies_company_id_9d90110d" ON "rest_api_association_companies" ("company_id");
+CREATE INDEX "rest_api_application_listing_id_35a993d1" ON "rest_api_application" ("listing_id");
+COMMIT;

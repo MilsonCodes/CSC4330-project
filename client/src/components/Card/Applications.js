@@ -17,6 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+//CSS styling classes
 const useStyles = makeStyles((theme) => ({
 	avatar: {
 		backgroundColor: red[500],

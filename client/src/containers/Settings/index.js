@@ -19,9 +19,7 @@ import { Chip } from '@material-ui/core';
 import { request } from '../../api';
 import { updateProfile } from '../../redux/auth/actions'
 
-
-//https://css-tricks.com/almanac/properties/b/backdrop-filter/
-
+//CSS styling
 const useStyles = makeStyles({
 
 	root: {
