@@ -13,6 +13,8 @@ import { Container, Row, Col } from 'reactstrap';
 import { history } from '../../helpers/history'
 import { connect } from 'react-redux';
 import { getLocationDataFromZipCode } from '../../helpers/address';
+import ListingCard from "../../components/Card/Listing"
+import queryString from "query-string"
 
 
 //CSS styling
@@ -75,46 +77,6 @@ const useStyles = makeStyles({
 	},
 });
 
-const ListingCard = props => {
-  const classes = useStyles();
-
-  const { listing } = props
-
-  const getDateStr = date => {
-    const dateStr = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
-
-    const getNumStr = num => num < 10 ? `0${num}` : num
-
-    const timeStr = `${date.getHours()}:${getNumStr(date.getMinutes())}`
-
-    return `Closes at: ${dateStr} ${timeStr}`
-  }
-
-  return (
-    <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="business" className={classes.avatar}>
-            {listing.company.name.charAt(0)}
-          </Avatar>
-        }
-        title={listing.company.name}
-        subheader={getDateStr(new Date(listing.date))}
-      />
-      <CardContent>
-        <Typography color="textWhite"> {listing.title} </Typography>
-        <br />
-        <Typography color="textSecondary"> {listing.description} </Typography>
-      </CardContent>
-      <br/>
-      <br/>
-      <CardActions style={{ position: 'absolute', bottom: 0 }}>
-        <Button size="small" href={`/listing/${listing.id}`}>Learn More</Button>
-      </CardActions>
-    </Card>
-  )
-}
-
 const SearchPage = props => {
 	/*
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -129,11 +91,18 @@ const SearchPage = props => {
 	};
 	*/
 
-	//Job Search Page
-
+  //Job Search Page
   const classes = useStyles();
   
   const { user } = props
+
+  var queries = {}
+
+  if(props.location.search || props.location.search != "")
+    queries = queryString.parse(props.location.search)
+
+  console.log(queries)
+
 
 	/* Placeholder data */
 	const options = ["Business A"];
@@ -149,9 +118,10 @@ const SearchPage = props => {
     filtered: false,
     filteredListings: null,
     filter: {
-      keywords: "",
-      location: ""
-    }
+      keywords: (queries.keywords ? queries.keywords : ""),
+      location: (queries.location ? queries.location : "")
+    },
+    loadedQueries: false
   })
 
   if(!state.listings && !state.error)
@@ -175,7 +145,7 @@ const SearchPage = props => {
 
     const keywordFilter = listing => {
       for(let i = 0; i < keywordsArr.length; i++)
-        if(listing.title.toLowerCase().includes(keywordsArr[i]) || listing.description.toLowerCase().includes(keywordsArr[i]))
+        if(listing.title.toLowerCase().includes(keywordsArr[i]) || listing.description.toLowerCase().includes(keywordsArr[i]) || listing.company.name.includes(keywordsArr[i]))
           return true
 
       return false
@@ -220,6 +190,10 @@ const SearchPage = props => {
     }
 
     setState({ ...state, filtered: (keywords != "" || location != ""), filteredListings: filteredListings })
+  }
+
+  if(state.listings && (queries.keywords || queries.location) && !state.filtered) {
+    searchClick()
   }
 
 	return (

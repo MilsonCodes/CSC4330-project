@@ -17,6 +17,11 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getStateFromZipCode } from '../../helpers/address'
 import { history } from '../../helpers/history'
+import ListingCard from "../../components/Card/Listing"
+import SubmitButton from "../../components/Form/SubmitButton"
+import { Button } from '@material-ui/core';
+import { CloudUpload } from '@material-ui/icons';
+import { ListingModal } from '../../components/Modal/ListingModal';
 
 const useStyles = makeStyles(theme => ({
 
@@ -123,7 +128,10 @@ const CompanyProfilePage = props => {
   var [state, setState] = useState({
     company: null,
     error: null,
-    editable: false
+    editable: false,
+    filtered: false,
+    listings: null,
+    showModal: false
   })
 
   const { user } = props
@@ -139,7 +147,22 @@ const CompanyProfilePage = props => {
     setState({ ...state, company: user.company, editable: user.manager })
   }
 
+  if(!state.listings) {
+    request("/listings/", null, "GET", true)
+    .then(res => setState({ ...state, listings: res.data }))
+    .catch(err => setState({ ...state, error: err }))
+  }
+
+  if(state.company && state.listings && !state.filtered) {
+    var listings = state.listings.filter(listing => {
+      return (listing.company.id === state.company.id && (!listing.internal_only || listing.internal_only && listing.company.id === user.company.id))
+    })
+
+    setState({ ...state, listings: listings, filtered: true })
+  }
+
   console.log(state.company)
+  console.log(state.listings)
 
   if(state.company && !state.company.address.state) {
     const zipCode = state.company.address.zip_code
@@ -164,6 +187,7 @@ const CompanyProfilePage = props => {
 
   return (
     <>
+      <ListingModal show={state.showModal} hideCallback={show => setState({ ...state, showModal: show })} />
       {company ?
         <>
           <img src={WorkingTogether} className={classes.imagewrapper} />
@@ -263,6 +287,47 @@ const CompanyProfilePage = props => {
                 </Col>
               </Row>
               <br/>
+              <Row>
+                <ContainerBox className={clsx(classes.box, classes.imagebox)}>
+                  <Row>
+                    <Col md="4" className="d-flex align-items-center justify-content-start">
+                      {user.manager ? <Button
+                        variant="contained"
+                        color="default"
+                        startIcon={<CloudUpload />}
+                        onClick={e => setState({ ...state, showModal: true })}
+                      >
+                        Add Listing
+                      </Button> : null}
+                    </Col>
+                    <Col md="4" className="text-center">
+                      <h1>Listings</h1>
+                    </Col>
+                    <Col md="4" className="text-right d-flex align-items-center justify-content-end">
+                      <h3 className="mt-auto mb-auto"><a href={`/search?keywords=${encodeURIComponent(company.name)}`}>See all...</a></h3>
+                    </Col>
+                  </Row>
+                  <br/>
+                  <br/>
+                  <Row>
+                    {state.filtered ?
+                      <>
+                        {state.listings.length > 0 ?
+                          state.listings.map((listing, index) => (index < 3) ? (
+                            <Col md="4" className="mb-2">
+                              <ListingCard listing={listing} />
+                            </Col>
+                          ) : null)
+                          :
+                          <h3 style={{ color: 'white' }} className="text-center ml-auto mr-auto">No Results Found!</h3>
+                        }
+                      </>
+                      :
+                      <h3 style={{ color: 'white' }} className="text-center ml-auto mr-auto">Loading...</h3>
+                    }
+                  </Row>
+                </ContainerBox>
+              </Row>
             </Container>
           </div >
         </>
