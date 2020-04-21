@@ -83,12 +83,11 @@ class AssociationSerializer(serializers.ModelSerializer):
 
 # Class for organizing Committee data
 class CommitteeSerializer(serializers.ModelSerializer):
-    #members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    #company = CompanySerializer(required=True)
+    members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    company = CompanySerializer(required=True)
     class Meta:
         model = Committee
         fields = (
-            'id',
             'name',
             'members',
             'company',
@@ -122,9 +121,6 @@ class ShortListingSerializer(serializers.ModelSerializer):
             'date',
             'active',
             'internal_only',
-            'company',
-            'committee',
-            'key_words',
         )
 
 # Class for organizing Application data

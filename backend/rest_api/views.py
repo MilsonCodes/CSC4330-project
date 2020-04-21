@@ -58,8 +58,14 @@ class AuthViewSet(viewsets.ModelViewSet):
         address = profile['address']
         first = profile['first_name']
         last = profile['last_name']
-        bio = profile['bio']
-        skills = profile['skills']
+        try:
+            bio = profile['bio']
+        except:
+            bio = ''
+        try:
+            skills = profile['skills']
+        except:
+            skills = ''
         company = Company.objects.get(id=profile['company'])
         admin = profile['admin']
         holder = profile['stakeholder']
@@ -77,6 +83,8 @@ class AuthViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         # Get user
         usr = User.objects.get(username=request.data['username'])
+        usr.set_password(request.data['password'])
+        usr.save()
         # register token to user
         token = RefreshToken.for_user(usr)
         # Prepare return data
@@ -215,12 +223,12 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 # API enpoint for accessing Listing model
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
-    serializer_class = ShortListingSerializer
+    serializer_class = ListingSerializer
     permission_classes = (IsAuthenticated,)
     def update(self, request, *args, **kwargs):
         data = request.data
         listing = Listing.objects.get(id=data['id'])
-        company = Company.objects.get(id=data['company'])
+        company = Company.objects.get(id=data['company']['id'])
         try:
             address = Address.objects.get(id=data['address']['id'])
         except:
@@ -299,7 +307,6 @@ class UserResumeView(views.APIView):
         if 'resume' not in request.data:
             return Response({'message': 'Must send file'}, status=status.HTTP_400_BAD_REQUEST)
         f = request.data['resume']
-        logger.info(f)
         user.resume = f.name
         user.save()
         return Response(status=status.HTTP_201_CREATED)

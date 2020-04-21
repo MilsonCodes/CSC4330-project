@@ -39,7 +39,7 @@ class Company(models.Model):  # Table for storing companies
     # Where the company operates
     address = models.ForeignKey(Address, models.CASCADE, )
     description = models.CharField(
-        max_length=256, null=True)  # Info about the company
+        max_length=1024, null=True)  # Info about the company
 
     def __str__(self):
         return self.name + ", " + self.address.city
@@ -92,12 +92,12 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
     def __str__(self):
         return self.user.username
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    try:
-        instance.profile.save()
-    except:
-        print('No User associated with Profile')
+#@receiver(post_save, sender=User)
+#def save_user_profile(sender, instance, **kwargs):
+#    try:
+#        instance.profile.save()
+#    except:
+#        print('No User associated with Profile')
 
 class Committee(models.Model):  # Search committee in charge of applications
     name = models.CharField(max_length=1056, null=True)
