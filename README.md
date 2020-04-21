@@ -56,7 +56,7 @@ Windows
 ### API
 To install dependencies, run the following command from the backend directory:
 ```
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 The final step is to start the backend. This will allow the client to access the database. Start the API with the following command:
 ```
