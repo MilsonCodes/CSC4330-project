@@ -215,12 +215,12 @@ class CommitteeViewSet(viewsets.ModelViewSet):
 # API enpoint for accessing Listing model
 class ListingViewSet(viewsets.ModelViewSet):
     queryset = Listing.objects.all().order_by('date')
-    serializer_class = ListingSerializer
+    serializer_class = ShortListingSerializer
     permission_classes = (IsAuthenticated,)
     def update(self, request, *args, **kwargs):
         data = request.data
         listing = Listing.objects.get(id=data['id'])
-        company = Company.objects.get(id=data['company']['id'])
+        company = Company.objects.get(id=data['company'])
         try:
             address = Address.objects.get(id=data['address']['id'])
         except:
