@@ -41,7 +41,12 @@ SECRET_KEY = '!0)iqga2mpb-5=vsu_k9ek+&(+a&wlba5$)fzw#5!5@*2qcgtl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-18-222-89-143.us-east-2.compute.amazonaws.com', '18.222.89.143', 'localhost']
+ALLOWED_HOSTS = [
+        'ec2-3-22-110-115.us-east-2.compute.amazonaws.com', 
+        '3.22.110.115', 
+        'localhost',
+        'api.chaseyourdreams.noahtemplet.dev'
+    ]
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
