@@ -309,7 +309,7 @@ class UserResumeView(views.APIView):
 class StakeHolderView(views.APIView):
     def get(self, request):
         employed = Profile.objects.exclude(type='Applicant').count()
-        unemployed = Profile.objects.filter(company=5).count()
+        unemployed = Profile.objects.filter(type='Applicant').count()
         total_users = User.objects.all().count()
         listings = Listing.objects.filter(active=True).count()
         applications = Application.objects.all().count()
@@ -349,11 +349,11 @@ class StakeHolderView(views.APIView):
         p.drawString(inch, 10*inch, 'Employed Workers: ' + str(employed))
         p.drawString(inch, 9.5*inch, 'Unemployed Workers: ' + str(total_users-employed))
         p.drawString(inch, 9*inch, 'Registered Users: ' + str(total_users))
-        p.drawString(inch, 8.5*inch, 'Percent Employed: ' + str(employed/total_users*100) + '%')
+        p.drawString(inch, 8.5*inch, 'Percent Employed: {:0.2f}%'.format(employed/total_users*100))
         p.drawString(inch, 8*inch, 'Registered Companies: ' + str(companies))
-        p.drawString(inch, 7.5*inch, 'Average Size of Company: ' + str(comp_size) + ' workers per company')
+        p.drawString(inch, 7.5*inch, 'Average Size of Company: ' + '{:0.1f}'.format(comp_size) + ' workers per company')
         p.drawString(inch, 7*inch, 'Registered Associations: ' + str(associations))
-        p.drawString(inch, 6.5*inch, 'Average Size of Association: ' + str(assoc_size) + ' companies per association')
+        p.drawString(inch, 6.5*inch, 'Average Size of Association: ' + '{:0.1f}'.format(assoc_size) + ' companies per association')
         p.drawString(inch, 6*inch, 'Active Job Openings: ' + str(listings))
         p.drawString(inch, 5.5*inch, 'Applications Submitted: ' + str(applications))
         p.drawString(inch, 5*inch, 'Hiring Committees: ' + str(committees))

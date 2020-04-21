@@ -77,7 +77,10 @@ class Profile(models.Model):  # Abstract model for all managers, employees, and 
 
     def save(self, *args, **kwargs):
         if self.company:
-            self.type = 'Employee'
+            if self.company.name == 'None':
+                self.type = 'Applicant'
+            else:
+                self.type = 'Employee'
         if self.manager:
             self.type = 'Manager'
         if self.stakeholder:
