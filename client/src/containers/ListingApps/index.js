@@ -11,8 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from 'react-redux'
 import { history } from "../../helpers/history";
-import { request } from "../../api/index.js"
-import FileDownload from 'js-file-download'
+import { request, fetchFile } from "../../api/index.js"
+import { Container, Row, Col } from "reactstrap";
 
 
 //list of listings
@@ -41,27 +41,39 @@ class Page extends React.Component{
 		function acceptreject(event) {
 			applicant.status = event.target.value
 			if (event.target.value === "Rejected"){
-				request("/application/"+ applicant.id, { status: "Rejected" }, "POST", true)
+        request("/applications/"+ applicant.id + "/", { status: "Rejected" }, "PATCH", true)
+        .then(res => setTimeout(window.location.reload(false), 500))
+        .catch(err => console.log({ error: err }))
 				console.log("Hey we're rejecting application :" + applicant.id)
 			}
 			else if(event.target.value === "Accepted"){
-				request("/application/"+ applicant.id, { status: "Accepted" }, "POST", true)
+        request("/applications/"+ applicant.id + "/", { status: "Accepted" }, "PATCH", true)
+        .then(res => setTimeout(window.location.reload(false), 500))
+        .catch(err => console.log({ error: err }))
 				console.log("Hey we're accepting application :" + applicant.id)
 			}
 			else{
-				request("/application/"+ applicant.id, { status: "Pending" }, "POST", true)
+        request("/applications/"+ applicant.id + "/", { status: "Pending" }, "PATCH", true)
+        .then(res => setTimeout(window.location.reload(false), 500))
+        .catch(err => console.log({ error: err }))
 				console.log("Hey we're pending application :" + applicant.id)
-			}
-			setTimeout(window.location.reload(false),500)
+      }
 		}
 	
 		function resumedownload(e){
-			request("/users/" + applicant.profile.user.id + "/resume", null, "GET", true, "application/pdf")
-				.then(res => {
-					FileDownload(res.data, 'file-name.pdf')
+      fetchFile("/users/" + applicant.profile.user.id + "/resume", null, "GET", true, "blob")
+        .then(response => response.blob())
+				.then(blob => {
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `${applicant.profile.first_name}${applicant.profile.last_name}-Resume.pdf`);
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => window.URL.revokeObjectURL(url))
 				})
 				.catch(err => {
-					//Handle the error. This may be a 404 saying the user doesn't have a resume
+          console.log(err)
 				})
 		}
 		return (
@@ -130,7 +142,7 @@ class Page extends React.Component{
 	applicantContainer(applicants) {
 		if (applicants.length ==0){
 			return(
-				<font color="white">No Applicants yet!</font>
+				<p className="w-100 text-center"><font color="white">No Applicants yet!</font></p>
 			)
 		}
 		var sorted = applicants.sort(function(a, b) {
@@ -191,21 +203,25 @@ class Page extends React.Component{
 	}
 
 	render(){
+    console.log(this.state)
+
 		if (this.user.admin || this.user.manager){
 		
 			return (
-				<div>
-					<h1><font color="white">{this.state.listing.title +  " (ID:" + listingID.toString() +")"}</font></h1>
-					<h2><font color="white">{this.state.listing.internalonly?"Internal Only":"Internal and External"}</font></h2>
+				<Container className="mt-4 mb-4">
+          <Row className="text-center">
+            <h1 className="w-100"><font color="white">{this.state.listing.title}</font></h1>
+            <h2 className="w-100"><font color="white">{this.state.listing.internalonly?"Internal Only":"Internal and External"}</font></h2>
+          </Row>
 					<p><font color="white">{"Description: "  + this.state.listing.description}</font></p>
 					<p><font color="white">{"Key words: "  + this.state.listing.key_words}</font></p>
-					<h3><font color="white">Pending:</font></h3>
+					<h3 className="w-100 text-center"><font color="white">Pending Applications</font></h3>
 					{this.applicantContainer(this.state.pending)}
-					<h3><font color="white">Accepted:</font></h3>
+					<h3 className="w-100 text-center"><font color="white">Accepted Applications</font></h3>
 					{this.applicantContainer(this.state.accepted)}
-					<h3><font color="white">Rejected:</font></h3>
+					<h3 className="w-100 text-center"><font color="white">Rejected Applications</font></h3>
 					{this.applicantContainer(this.state.rejected)}
-				</div>
+				</Container>
 			);
 		}
 		else{
