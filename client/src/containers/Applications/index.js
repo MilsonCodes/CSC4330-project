@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
 const UserApplicationsComp = props => {
   var [state, setState] = useState({
     applications: null,
-    error: null
+    error: null,
+    setCompanies: false
   })
 
   const { user } = props
@@ -74,13 +75,31 @@ const UserApplicationsComp = props => {
       for(let i = 0; i < res.data.length; i++) { 
         var app = res.data[i]
 
-        if(app.Profile.id === user.user.id)
+        if(app.profile.id === user.id)
           applications.push(app)
       }
 
       setState({ ...state, applications: applications })
     })
     .catch(err => setState({ ...state, error: err }))
+
+  if(state.applications && !state.error && !state.setCompanies)
+    request("/company/", null, "GET", true)
+    .then(res => {
+      var companies = res.data, applications = state.applications
+
+      for(let i = 0; i < applications.length; i++) {
+        for(let j = 0; j < companies.length; j++) {
+          if(companies[j].id === applications[i].listing.company) {
+            applications[i].listing.company = companies[j]
+            break;
+          }
+        }
+      }
+
+      setState({ ...state, setCompanies: true, applications: applications })
+    })
+    .catch(err => setState({ ...state, error: err}))
 
   if(state.error)
     console.log(state.error)
@@ -136,7 +155,7 @@ const UserApplicationsComp = props => {
         </Row>
 				<Row>
           {/* For each application found, generate a card giving out the details for each application */}
-          {state.applications && state.applications.length > 0 ?
+          {state.applications && state.setCompanies && state.applications.length > 0 ?
             <>
               {state.applications.map(application => (
                 date = new Date(application.date_submitted),

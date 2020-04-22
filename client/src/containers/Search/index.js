@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { getLocationDataFromZipCode } from '../../helpers/address';
 import ListingCard from "../../components/Card/Listing"
 import queryString from "query-string"
+import { ApplyModal } from '../../components/Modal/ApplyModal';
 
 
 //CSS styling
@@ -101,9 +102,6 @@ const SearchPage = props => {
   if(props.location.search || props.location.search != "")
     queries = queryString.parse(props.location.search)
 
-  console.log(queries)
-
-
 	/* Placeholder data */
 	const options = ["Business A"];
 	const desc = ["A's description", "B's description", "C's description", "D's description", "E's description"];
@@ -121,13 +119,37 @@ const SearchPage = props => {
       keywords: (queries.keywords ? queries.keywords : ""),
       location: (queries.location ? queries.location : "")
     },
-    loadedQueries: false
+    loadedQueries: false,
+    companies: null,
+    putCompanies: false,
+    currentListing: 1,
+    showAppModal: false
   })
+
+  if(!state.companies && !state.error)
+    request("/company/", null, "GET", true)
+    .then(res => setState({ ...state, companies: res.data }))
+    .catch(err => setState({ ...state, error: err }))
 
   if(!state.listings && !state.error)
     request("/listings/", null, "GET", true)
     .then(res => setState({ ...state, listings: res.data }))
     .catch(err => setState({ ...state, error: err }))
+
+  if(state.companies && state.listings && !state.putCompanies) {
+    var listings = state.listings
+
+    for(let i = 0; i < listings.length; i++) {
+      for(let j = 0; j < state.companies.length; j++) {
+        if(state.companies[j].id === listings[i].company) {
+          listings[i].company = state.companies[j]
+          break
+        }
+      }
+    }
+
+    setState({ ...state, putCompanies: true, listings: listings })
+  }
 
   if(state.error)
     history.push({ pathname: "/error", state: { error: state.error } })
@@ -196,7 +218,17 @@ const SearchPage = props => {
     searchClick()
   }
 
+  const setCurrentListing = listing => {
+    setState({ ...state, currentListing: listing, showAppModal: true })
+  }
+
+  const closeModal = modalState => {
+    setState({ ...state, showAppModal: modalState })
+  }
+
 	return (
+    <>
+    <ApplyModal listing={state.currentListing} show={state.showAppModal} hideCallback={closeModal} />
 		<Container className="mt-4">
       <Row>
         <Col md="6" className="mt-auto mb-auto">
@@ -284,20 +316,20 @@ const SearchPage = props => {
       </Row>
       <br/>
       <Row>
-        {state.listings && !state.filtered ? 
+        {state.listings && !state.filtered && state.putCompanies ? 
         state.listings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company.id == user.company.id)) ? (
           <Col md="4" className="mb-2">
-            <ListingCard listing={listing} />
+            <ListingCard listing={listing} company={listing.company} appButton={setCurrentListing} />
           </Col>
         ) : null) 
         :
          <>
-          {state.filtered ?
+          {state.filtered && state.putCompanies ?
             <>
               {state.filteredListings.length > 0 ?
                 state.filteredListings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company.id == user.company.id)) ? (
                   <Col md="4" className="mb-2">
-                    <ListingCard listing={listing} />
+                    <ListingCard listing={listing} company={listing.company} appButton={setCurrentListing} />
                   </Col>
                 ) : null)
                 :
@@ -313,6 +345,7 @@ const SearchPage = props => {
       <br/>
       <br/>
 		</Container>
+    </>
 	)
 }
 

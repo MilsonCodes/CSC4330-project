@@ -48,11 +48,9 @@ const FooterProp = props => {
                     <NavLink href="/applications">Applications</NavLink>
                   </NavItem>
                 }
-                {profile.admin ? 
-                  <NavItem>
-                    <NavLink href="/admin">Admin</NavLink>
-                  </NavItem> : null
-                }
+                <NavItem>
+                  <NavLink href="/search">Search</NavLink>
+                </NavItem>
                 <NavItem>
                   <NavLink href="/logout">Logout</NavLink>
                 </NavItem>

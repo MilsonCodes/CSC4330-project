@@ -61,7 +61,7 @@ class Page extends React.Component{
 		}
 	
 		function resumedownload(e){
-      fetchFile("/users/" + applicant.profile.user.id + "/resume", null, "GET", true, "blob")
+      fetchFile("/users/" + applicant.profile.id + "/resume", null, "GET", true, "blob")
         .then(response => response.blob())
 				.then(blob => {
           const url = window.URL.createObjectURL(new Blob([blob]));

@@ -59,7 +59,7 @@ const Listing = props => {
     })
 
     var committees = state.committees.filter(committee => {
-      return committee.company.id === state.company.id
+      return committee.company === state.company.id
     })
 
     setState({ ...state, users: users, committees: committees, filtered: true })
@@ -167,14 +167,20 @@ const Listing = props => {
 
       committeeForm.members.forEach(member => trueMembers.push(state.users[member].id))
 
-      committeeForm.members = trueMembers
+      var newForm = { ...committeeForm }
+      newForm.members = trueMembers
 
-      request("/committee/", committeeForm, "POST", true)
+      console.log(newForm)
+
+      request("/committee/", newForm, "POST", true)
       .then(res => {
         console.log(res)
-        form.committee = res.data.id
 
-        submitListingData(form)
+        newForm = { ...newForm }
+
+        newForm.committee = res.data.id
+
+        submitListingData(newForm)
       })
       .catch(err => {
         setState({ ...state, error: err, message: "Failed to make committee!" })
@@ -186,7 +192,8 @@ const Listing = props => {
   }
 
   const submitListingData = form => {
-    form.date = form.date.toISOString()
+    var date = new Date(form.date)
+    form.date = date.toISOString()
 
     if(form.title == ""
     || form.description == ""
