@@ -121,7 +121,6 @@ const SearchPage = props => {
     },
     loadedQueries: false,
     companies: null,
-    putCompanies: false,
     currentListing: 1,
     showAppModal: false
   })
@@ -136,19 +135,10 @@ const SearchPage = props => {
     .then(res => setState({ ...state, listings: res.data }))
     .catch(err => setState({ ...state, error: err }))
 
-  if(state.companies && state.listings && !state.putCompanies) {
-    var listings = state.listings
-
-    for(let i = 0; i < listings.length; i++) {
-      for(let j = 0; j < state.companies.length; j++) {
-        if(state.companies[j].id === listings[i].company) {
-          listings[i].company = state.companies[j]
-          break
-        }
-      }
+  const getCompanyById = id => {
+    for(let i = 0; i < state.companies.length; i++) {
+      if(state.companies[i].id === id) return state.companies[i]
     }
-
-    setState({ ...state, putCompanies: true, listings: listings })
   }
 
   if(state.error)
@@ -167,14 +157,14 @@ const SearchPage = props => {
 
     const keywordFilter = listing => {
       for(let i = 0; i < keywordsArr.length; i++)
-        if(listing.title.toLowerCase().includes(keywordsArr[i]) || listing.description.toLowerCase().includes(keywordsArr[i]) || listing.company.name.includes(keywordsArr[i]))
+        if(listing.title.toLowerCase().includes(keywordsArr[i]) || listing.description.toLowerCase().includes(keywordsArr[i]) || getCompanyById(listing.company).name.includes(keywordsArr[i]))
           return true
 
       return false
     }
 
     const locFilter = listing => {
-      const { address } = listing.company
+      const { address } = getCompanyById(listing.company)
 
       for(let i = 0; i < locationsArr.length; i++) {
         let loc = locationsArr[i]
@@ -214,7 +204,7 @@ const SearchPage = props => {
     setState({ ...state, filtered: (keywords != "" || location != ""), filteredListings: filteredListings })
   }
 
-  if(state.listings && (queries.keywords || queries.location) && !state.filtered) {
+  if(state.listings && state.companies && (queries.keywords || queries.location) && !state.filtered) {
     searchClick()
   }
 
@@ -316,20 +306,20 @@ const SearchPage = props => {
       </Row>
       <br/>
       <Row>
-        {state.listings && !state.filtered && state.putCompanies ? 
-        state.listings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company.id == user.company.id)) ? (
+        {state.listings && !state.filtered && state.companies ? 
+        state.listings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company == user.company.id)) ? (
           <Col md="4" className="mb-2">
-            <ListingCard listing={listing} company={listing.company} appButton={setCurrentListing} />
+            <ListingCard listing={listing} company={getCompanyById(listing.company)} appButton={setCurrentListing} />
           </Col>
         ) : null) 
         :
          <>
-          {state.filtered && state.putCompanies ?
+          {state.filtered && state.companies ?
             <>
               {state.filteredListings.length > 0 ?
-                state.filteredListings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company.id == user.company.id)) ? (
+                state.filteredListings.map(listing => (!listing.internal_only || (listing.internal_only && listing.company == user.company.id)) ? (
                   <Col md="4" className="mb-2">
-                    <ListingCard listing={listing} company={listing.company} appButton={setCurrentListing} />
+                    <ListingCard listing={listing} company={getCompanyById(listing.company)} appButton={setCurrentListing} />
                   </Col>
                 ) : null)
                 :
