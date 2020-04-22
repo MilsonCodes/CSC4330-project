@@ -49,6 +49,26 @@ async function refreshAccessToken() {
   updateTokens(response.data)
 }
 
+export const fetchFile = async (endpoint, body, type, authenticated, contentType="application/json", headerAdd={}) => {
+  var headers = {
+    'Content-Type': contentType,
+    ...headerAdd
+  }
+
+  if (authenticated) {
+    if(!getAccessToken()) await refreshAccessToken()
+
+    headers['Authorization'] = `Bearer ${getAccessToken()}`
+  }
+  
+  return fetch(API_HOST + endpoint, {
+    method: type,
+    headers: headers,
+    body: (body ? JSON.stringify(body) : null)
+  })
+}
+
+
 export const logout = () => {
   const refresh = getRefreshToken()
 
