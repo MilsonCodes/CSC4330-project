@@ -17,6 +17,9 @@ const Apply = props => {
     message: ""
   });
 
+  if(show != state.modal && show == true)
+    setState({ ...state, modal: show, testForApp: false, hasAppAlready: false, message: "" })
+
   if(!state.testForApp) {
     request("/listings/" + listing + "/applications", null, "GET", true)
     .then(res => {
@@ -49,6 +52,8 @@ const Apply = props => {
     .catch(err => setState({ ...state, error: err, message: "Failed to submit!" }))
   }
   
+  console.log(state)
+
   return (
     <Modal isOpen={state.modal}>
       <Container className="mt-4 mb-4">

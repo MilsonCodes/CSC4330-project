@@ -213,6 +213,10 @@ const SettingsPage = props => {
     }
   }
 
+  const setCurrentListing = listing => {
+    setState({ ...state, currentListing: listing })
+  }
+
   const skillsArr = state.profile.skills != "" ? state.profile.skills.split(", ") : []
 
 	return (
@@ -436,7 +440,6 @@ const SettingsPage = props => {
 
 			</div>
 		</Container>
-
 	);
 }
 

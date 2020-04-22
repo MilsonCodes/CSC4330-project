@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Avatar, Typography, Card, CardHeader, CardActions, CardContent } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
 	avatar: {
@@ -19,10 +20,10 @@ const useStyles = makeStyles({
 	}
 });
 
-export default function ListingCard(props) {
+function ListingCardNA(props) {
   const classes = useStyles();
 
-  const { listing } = props
+  const { listing, company, appButton, user } = props
 
   const getDateStr = date => {
     const dateStr = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
@@ -39,10 +40,10 @@ export default function ListingCard(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="business" className={classes.avatar}>
-            {listing.company.name.charAt(0)}
+            {company.name.charAt(0)}
           </Avatar>
         }
-        title={listing.company.name}
+        title={company.name}
         subheader={getDateStr(new Date(listing.date))}
       />
       <CardContent>
@@ -53,8 +54,23 @@ export default function ListingCard(props) {
       <br/>
       <br/>
       <CardActions style={{ position: 'absolute', bottom: 0 }}>
-        <Button size="small" href={`/listing/${listing.id}`}>Learn More</Button>
+        <Button size="small" variant="outlined" href={`/listing/${listing.id}`}>Learn More</Button>
+        {appButton ? 
+          <Button size="small" variant="outlined" className="ml-2" onClick={() => appButton(listing.id)}>Apply</Button>
+        : null}
+        {user.manager && user.company.id === company.id ?
+          <Button size="small" variant="outlined" className="ml-2" href={`/listing/${listing.id}/applications`}>View Applications</Button>
+        : null}
       </CardActions>
     </Card>
   )
 }
+
+function mapStateToProps(state) {
+  const { user } = state.auth
+
+  return { user }
+}
+
+const ListingCard = connect(mapStateToProps)(ListingCardNA)
+export default ListingCard

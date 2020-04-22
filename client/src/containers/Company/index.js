@@ -155,7 +155,7 @@ const CompanyProfilePage = props => {
 
   if(state.company && state.listings && !state.filtered) {
     var listings = state.listings.filter(listing => {
-      return (listing.company.id === state.company.id && (!listing.internal_only || listing.internal_only && listing.company.id === user.company.id))
+      return (listing.company === state.company.id && (!listing.internal_only || listing.internal_only && listing.company === user.company.id))
     })
 
     setState({ ...state, listings: listings, filtered: true })
@@ -315,7 +315,7 @@ const CompanyProfilePage = props => {
                         {state.listings.length > 0 ?
                           state.listings.map((listing, index) => (index < 3) ? (
                             <Col md="4" className="mb-2">
-                              <ListingCard listing={listing} />
+                              <ListingCard listing={listing} company={company} />
                             </Col>
                           ) : null)
                           :
