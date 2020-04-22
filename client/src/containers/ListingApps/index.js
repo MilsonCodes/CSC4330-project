@@ -108,7 +108,7 @@ class Page extends React.Component{
 						</Typography>
 
 						{/* Address */}
-						<Typography variant="body2" component="p">
+						<Typography variant="body2" component="p" style={{maxWidth:250}}>
 							{applicant.profile.company.name}
 							<br />
 							{applicant.profile.company.description}
@@ -145,14 +145,14 @@ class Page extends React.Component{
 				<p className="w-100 text-center"><font color="white">No Applicants yet!</font></p>
 			)
 		}
-		var sorted = applicants.sort(function(a, b) {
+		var sorted = applicants.sort(function(b, a) {
 			return parseFloat(b.priority) - parseFloat(a.priority);
 		})
 		return (
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Grid container justify="center" spacing={2}>
-						{applicants.sort(function(a, b) {
+						{sorted.sort(function(a, b) {
 							return parseFloat(b.priority) - parseFloat(a.priority);
 						}).map((applicant, index) => {
 							return(this.applicantCard(applicant))//<ApplicantCard applicant={applicant}></ApplicantCard>)
