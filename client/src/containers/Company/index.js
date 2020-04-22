@@ -22,7 +22,6 @@ import SubmitButton from "../../components/Form/SubmitButton"
 import { Button } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import { ListingModal } from '../../components/Modal/ListingModal';
-import { ApplyModal } from '../../components/Modal/ApplyModal';
 
 const useStyles = makeStyles(theme => ({
 
@@ -188,7 +187,6 @@ const CompanyProfilePage = props => {
 
   return (
     <>
-      <ApplyModal show={true} listing={1} />
       <ListingModal show={state.showModal} hideCallback={show => setState({ ...state, showModal: show })} />
       {company ?
         <>
